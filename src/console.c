@@ -6,49 +6,13 @@ YANG ADA PADA INT MAIN() DIJADIKAN SUATU FUNGSI SEPERTI MULAI_GAME()*/
 #include <stdio.h>
 #include "console.h"
 
-int JumPetak, MaxRoll, JumTP, KeluarTP, MasukTP;
+int JumPetak, MaxRoll, JumTP;
 TabPeta Peta;
 TabTP arrTP;
 
 int main(){
 
-    //Menyimpan value jumlah petak ke sebuah variabel
-    STARTKATA();
-    JumPetak = strToInt(CKata.TabKata);
-
-    // Menyimpan peta ke sebuah tabel
-    ADVKATA();
-    MakeEmptyPeta(&Peta);
-    KataToTabPeta(CKata, &Peta);
-    
-    //Menyimpan value jumlah maksimal roll ke sebuah variabel
-    ADVKATA();
-    MaxRoll = strToInt(CKata.TabKata);
-
-    //Menyimpan value jumlah teleport ke sebuah variabel
-    ADVKATA();
-    JumTP = strToInt(CKata.TabKata);
-
-    //Membuat tabel untuk keperluan informasi teleport
-    MakeEmptyArrTP(&arrTP);
-    for (int i = 0; i < JumTP; i++){
-        ADVKATA();
-        if (CKata.Length == 1){
-            MasukTP = charToInt(CKata.TabKata[1]);
-        } else if (CKata.Length == 2){
-            MasukTP = charToInt(CKata.TabKata[1]) * 10 + charToInt(CKata.TabKata[2]);
-            
-        }
-
-        ADVKATA();
-        if (CKata.Length == 1){
-            KeluarTP = charToInt(CKata.TabKata[1]);
-        } else if (CKata.Length == 2){
-            KeluarTP = charToInt(CKata.TabKata[1]) * 10 + charToInt(CKata.TabKata[2]);
-        }
-
-        InsertTP(&arrTP, KeluarTP, MasukTP);
-    }
+    ReadConfigFile(&JumPetak, &MaxRoll, &JumTP, &Peta, &arrTP);
 
     //Ini untuk keperluan contoh saja
     List LSkillP1;
@@ -143,13 +107,12 @@ int main(){
                 scanf("Masukkan command: %s\n", &InputCmd);
             }
 
+            //Bagian Zhillan
             // Input = ROLL
             // Lakukan ROLL dengan Random lalu simpan ke variabel Roll
 
-
             if (IsPetakKosong(Peta, currlocp1 + Roll)){ //Ini harusnya loc pemain yang sedang turn-nya. Harus disesuaikan ADT Player
-                //Bagian Zhillan
-
+            
             } // Cek juga lainnya kalau petak terlarang dan TP
 
 
@@ -194,4 +157,46 @@ int strToInt(char s[]){
         n = 10*n + (s[i] - '0');
     }
     return n;
+}
+
+void ReadConfigFile(int *JPetak, int *MRoll, int *JTP, TabPeta *P, TabTP *ARTP){
+
+    //Menyimpan value jumlah petak ke sebuah variabel
+    STARTKATA();
+    *JPetak = strToInt(CKata.TabKata);
+
+    // Menyimpan peta ke sebuah tabel
+    ADVKATA();
+    MakeEmptyPeta(P);
+    KataToTabPeta(CKata, P);
+    
+    //Menyimpan value jumlah maksimal roll ke sebuah variabel
+    ADVKATA();
+    *MRoll = strToInt(CKata.TabKata);
+
+    //Menyimpan value jumlah teleport ke sebuah variabel
+    ADVKATA();
+    *JTP = strToInt(CKata.TabKata);
+
+    //Membuat tabel untuk keperluan informasi teleport
+    int KeluarTP, MasukTP;
+    MakeEmptyArrTP(ARTP);
+    for (int i = 0; i < (*JTP); i++){
+        ADVKATA();
+        if (CKata.Length == 1){
+            MasukTP = charToInt(CKata.TabKata[1]);
+        } else if (CKata.Length == 2){
+            MasukTP = charToInt(CKata.TabKata[1]) * 10 + charToInt(CKata.TabKata[2]);
+            
+        }
+
+        ADVKATA();
+        if (CKata.Length == 1){
+            KeluarTP = charToInt(CKata.TabKata[1]);
+        } else if (CKata.Length == 2){
+            KeluarTP = charToInt(CKata.TabKata[1]) * 10 + charToInt(CKata.TabKata[2]);
+        }
+
+        InsertTP(ARTP, KeluarTP, MasukTP);
+    }
 }
