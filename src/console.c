@@ -32,18 +32,23 @@ int main(){
     printf("------------------------- GAME DIMULAI -------------------------\n");
 
     while (!EndGame){
-        // Menyimpan value 1 sebagai turn pemain pertama
+        // Menyimpan value 1 sebagai turn pemain pertama. Karena tiap ronde pasti dimulai pemain pertama.
         int TurnPemainKe = 1;
+
+        //Untuk menyimpan hasil roll dari pemain. Di-set ke 0 ketika ganti giliran pemain
         int Roll = 0;
 
+        //Untuk menyimpang masukan command
         char InputCmd[10];
-        int InputInspect;
 
+        //Untuk mengetahui apakah ada pemain yang memanggil UNDO. Jika ya maka akan true dan kembali ke state sebelumnya
         boolean TakeUndo = false;
 
+        //Setiap awal ronde harus memperlihatkan peta setiap pemain
         for (int i = 0; i < JumlahPemain; i++) //Ini JumlahPemain menyesuaikan yang ada di ADT Player
             DisplayPetaPemain(Peta, currlocp1, JumPetak); //Ini currloc menyesuaikan posisi player dgn masukan sesuai yang ada di ADT Player
 
+        //Mulai turn tiap pemain
         while((TurnPemainKe != (JumlahPemain+1)) && (!TakeUndo) && (!EndGame)){
 
             if (NbElmt(LSkillP1) != 10){ //Ini cuma harusnya ngisi skill pemain yang sedang turn-nya. Harus diisi sesuai ADT Skill & Player
@@ -52,68 +57,76 @@ int main(){
             }
 
             printf("********** GILIRAN PEMAIN KE-%d **********\n", TurnPemainKe);
-            scanf("Masukkan command: %s\n", &InputCmd);
-            while (InputCmd != "ROLL"){
-                if (InputCmd == "SKILL"){
+            printf("Masukkan command: ");
+            scanf("%s", &InputCmd);
+            while (!compareString(InputCmd, "ROLL")){
+                if (compareString(InputCmd,"SKILL")){
                     // Bagian Vito, Annel, dan Zhillan
                     int MasukanSkill;
-                    if (NbElmt(LSkillP1) == 0){ //Ini LSkillP1 harusnya sesuai masukan list skill pada ADT Player
+                    if (NbElmt(LSkillP1) == 0){ //Ini penulisan LSkillP1 harusnya sesuai list skill player yang sedang turn pada ADT Player terkait list player
                         printf("Kamu tidak memiliki skill!\n");
                     } else{
                         printf("Kamu memiliki skill:\n");
-                        for (int i = 0; i < NbElmt(LSkillP1); i++){ //Ini LSkillP1 harusnya sesuai masukan list skill pada ADT Player
-                            printf("%d. [INFO ELEMEN LIST INDEKS KE-i]\n", (i+1)); //Harus sesuai ADT Player
+                        for (int i = 0; i < NbElmt(LSkillP1); i++){ //Ini penulisan LSkillP1 harusnya sesuai list skill player yang sedang turn pada ADT Player terkait list player
+                            printf("%d. [INFO ELEMEN LIST INDEKS KE-i]\n", (i+1)); //Harus sesuai ADT Player untuk mendapat list player yang sedang turn dan ADT ListSkill untuk displayList
                         }
-                        printf("Tekan 0 untuk keluar. Masukkan bilangan negatif untuk membuang skill.\n");
-                        scanf("Masukkan skill: %d\n", &MasukanSkill);
-                        while ((MasukanSkill < -(NbElmt(LSkillP1))) && (MasukanSkill > NbElmt(LSkillP1))){ //Ini LSkillP1 harusnya sesuai masukan list skill pada ADT Player
-                            printf("Masukan tidak valid!\nSilahkan coba lagi.\n");
-                            scanf("Masukkan skill: %d\n", &MasukanSkill);
+                        printf("Tekan 0 untuk keluar. Masukkan bilangan negatif untuk membuang skill.\nMasukkan skill: ");
+                        scanf("%d", &MasukanSkill);
+                        while ((MasukanSkill < -(NbElmt(LSkillP1))) && (MasukanSkill > NbElmt(LSkillP1))){ //Ini penulisan LSkillP1 harusnya sesuai list skill player yang sedang turn pada ADT Player terkait list player
+                            printf("Masukan tidak valid!\nSilahkan coba lagi.\nMasukkan skill: ");
+                            scanf("%d", &MasukanSkill);
                         }
                         if (MasukanSkill > 0) {
-                            printf("[NAMA PEMAIN YANG SEDANG GILIRAN] memakai skill [INFO ELEMEN LIST INDEKS KE-MasukanSkill]\n"); //Harus sesuai ADT Player
+                            printf("[NAMA PEMAIN YANG SEDANG GILIRAN] memakai skill [INFO ELEMEN LIST INDEKS KE-MasukanSkill]\n"); //Harus sesuai ADT Player untuk mendapatkan list player yang sedang turn dan ADT ListSkill untuk display skill ke-MasukanSkill
                             printf("[EFEK DARI SKILL YANG DIGUNAKAN]\n"); //Harus sesuai ADT skill dan kalo skill bonus tambahin scanf untuk masukan
                             //MENGAKTIFKAN BUFF (JADIIN TRUE) BERDASARKAN SKILL YANG DIGUNAKAN MENGIKUTI ADT BUFF
+                            //DELETE SKILL YANG DIGUNAKAN PADA LIST PLAYER YANG MENGGUNAKANNYA
                         } else if (MasukanSkill < 0) {
-                            printf("[NAMA PEMAIN YANG SEDANG GILIRAN] membuang skill [INFO ELEMEN LIST INDEKS KE-MasukanSkill]\n"); //Harus sesuai ADT Player
-                        } else if (MasukanSkill < 0) {
-                            //Nothing happen
+                            printf("[NAMA PEMAIN YANG SEDANG GILIRAN] membuang skill [INFO ELEMEN LIST INDEKS KE-MasukanSkill]\n"); //Harus sesuai ADT Player untuk mendapatkan list player yang sedang turn dan ADT ListSkill untuk display skill ke-MasukanSkill
+                            //DELETE SKILL YANG DIBUANG PADA LIST PLAYER YANG MENGGUNAKANNYA
+                        } else if (MasukanSkill == 0) {
+                            //Nothing happen (Balik ke masukin input)
                         }
 
                     }
-                } else if (InputCmd == "MAP"){
+                } else if (compareString(InputCmd,"MAP")){
                     for(int i = 0; i < JumlahPemain; i++){
-                        DisplayPetaPemain(Peta, currlocp1, JumPetak); //ini harusnya setiap pemain.
+                        DisplayPetaPemain(Peta, currlocp1, JumPetak); //ini harusnya setiap pemain. Hanya perlu replace currlocp1 sesuai dengan ADT Player terkait posisi pemain
                     }
 
-                }else if (InputCmd == "BUFF"){
+                }else if (compareString(InputCmd,"BUFF")){
                     //Bagian Annel
                     //Display buff untuk TurnPemainKe (berapa). Kalo true brarti buff aktif kalau false ga aktif. Harus sesuai ADT Buff
 
-                }else if (InputCmd == "INSPECT"){
-                    scanf("Masukkan petak: %d\n", &InputInspect);
+                }else if (compareString(InputCmd,"INSPECT")){
+                    int InputInspect;
+                    printf("Masukkan petak: ");
+                    scanf("%d", &InputInspect);
                     //Bagian Zhillan
                     //Kasitau teleport, terlarang, atau kosong berdasarkan masukan InputInspect. Bisa pakai IsPetakTP, IsPetakTerlarang, IsPetakKosong dari ADT map & tp
 
-                } else if (InputCmd == "UNDO"){
+                } else if (compareString(InputCmd,"UNDO")){
                     // Bagian Modan
                     //Balik ke state sebelumnya.
-                    TakeUndo = true;
+                    TakeUndo = true; //Keluar loop, dan mulai lagi ke pemain pertama karena variabel TurnPemainKe kembali di set ke 1
 
                 } else {
                     printf("Masukan command tidak valid! Silahkan coba lagi.\n");
 
                 }
-                scanf("Masukkan command: %s\n", &InputCmd);
+                printf("Masukkan command: ");
+                scanf("%s", &InputCmd);
             }
 
             //Bagian Zhillan
             // Input = ROLL
             // Lakukan ROLL dengan Random lalu simpan ke variabel Roll
 
+
             if (IsPetakKosong(Peta, currlocp1 + Roll)){ //Ini harusnya loc pemain yang sedang turn-nya. Harus disesuaikan ADT Player
-            
             } // Cek juga lainnya kalau petak terlarang dan TP
+
+            //Ubah current lokasi pemain yang sedang turn ke petak setelah Roll. Syntax harus sesuai dengan ADT Player terkait posisi pemain.
 
 
             if (currlocp1 == JumPetak){ //Ini harus loc pemain yang sedang turn-nya. Sesuaikan dengan ADT Player
@@ -127,6 +140,7 @@ int main(){
 
     }
 
+    //Ini nanti bisa ditaro di prosedur sendiri. Tapi karna masih harus diotak-atik, aku masih taro disini.
     printf("------------------------- PERINGKAT PEMAIN -------------------------");
     char ExNamaPemain[20] = "Itti Hililintir"; //Misal. Harusnya sesuai array daftar nama pemain
     for(int i = 1; i <= JumlahPemain; i++){
@@ -199,4 +213,17 @@ void ReadConfigFile(int *JPetak, int *MRoll, int *JTP, TabPeta *P, TabTP *ARTP){
 
         InsertTP(ARTP, KeluarTP, MasukTP);
     }
+}
+
+boolean compareString(char a[], char b[]){
+    int i = 0;
+    boolean isNEq = false;
+    while(a[i] != '\0' && b[i] != '\0'){
+        if (a[i] != b[i]){
+            isNEq = true;
+            break;
+        }
+        i++;
+    }
+    return (isNEq == false);
 }
