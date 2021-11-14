@@ -22,7 +22,7 @@ void IgnoreBlank2(){
 }
 /* Mengabaikan satu atau beberapa new line
    I.S. : CC sembarang
-   F.S. : CC ≠ BLANK atau CC = MARK */
+   F.S. : CC ≠ BLANK2 atau CC = MARK */
 
 
 void SalinKata(){
