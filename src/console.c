@@ -70,9 +70,14 @@ int main(){
             printf("Masukkan command: ");
             scanf("%s", &InputCmd);
             while (!compareString(InputCmd, "ROLL")){
-                /* KOMEN - sitkon komparasi berdasar value InputCmd ini 
-                keknya bagus banget kalo pake switch case, daripada
-                spageti if else kek YandereDev (?) -zhillan */
+                /* KOMEN -dialah_zhillanku
+                1. Ini kan pengecekan berdasarkan value InputCmd. Lebih baik pake switch case daripada
+                spageti if else kayak YanderDev nggak sih?
+                2. AFAIK, C cuba membaca 2 kali deklarasi variabel. Jadi kalo kita menaruh deklarasi variabel
+                di loop is uh... tbh ga tau sih, tapi bakal ga baik ga sih 
+                3. Hal2 yang bisa taroh file lain taroh file lain aja ga sih :KEKW: terutama fungsi2 di bawah. Ntar 
+                kita tanya aja ke Tuan Mor gimana cara pake Makefile (toh cepet atau lambat kita bakal sering pake), 
+                ku dah nyoba Makefile tapi masih gagal total terus */
                 if (compareString(InputCmd,"SKILL")){
                     // Bagian Vito, Annel, dan Zhillan
                     int MasukanSkill;
@@ -127,11 +132,8 @@ int main(){
                 printf("Masukkan command: ");
                 scanf("%s", &InputCmd);
             }
-
-            //Bagian zhillan
-            // Input = ROLL
-            // Lakukan ROLL dengan Random lalu simpan ke variabel Roll
-
+            // Input = "ROLL"
+            // command_roll(&Roll, MaxRoll, <boolean isSenterBesar>, <boolean isSenterKecil>);
 
             if (IsPetakKosong(Peta, currlocp1 + Roll)){ //Ini harusnya loc pemain yang sedang turn-nya. Harus disesuaikan ADT Player
             } // Cek juga lainnya kalau petak terlarang dan TP

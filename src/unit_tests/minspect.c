@@ -11,5 +11,6 @@ int main () {
     // KAMUS
     TabPeta P;
     // ALGORITMA
+    // Definisikan P dengan fileconfig
     command_inspect(&P);
 }
