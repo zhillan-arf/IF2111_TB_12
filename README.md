@@ -5,7 +5,7 @@
 Permainan ular tangga. Lorem ipsum dolor sit amet, conseqteteur adispiscing elit.
 
 ## Tubes bersama Tuan Mor
-Kelompok 12 Kelas K2 
+Kelompok 12 Kelas K2  
 Nama Kelompok: LOREM IPSUM DOLOR SIT  
 Anggota  
 18220008 Zhillan Attarizal Rezyarifin  
