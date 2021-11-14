@@ -1,10 +1,20 @@
+/*
+    TUBES IF2111 K2 KELOMPOK 12
+    PERMAINAN "<LOREM IPSUM DOLOR>"
+    Versi: 2021-11-14 21:00 (zhillan)
+*/
+
 /* INI MASIH DALAM BENTUK PERCOBAAN DAN MASIH BELUM RAPIH. MOHON SAAT MENGERJAKAN JANGAN SAMPAI BERANTAKAN AGAR NANTI SAAT
 SUDAH JADI TIDAK PERLU ADA BANYAK YANG HARUS DIRAPIHKAN LAGI. DISINI MASIH PAKAI INT MAIN() UNTUK KEPERLUAN PENGETESAN. SEHARUSNYA
 YANG ADA PADA INT MAIN() DIJADIKAN SUATU FUNGSI SEPERTI MULAI_GAME()*/
 
+// DEKLARASI MODULE DASAR
 #include <stdlib.h>
 #include <stdio.h>
 #include "console.h"
+
+// DEKLARASI COMMAND
+#include "commands/inspect.h"
 
 int JumPetak, MaxRoll, JumTP;
 TabPeta Peta;
@@ -60,12 +70,15 @@ int main(){
             printf("Masukkan command: ");
             scanf("%s", &InputCmd);
             while (!compareString(InputCmd, "ROLL")){
+                /* KOMEN - sitkon komparasi berdasar value InputCmd ini 
+                keknya bagus banget kalo pake switch case, daripada
+                spageti if else kek YandereDev (?) -zhillan */
                 if (compareString(InputCmd,"SKILL")){
                     // Bagian Vito, Annel, dan Zhillan
                     int MasukanSkill;
                     if (NbElmt(LSkillP1) == 0){ //Ini penulisan LSkillP1 harusnya sesuai list skill player yang sedang turn pada ADT Player terkait list player
                         printf("Kamu tidak memiliki skill!\n");
-                    } else{
+                    } else {
                         printf("Kamu memiliki skill:\n");
                         for (int i = 0; i < NbElmt(LSkillP1); i++){ //Ini penulisan LSkillP1 harusnya sesuai list skill player yang sedang turn pada ADT Player terkait list player
                             printf("%d. [INFO ELEMEN LIST INDEKS KE-i]\n", (i+1)); //Harus sesuai ADT Player untuk mendapat list player yang sedang turn dan ADT ListSkill untuk displayList
@@ -94,15 +107,12 @@ int main(){
                         DisplayPetaPemain(Peta, currlocp1, JumPetak); //ini harusnya setiap pemain. Hanya perlu replace currlocp1 sesuai dengan ADT Player terkait posisi pemain
                     }
 
-                }else if (compareString(InputCmd,"BUFF")){
+                } else if (compareString(InputCmd,"BUFF")){
                     //Bagian Annel
                     //Display buff untuk TurnPemainKe (berapa). Kalo true brarti buff aktif kalau false ga aktif. Harus sesuai ADT Buff
 
-                }else if (compareString(InputCmd,"INSPECT")){
-                    int InputInspect;
-                    printf("Masukkan petak: ");
-                    scanf("%d", &InputInspect);
-                    //Bagian Zhillan
+                } else if (compareString(InputCmd,"INSPECT")){
+                    command_inspect(&Peta);
                     //Kasitau teleport, terlarang, atau kosong berdasarkan masukan InputInspect. Bisa pakai IsPetakTP, IsPetakTerlarang, IsPetakKosong dari ADT map & tp
 
                 } else if (compareString(InputCmd,"UNDO")){
@@ -118,7 +128,7 @@ int main(){
                 scanf("%s", &InputCmd);
             }
 
-            //Bagian Zhillan
+            //Bagian zhillan
             // Input = ROLL
             // Lakukan ROLL dengan Random lalu simpan ke variabel Roll
 

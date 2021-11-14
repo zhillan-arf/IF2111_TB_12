@@ -28,4 +28,7 @@ boolean IsPetakKosong (TabPeta P, int NoPetak);
 boolean IsPetakTerlarang (TabPeta P, int NoPetak);
 /* Mengembalikan true jika petak terlarang ('#') dan false jika tidak */
 
+Petak GetPetak(TabPeta P, int NoPetak);
+/* Mengembalikan isi petak di nomor ke-sekian*/
+
 #endif

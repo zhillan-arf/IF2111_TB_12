@@ -4,7 +4,7 @@
 #include "boolean.h"
 #include "mesin_kata.h"
 #include "mesin_kar.h"
-#include "listlinier.h"
+#include "list.h"
 #include "array_tp.h"
 #include "array_map.h"
 
