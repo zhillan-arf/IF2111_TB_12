@@ -1,14 +1,13 @@
-//INI HANYA UNTUK SEMENTARA, KALAU SUDAH ADA ADT LIST SILAHKAN DIHAPUS
-
-/* File : listlinier.h */
-/* contoh ADT list berkait dengan representasi fisik pointer  */
-/* Representasi address dengan pointer */
-/* infotype adalah integer */
+/*
+    TUBES IF2111 K2 KELOMPOK 12
+    ADT LIST LINEAR - HEADER
+    Versi: 2021-11-14 08:30
+*/
 
 #ifndef listlinier_H
 #define listlinier_H
 
-#include "boolean.h"
+#include "../boolean.h"
 
 #define Nil NULL
 
@@ -71,6 +70,10 @@ void InsVLast (List *L, infotype X);
 /* bernilai X jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
 
 /*** PENGHAPUSAN ELEMEN ***/
+void DelElmtKe (List *L, infotype idx, infotype *X);
+/* I.S. List L tidak kosong dan memiliki banyak elemen <= idx. Indeks list dimulai dari 1 */
+/* F.S. Elemen ke-idx dihapus */
+
 void DelVFirst (List *L, infotype *X);
 /* I.S. List L tidak kosong  */
 /* F.S. Elemen pertama list dihapus: nilai info disimpan pada X */
