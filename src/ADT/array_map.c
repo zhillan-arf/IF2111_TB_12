@@ -27,7 +27,3 @@ boolean IsPetakKosong (TabPeta P, int NoPetak){
 boolean IsPetakTerlarang (TabPeta P, int NoPetak){
     return (P.Peta[NoPetak] == '#');
 }
-
-Petak GetPetak(TabPeta P, int NoPetak) {
-    return P.Peta[NoPetak];
-}

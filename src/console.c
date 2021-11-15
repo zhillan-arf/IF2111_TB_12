@@ -1,20 +1,22 @@
 /*
     TUBES IF2111 K2 KELOMPOK 12
     PERMAINAN "<LOREM IPSUM DOLOR>"
-    Versi: 2021-11-14 21:00 (zhillan)
+    Versi: 2021-11-15 11:30
 */
 
 /* INI MASIH DALAM BENTUK PERCOBAAN DAN MASIH BELUM RAPIH. MOHON SAAT MENGERJAKAN JANGAN SAMPAI BERANTAKAN AGAR NANTI SAAT
 SUDAH JADI TIDAK PERLU ADA BANYAK YANG HARUS DIRAPIHKAN LAGI. DISINI MASIH PAKAI INT MAIN() UNTUK KEPERLUAN PENGETESAN. SEHARUSNYA
 YANG ADA PADA INT MAIN() DIJADIKAN SUATU FUNGSI SEPERTI MULAI_GAME()*/
 
-// DEKLARASI MODULE DASAR
+// DEKLARASI MODULE2 DASAR
 #include <stdlib.h>
 #include <stdio.h>
 #include "console.h"
 
 // DEKLARASI COMMAND
 #include "commands/inspect.h"
+#include "commands/gacha_skill.h"
+#include "commands/roll.h"
 
 int JumPetak, MaxRoll, JumTP;
 TabPeta Peta;
@@ -61,10 +63,8 @@ int main(){
         //Mulai turn tiap pemain
         while((TurnPemainKe != (JumlahPemain+1)) && (!TakeUndo) && (!EndGame)){
 
-            if (NbElmt(LSkillP1) != 10){ //Ini cuma harusnya ngisi skill pemain yang sedang turn-nya. Harus diisi sesuai ADT Skill & Player
-                int SkillNum = rand() % 100;
-                InsVLast(&LSkillP1, SkillNum);
-            }
+            // KOMEN: sesuai yang kemaren2 ngobrol, bagian penambahan skill ku ambil yaa -dialah_zhillanku
+            // gacha_skill(&<LSkillCurrentPlayer>)
 
             printf("********** GILIRAN PEMAIN KE-%d **********\n", TurnPemainKe);
             printf("Masukkan command: ");
@@ -73,13 +73,14 @@ int main(){
                 /* KOMEN -dialah_zhillanku
                 1. Ini kan pengecekan berdasarkan value InputCmd. Lebih baik pake switch case daripada
                 spageti if else kayak YanderDev nggak sih?
-                2. AFAIK, C cuba membaca 2 kali deklarasi variabel. Jadi kalo kita menaruh deklarasi variabel
+                2. AFAIK, C cuba membaca 1 kali deklarasi variabel. Jadi kalo kita menaruh deklarasi variabel
                 di loop is uh... tbh ga tau sih, tapi bakal ga baik ga sih 
                 3. Hal2 yang bisa taroh file lain taroh file lain aja ga sih :KEKW: terutama fungsi2 di bawah. Ntar 
                 kita tanya aja ke Tuan Mor gimana cara pake Makefile (toh cepet atau lambat kita bakal sering pake), 
                 ku dah nyoba Makefile tapi masih gagal total terus */
                 if (compareString(InputCmd,"SKILL")){
                     // Bagian Vito, Annel, dan Zhillan
+                    // KOMEN: Hal2 skill yang disini sebanyak mungkin taroh tempat/file terpisah, jangan di console -dialah_zhillanku
                     int MasukanSkill;
                     if (NbElmt(LSkillP1) == 0){ //Ini penulisan LSkillP1 harusnya sesuai list skill player yang sedang turn pada ADT Player terkait list player
                         printf("Kamu tidak memiliki skill!\n");
@@ -117,7 +118,7 @@ int main(){
                     //Display buff untuk TurnPemainKe (berapa). Kalo true brarti buff aktif kalau false ga aktif. Harus sesuai ADT Buff
 
                 } else if (compareString(InputCmd,"INSPECT")){
-                    command_inspect(&Peta);
+                    inspect(&Peta);
                     //Kasitau teleport, terlarang, atau kosong berdasarkan masukan InputInspect. Bisa pakai IsPetakTP, IsPetakTerlarang, IsPetakKosong dari ADT map & tp
 
                 } else if (compareString(InputCmd,"UNDO")){
@@ -133,21 +134,16 @@ int main(){
                 scanf("%s", &InputCmd);
             }
             // Input = "ROLL"
-            // command_roll(&Roll, MaxRoll, <boolean isSenterBesar>, <boolean isSenterKecil>);
-
-            if (IsPetakKosong(Peta, currlocp1 + Roll)){ //Ini harusnya loc pemain yang sedang turn-nya. Harus disesuaikan ADT Player
-            } // Cek juga lainnya kalau petak terlarang dan TP
-
-            //Ubah current lokasi pemain yang sedang turn ke petak setelah Roll. Syntax harus sesuai dengan ADT Player terkait posisi pemain.
-
-
+            // roll(&Roll, MaxRoll, Peta, JumlahPemain, &ADT Pemain yang berisi: <boolean isSenterBesar>, <boolean isSenterKecil>, <boolean imunitas>,<nama player>, <int current player petak>);
+            // KOMEN: Kondisional-kondisional dah perintah maju mundur ku pindah ke roll -dialah_zhillanku
+            
             if (currlocp1 == JumPetak){ //Ini harus loc pemain yang sedang turn-nya. Sesuaikan dengan ADT Player
                 printf("------------------------- GAME BERAKHIR -------------------------");
                 printf("Mobita telah mencapai ujung.\nPemenang game ini adalah Mobita\n");
                 EndGame = true;
             }
 
-            TurnPemainKe++; //Lanjut turn ke pemain selanjutnya
+            TurnPemainKe++; //Lanjut turn ke pemain selanjutnya (KOMEN: ini nggak kasih mod sesuai jumlah player? Turn kan, bukan round? -dialah_zhillanku)
         }
 
     }

@@ -1,7 +1,7 @@
 /*
     TUBES IF2111 K2 KELOMPOK 12
     COMMAND INSPECT - UNIT TEST
-    Versi: 2021-11-14 21:30
+    Versi: 2021-11-15 11:30
 */
 
 #include "../boolean.h"
@@ -11,6 +11,6 @@ int main () {
     // KAMUS
     TabPeta P;
     // ALGORITMA
-    // Definisikan P dengan fileconfig
-    command_inspect(&P);
+    // TBD: Definisikan P dengan fileconfig
+    inspect(&P);
 }

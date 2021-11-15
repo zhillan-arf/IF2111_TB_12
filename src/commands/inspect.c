@@ -1,12 +1,12 @@
 /*
     TUBES IF2111 K2 KELOMPOK 12
     COMMAND INSPECT - IMPLEMENTASI
-    Versi: 2021-11-14 21:30
+    Versi: 2021-11-15 11:30
 */
 
 #include "inspect.h"
 
-void command_inspect (TabPeta *Peta) {
+void inspect (TabPeta *Peta) {
     // I.S. Peta dari file config terbaca, turn sembarang
     // F.S. Teroutput hal2 yang diinginkan player, jika ada
     // KAMUS LOKAL
