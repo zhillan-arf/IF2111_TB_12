@@ -16,4 +16,4 @@ mroll :
 
 # CLEANER
 clean:
-	rm mlist mroll
+	rm mlist minspect mroll

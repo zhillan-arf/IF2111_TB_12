@@ -134,8 +134,10 @@ int main(){
                 scanf("%s", &InputCmd);
             }
             // Input = "ROLL"
-            // roll(&Roll, MaxRoll, Peta, JumlahPemain, &ADT Pemain yang berisi: <boolean isSenterBesar>, <boolean isSenterKecil>, <boolean imunitas>,<nama player>, <int current player petak>);
-            // KOMEN: Kondisional-kondisional dah perintah maju mundur ku pindah ke roll -dialah_zhillanku
+            // roll(&Roll, MaxRoll, Peta, JumlahPemain, &ADT Pemain);
+            // KOMEN: 
+            // 1. Kondisional-kondisional dah perintah maju mundur ku pindah ke roll -dialah_zhillanku
+            // 2. Karena itu, variabel Roll mending jadiin boolean yang nentuin dah end game atau belum aja ga sih?
             
             if (currlocp1 == JumPetak){ //Ini harus loc pemain yang sedang turn-nya. Sesuaikan dengan ADT Player
                 printf("------------------------- GAME BERAKHIR -------------------------");

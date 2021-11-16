@@ -5,20 +5,17 @@
 */
 
 #include "roll.h"
-#include "../ADT/array_map.h"
 #include <stdlib.h>
+#include "../ADT/array_map.h"
+#include "../ADT/array_buff.h"
+#include "../ADT/player.h"
 
 void roll (
         int *Roll,
         int MaxRoll,
         TabPeta peta,
         int JumlahPemain,
-        // Hal2 ini ada di dalam ADT player. Kalo ADT nya dah jadi, ubah:
-        char *nama_pemain,
-        boolean *is_sbesar, 
-        boolean *is_skecil, 
-        boolean *is_immune, 
-        int *currentpetak
+        player *p
     ) {
     // I.S. Tiap player berada di posisinya masing-masing
     // F.S. Posisi palyer yang meng-roll bisa jadi berubah
@@ -26,28 +23,28 @@ void roll (
     int rolled, nexts, pasts;
     // ALGORITMA
     // Dice Roll
-    if (*is_sbesar)
+    if (isSenterBesar(buff(*p)))
     {
         printf("Buff Senter Pembesar Hoki terpakai.\n");
         rolled = (rand() % (MaxRoll/2)) + 1 + (MaxRoll/2);
-        (*is_sbesar) = false;   // Reset buff
+        (isSenterBesar(buff(*p))) = false;   // Reset buff
     }
-    else if (*is_skecil)
+    else if (isSenterKecil(buff(*p)))
     {
         printf("Buff Senter Pengecil Hoki terpakai.\n");
         rolled = (rand() % (MaxRoll/2)) + 1;
-        (*is_skecil) = false;   // Reset buff
+        (isSenterKecil(buff(*p))) = false;   // Reset buff
     }
     else    // Tidak ada buff
     {
         rolled = (rand() % (MaxRoll)) + 1;
     }
     (*Roll) = rolled;
-    printf("%s meng-roll dan mendapat %d\n", *nama_pemain);
+    printf("%s meng-roll dan mendapat %d\n", nama(*p));
     
     // Kondisional
-    nexts = (*currentpetak) + rolled;
-    pasts = (*currentpetak) - rolled;
+    nexts = (current_petak(*p)) + rolled;
+    pasts = (current_petak(*p)) - rolled;
     if ((0 < pasts) && (nexts < JumlahPemain))
     {
         if (IsPetakKosong(peta, pasts) && IsPetakKosong(peta, nexts))

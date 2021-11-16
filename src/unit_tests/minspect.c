@@ -6,6 +6,7 @@
 
 #include "../boolean.h"
 #include "../commands/inspect.h"
+#include "../ADT/array_map.h"
 
 int main () {
     // KAMUS

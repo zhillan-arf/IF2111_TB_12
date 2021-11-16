@@ -11,10 +11,10 @@
 
 #define Nil NULL
 
-typedef int infoskill;
+typedef int infotype;
 typedef struct tElmtlist *address;
 typedef struct tElmtlist { 
-	infoskill info;
+	infotype info;
 	address next;
 } ElmtList;
 typedef struct {
@@ -41,7 +41,7 @@ void CreateEmpty (List *L);
 /* F.S. Terbentuk list kosong */
 
 /****************** Manajemen Memori ******************/
-address Alokasi (infoskill X);
+address Alokasi (infotype X);
 /* Mengirimkan address hasil alokasi sebuah elemen */
 /* Jika alokasi berhasil, maka address tidak nil, dan misalnya */
 /* menghasilkan P, maka Info(P)=X, Next(P)=Nil */
@@ -52,33 +52,33 @@ void Dealokasi (address *P);
 /* Melakukan dealokasi/pengembalian address P */
 
 /****************** PENCARIAN SEBUAH ELEMEN LIST ******************/
-address Search (List L, infoskill X);
+address Search (List L, infotype X);
 /* Mencari apakah ada elemen list dengan Info(P)= X */
 /* Jika ada, mengirimkan address elemen tersebut. */
 /* Jika tidak ada, mengirimkan Nil */
 
 /****************** PRIMITIF BERDASARKAN NILAI ******************/
 /*** PENAMBAHAN ELEMEN ***/
-void InsVFirst (List *L, infoskill X);
+void InsVFirst (List *L, infotype X);
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen pertama dengan nilai X jika alokasi berhasil */
-void InsVLast (List *L, infoskill X);
+void InsVLast (List *L, infotype X);
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen list di akhir: elemen terakhir yang baru */
 /* bernilai X jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
 
 /*** PENGHAPUSAN ELEMEN ***/
-void DelElmtKe (List *L, infoskill idx, infoskill *X);
+void DelElmtKe (List *L, infotype idx, infotype *X);
 /* I.S. List L tidak kosong dan memiliki banyak elemen <= idx. Indeks list dimulai dari 1 */
 /* F.S. Elemen ke-idx dihapus */
 
-void DelVFirst (List *L, infoskill *X);
+void DelVFirst (List *L, infotype *X);
 /* I.S. List L tidak kosong  */
 /* F.S. Elemen pertama list dihapus: nilai info disimpan pada X */
 /*      dan alamat elemen pertama di-dealokasi */
-void DelVLast (List *L, infoskill *X);
+void DelVLast (List *L, infotype *X);
 /* I.S. list tidak kosong */
 /* F.S. Elemen terakhir list dihapus: nilai info disimpan pada X */
 /*      dan alamat elemen terakhir di-dealokasi */
@@ -102,7 +102,7 @@ void DelFirst (List *L, address *P);
 /* F.S. P adalah alamat elemen pertama list sebelum penghapusan */
 /*      Elemen list berkurang satu (mungkin menjadi kosong) */
 /* First element yg baru adalah suksesor elemen pertama yang lama */
-void DelP (List *L, infoskill X);
+void DelP (List *L, infotype X);
 /* I.S. Sembarang */
 /* F.S. Jika ada elemen list beraddress P, dengan Info(P)=X  */
 /* Maka P dihapus dari list dan di-dealokasi */
@@ -130,7 +130,7 @@ int NbElmt (List L);
 /* Mengirimkan banyaknya elemen list; mengirimkan 0 jika list kosong */
 
 /*** Prekondisi untuk Max/Min/rata-rata : List tidak kosong ***/
-infoskill Max (List L);
+infotype Max (List L);
 /* Mengirimkan nilai Info(P) yang maksimum */
 
 /****************** PROSES TERHADAP LIST ******************/
