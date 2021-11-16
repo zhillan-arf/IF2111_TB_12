@@ -13,6 +13,7 @@ typedef char Petak;
 typedef struct {
 	Petak Peta [IdxMaxPetak-IdxMinPetak+1+1]; //Yang dipakai adalah [1..IdxMax]
 } TabPeta;
+
 /* Peta kosong didefinisikan sebagai peta yang isi seluruh elemennya adalah '-' */
 
 void MakeEmptyPeta(TabPeta *P);
@@ -28,7 +29,7 @@ boolean IsPetakKosong (TabPeta P, int NoPetak);
 boolean IsPetakTerlarang (TabPeta P, int NoPetak);
 /* Mengembalikan true jika petak terlarang ('#') dan false jika tidak */
 
-Petak GetPetak(TabPeta P, int NoPetak);
+int GetPetak(TabPeta P, int NoPetak);
 /* Mengembalikan isi petak di nomor ke-sekian*/
 
 #endif

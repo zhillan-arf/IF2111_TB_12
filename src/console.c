@@ -71,8 +71,7 @@ int main(){
             scanf("%s", &InputCmd);
             while (!compareString(InputCmd, "ROLL")){
                 /* KOMEN -dialah_zhillanku
-                1. Ini kan pengecekan berdasarkan value InputCmd. Lebih baik pake switch case daripada
-                spageti if else kayak YanderDev nggak sih?
+                1. <NVM - switch case cuma bisa kalo inputnya integer. Abaikan. ...Eh iya kan? >
                 2. AFAIK, C cuba membaca 1 kali deklarasi variabel. Jadi kalo kita menaruh deklarasi variabel
                 di loop is uh... tbh ga tau sih, tapi bakal ga baik ga sih 
                 3. Hal2 yang bisa taroh file lain taroh file lain aja ga sih :KEKW: terutama fungsi2 di bawah. Ntar 

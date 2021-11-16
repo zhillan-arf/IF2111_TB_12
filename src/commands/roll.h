@@ -19,12 +19,12 @@ void roll (
 // F.S. Roll berisi angka random sesuai buff2
 
 
-void maju(player *p, int nexts);
+void maju(player *p, int nexts,TabPeta Peta);
     // I.S. Player P berada di tempatnya, nexts + tempat saat ini ada di peta dan tidak kosong
     // F.S. Player P pindah ke nexts. Jika is_teleport dan not immune dan ketemu teleporter, teleport.
     // Jika immune, kasih pilihan mau ga teleport ga
 
-void mundur(player *p, int pasts);
+void mundur(player *p, int pasts, TabPeta Peta);
     // I.S. Player P berada di tempatnya, nexts + tempat saat ini ada di peta dan tidak kosong
     // F.S. Player P pindah ke pasts. Jika is_teleport dan not immune dan ketemu teleporter, teleport.
     // Jika immune, kasih pilihan mau ga teleport ga. P diupdate.
