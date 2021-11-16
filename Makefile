@@ -14,6 +14,9 @@ minspect :
 mroll :
 	gcc -o mroll src/unit_tests/mroll.c src/commands/roll.c
 
+mgacha_skill :
+	gcc -o mgacha_skill src/unit_tests/mgacha_skill.c src/commands/gacha_skill.c
+
 # CLEANER
 clean:
 	rm mlist minspect mroll
