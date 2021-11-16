@@ -14,14 +14,26 @@ kalo ku harus ganti2 lagi tar :kekw: */
 
 #ifndef array_buff_H
 #define array_buff_H
+#define MaxBuff 4
+
 
 typedef struct arr_buff {
-    boolean buff [4];
+    boolean buff[MaxBuff];
 } array_buff;
 
+#define BUFF(P, i) (P).buff[i]
 #define isImunTele(b) (b).buff[0]
 #define isSenterBesar(b) (b).buff[1]
 #define isSenterKecil(b) (b).buff[2]
 #define isCerminGanda(b) (b).buff[3]
+
+
+
+
+
+
+
+
+#endif
 
 #endif
