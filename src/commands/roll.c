@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../ADT/array_map.h"
+#include "../ADT/array_tp.h"
 #include "../ADT/array_buff.h"
 #include "../ADT/player.h"
 
@@ -15,6 +16,7 @@ void roll (
         int *Roll,
         int MaxRoll,
         TabPeta peta,
+        TabTP arrtp,
         int JumlahPemain,
         player *p
     ) {
@@ -59,12 +61,12 @@ void roll (
             {
                 if (input == 1)
                 {
-                    maju(p, nexts, peta);
+                    maju(p, nexts, peta, arrtp);
                     is_valid = true;
                 }
                 else if (input == 2)
                 {
-                    mundur(p, pasts, peta);
+                    mundur(p, pasts, peta, arrtp);
                     is_valid = true;
                 }
                 else    // Input invalid
@@ -76,12 +78,12 @@ void roll (
         else if (IsPetakKosong(peta, pasts))
         {
             printf("%s bisa mundur.\n");
-            mundur(p, pasts, peta);
+            mundur(p, pasts, peta, arrtp);
         }
         else if (IsPetakKosong(peta, nexts))
         {
             printf("%s bisa maju.\n");
-            maju(p, nexts, peta);
+            maju(p, nexts, peta, arrtp);
         }
         else
         {
@@ -93,7 +95,7 @@ void roll (
         if (IsPetakKosong(peta, pasts))
         {
             printf("%s bisa mundur.\n");
-            mundur(p, pasts, peta);
+            mundur(p, pasts, peta, arrtp);
         }
         else
         {
@@ -105,7 +107,7 @@ void roll (
         if (IsPetakKosong(peta, nexts))
         {
             printf("%s bisa maju.\n");
-            maju(p, nexts, peta);
+            maju(p, nexts, peta, arrtp);
         }
         else
         {
@@ -119,7 +121,7 @@ void roll (
 }
 
 
-void maju(player *p, int nexts, TabPeta Peta) {
+void maju(player *p, int nexts, TabPeta Peta, TabTP arrtp) {
     // I.S. Player P berada di tempatnya, nexts + tempat saat ini ada di peta dan tidak kosong
     // F.S. Player P pindah ke nexts. Jika is_teleport dan not immune dan ketemu teleporter, teleport.
     // Jika immune, kasih pilihan mau ga teleport ga
@@ -132,11 +134,11 @@ void maju(player *p, int nexts, TabPeta Peta) {
     printf("%s maju %d langkah, dari petak %d ke petak %d.\n", nama(*p), nexts, idx_prev, idx_now);
     if (!IsPetakKosong(Peta, idx_now) && !IsPetakTerlarang(Peta, idx_now))    // ikz Teleport
     {
-        teleport(p, GetPetak(Peta, idx_now));
+        teleport(p, arrtp.TTP[idx_now]);
     }
 }
 
-void mundur(player *p, int pasts, TabPeta Peta) {
+void mundur(player *p, int pasts, TabPeta Peta, TabTP arrtp) {
     // I.S. Player P berada di tempatnya, nexts + tempat saat ini ada di peta dan tidak kosong
     // F.S. Player P pindah ke pasts. Jika is_teleport dan not immune dan ketemu teleporter, teleport.
     // Jika immune, kasih pilihan mau ga teleport ga. P diupdate.
@@ -149,7 +151,7 @@ void mundur(player *p, int pasts, TabPeta Peta) {
     printf("%s mundur %d langkah, dari petak %d ke petak %d.\n", nama(*p), pasts, idx_prev, idx_now);
     if (!IsPetakKosong(Peta, idx_now) && !IsPetakTerlarang(Peta, idx_now))    // ikz Teleport
     {
-        teleport(p, GetPetak(Peta, idx_now));
+        teleport(p, arrtp.TTP[idx_now]);
     }
 }
 

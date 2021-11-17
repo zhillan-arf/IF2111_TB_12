@@ -133,7 +133,7 @@ int main(){
                 scanf("%s", &InputCmd);
             }
             // Input = "ROLL"
-            // roll(&Roll, MaxRoll, Peta, JumlahPemain, &ADT Pemain);
+            // roll(&Roll, MaxRoll, Peta, arrTP, JumlahPemain, &ADT Pemain);
             // KOMEN: 
             // 1. Kondisional-kondisional dah perintah maju mundur ku pindah ke roll -dialah_zhillanku
             // 2. Karena itu, variabel Roll mending jadiin boolean yang nentuin dah end game atau belum aja ga sih?

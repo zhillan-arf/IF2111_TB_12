@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "array_buff.h": "c"
+        "array_buff.h": "c",
+        "array_map.h": "c"
     }
 }
