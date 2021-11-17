@@ -7,12 +7,12 @@
 #include "boolean.h"
 #include "mesin_kar.h"
 
-#define NMax 100
+#define NMaxChar 100
 #define BLANK '\n'
 #define BLANK2 ' '
 
 typedef struct {
-   char TabKata[NMax+1]; /* container penyimpan kata, indeks yang dipakai [1..NMax] */
+   char TabKata[NMaxChar+1]; /* container penyimpan kata, indeks yang dipakai [1..NMax] */
    int Length;
 } Kata;
 
