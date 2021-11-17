@@ -8,10 +8,10 @@
 #define IdxMaxTP 99
 #define IdxMinTP 1
 
-typedef int ElType;
+typedef int ElTypeTP;
 
 typedef struct {
-	ElType TTP [IdxMaxTP-IdxMinTP+1+1]; //Yang dipakai adalah [1..IdxMax]
+	ElTypeTP TTP [IdxMaxTP-IdxMinTP+1+1]; //Yang dipakai adalah [1..IdxMax]
 } TabTP;
 
 void MakeEmptyArrTP(TabTP *TabelTP);
