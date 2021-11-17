@@ -56,6 +56,15 @@ int main(){
         //Untuk mengetahui apakah ada pemain yang memanggil UNDO. Jika ya maka akan true dan kembali ke state sebelumnya
         boolean TakeUndo = false;
 
+        //Untuk mengetahui apakah roll sudah dilakukan sehingga dapat endturn
+        boolean HaveRolled = false;
+
+        //Untuk mengetahui apakah endturn sudah dilakukan
+        boolean EndTurn = false;
+
+        //Untuk mengetahui apakah sudah ada yang sampai ujung peta
+        boolean WinnerFound = false;
+
         //Setiap awal ronde harus memperlihatkan peta setiap pemain
         for (int i = 0; i < JumlahPemain; i++) //Ini JumlahPemain menyesuaikan yang ada di ADT Player
             DisplayPetaPemain(Peta, currlocp1, JumPetak); //Ini currloc menyesuaikan posisi player dgn masukan sesuai yang ada di ADT Player
@@ -69,44 +78,17 @@ int main(){
             printf("********** GILIRAN PEMAIN KE-%d **********\n", TurnPemainKe);
             printf("Masukkan command: ");
             scanf("%s", &InputCmd);
-            while (!compareString(InputCmd, "ROLL")){
-                /* KOMEN -dialah_zhillanku
-                1. <NVM - switch case cuma bisa kalo inputnya integer. Abaikan. ...Eh iya kan? >
-                2. AFAIK, C cuba membaca 1 kali deklarasi variabel. Jadi kalo kita menaruh deklarasi variabel
-                di loop is uh... tbh ga tau sih, tapi bakal ga baik ga sih 
-                3. Hal2 yang bisa taroh file lain taroh file lain aja ga sih :KEKW: terutama fungsi2 di bawah. Ntar 
-                kita tanya aja ke Tuan Mor gimana cara pake Makefile (toh cepet atau lambat kita bakal sering pake), 
-                ku dah nyoba Makefile tapi masih gagal total terus */
+            
+            while ((!EndTurn) && (!WinnerFound)){
+                
                 if (compareString(InputCmd,"SKILL")){
                     // Bagian Vito, Annel, dan Zhillan
-                    // KOMEN: Hal2 skill yang disini sebanyak mungkin taroh tempat/file terpisah, jangan di console -dialah_zhillanku
-                    int MasukanSkill;
-                    if (NbElmt(LSkillP1) == 0){ //Ini penulisan LSkillP1 harusnya sesuai list skill player yang sedang turn pada ADT Player terkait list player
-                        printf("Kamu tidak memiliki skill!\n");
+                    if (HaveRolled) {
+                        printf("Anda tidak dapat menggunakan skill karena sudah melakukan roll!");
                     } else {
-                        printf("Kamu memiliki skill:\n");
-                        for (int i = 0; i < NbElmt(LSkillP1); i++){ //Ini penulisan LSkillP1 harusnya sesuai list skill player yang sedang turn pada ADT Player terkait list player
-                            printf("%d. [INFO ELEMEN LIST INDEKS KE-i]\n", (i+1)); //Harus sesuai ADT Player untuk mendapat list player yang sedang turn dan ADT ListSkill untuk displayList
-                        }
-                        printf("Tekan 0 untuk keluar. Masukkan bilangan negatif untuk membuang skill.\nMasukkan skill: ");
-                        scanf("%d", &MasukanSkill);
-                        while ((MasukanSkill < -(NbElmt(LSkillP1))) && (MasukanSkill > NbElmt(LSkillP1))){ //Ini penulisan LSkillP1 harusnya sesuai list skill player yang sedang turn pada ADT Player terkait list player
-                            printf("Masukan tidak valid!\nSilahkan coba lagi.\nMasukkan skill: ");
-                            scanf("%d", &MasukanSkill);
-                        }
-                        if (MasukanSkill > 0) {
-                            printf("[NAMA PEMAIN YANG SEDANG GILIRAN] memakai skill [INFO ELEMEN LIST INDEKS KE-MasukanSkill]\n"); //Harus sesuai ADT Player untuk mendapatkan list player yang sedang turn dan ADT ListSkill untuk display skill ke-MasukanSkill
-                            printf("[EFEK DARI SKILL YANG DIGUNAKAN]\n"); //Harus sesuai ADT skill dan kalo skill bonus tambahin scanf untuk masukan
-                            //MENGAKTIFKAN BUFF (JADIIN TRUE) BERDASARKAN SKILL YANG DIGUNAKAN MENGIKUTI ADT BUFF
-                            //DELETE SKILL YANG DIGUNAKAN PADA LIST PLAYER YANG MENGGUNAKANNYA
-                        } else if (MasukanSkill < 0) {
-                            printf("[NAMA PEMAIN YANG SEDANG GILIRAN] membuang skill [INFO ELEMEN LIST INDEKS KE-MasukanSkill]\n"); //Harus sesuai ADT Player untuk mendapatkan list player yang sedang turn dan ADT ListSkill untuk display skill ke-MasukanSkill
-                            //DELETE SKILL YANG DIBUANG PADA LIST PLAYER YANG MENGGUNAKANNYA
-                        } else if (MasukanSkill == 0) {
-                            //Nothing happen (Balik ke masukin input)
-                        }
-
+                        //Ini diisi display skill dan kemanisme penggunaan skill dan penghapusan skill sesuai ADT Skill!
                     }
+                    
                 } else if (compareString(InputCmd,"MAP")){
                     for(int i = 0; i < JumlahPemain; i++){
                         DisplayPetaPemain(Peta, currlocp1, JumPetak); //ini harusnya setiap pemain. Hanya perlu replace currlocp1 sesuai dengan ADT Player terkait posisi pemain
@@ -125,6 +107,26 @@ int main(){
                     //Balik ke state sebelumnya.
                     TakeUndo = true; //Keluar loop, dan mulai lagi ke pemain pertama karena variabel TurnPemainKe kembali di set ke 1
 
+                } else if (compareString(InputCmd, "ROLL")){
+                    //Panggil fungsi roll
+
+                    HaveRolled = true;
+
+                    if (currlocp1 == JumPetak){ //Ini harus loc pemain yang sedang turn-nya. Sesuaikan dengan ADT Player
+                        //Simpen ke suatu variabel type player siapa yang menang.
+
+                        WinnerFound = true;
+                    }
+
+                } else if (compareString(InputCmd, "ENDTURN")) {
+                    //Bagian Modan
+                    if (!HaveRolled) {
+                        //Kasitau harus roll dulu
+                    } else {
+                        EndTurn = true;
+                    }
+                
+                
                 } else {
                     printf("Masukan command tidak valid! Silahkan coba lagi.\n");
 
@@ -132,17 +134,14 @@ int main(){
                 printf("Masukkan command: ");
                 scanf("%s", &InputCmd);
             }
-            // Input = "ROLL"
-            // roll(&Roll, MaxRoll, Peta, arrTP, JumlahPemain, &ADT Pemain);
-            // KOMEN: 
-            // 1. Kondisional-kondisional dah perintah maju mundur ku pindah ke roll -dialah_zhillanku
-            // 2. Karena itu, variabel Roll mending jadiin boolean yang nentuin dah end game atau belum aja ga sih?
-            
-            if (currlocp1 == JumPetak){ //Ini harus loc pemain yang sedang turn-nya. Sesuaikan dengan ADT Player
+
+
+            if (WinnerFound) { //Ini harus loc pemain yang sedang turn-nya. Sesuaikan dengan ADT Player
                 printf("------------------------- GAME BERAKHIR -------------------------");
                 printf("Mobita telah mencapai ujung.\nPemenang game ini adalah Mobita\n");
                 EndGame = true;
             }
+            
 
             TurnPemainKe++; //Lanjut turn ke pemain selanjutnya (KOMEN: ini nggak kasih mod sesuai jumlah player? Turn kan, bukan round? -dialah_zhillanku)
         }
