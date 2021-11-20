@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "stack_state.h"
 
-void AlokasiStack (addressSt *P, infoplayer X){
+void AlokasiStack (addressSt *P, roundState X){
 /* I.S. Sembarang */
 /* F.S. Alamat P dialokasi, jika berhasil maka Info(P)=X dan 
         NextSt(P)=Nil */
@@ -29,7 +29,7 @@ void CreateEmptyStack (Stack *S){
     Top(*S) = Nil;
 }
 
-void Push (Stack *S, infoplayer X){
+void Push (Stack *S, roundState X){
 /* Menambahkan X sebagai elemen Stack S */
 /* I.S. S mungkin kosong, X terdefinisi */
 /* F.S. X menjadi TOP yang baru jika alokasi X berhasil, */
@@ -44,7 +44,7 @@ void Push (Stack *S, infoplayer X){
     }
 }
 
-void Pop (Stack *S, infoplayer *X){
+void Pop (Stack *S, roundState *X){
 /* Menghapus X dari Stack S. */
 /* I.S. S tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, */

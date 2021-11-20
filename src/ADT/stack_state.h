@@ -3,18 +3,20 @@
 
 #include "../boolean.h"
 #include "player.h"
+#include "state.h"
 #include <stdlib.h>
 
 /* Konstanta */
 #define Nil NULL
+#define MaxPlayer 100 //Ini contoh aja, nanti sesuaikan sama array_player aslinya
 
 /* Deklarasi infotype */
-typedef player infoplayer;
+typedef State roundState;
 
 /* Stack dengan representasi berkait dengan pointer */
 typedef struct tElmtStack * addressSt;
 typedef struct tElmtStack { 
-  infoplayer InfoSt;
+  roundState InfoSt;
   addressSt NextSt; 
 } ElmtStack; 
 
@@ -30,7 +32,7 @@ typedef struct {
 #define InfoSt(P) (P)->InfoSt
 
 /* Prototype manajemen memori */
-void AlokasiStack (addressSt *P, infoplayer X);
+void AlokasiStack (addressSt *P, roundState X);
 /* I.S. Sembarang */
 /* F.S. Alamat P dialokasi, jika berhasil maka Info(P)=X dan 
         NextSt(P)=Nil */
@@ -45,13 +47,13 @@ boolean IsEmptyStack (Stack S);
 void CreateEmptyStack (Stack * S);
 /* I.S. sembarang */ 
 /* F.S. Membuat sebuah stack S yang kosong */
-void Push (Stack * S, infoplayer X);
+void Push (Stack * S, roundState X);
 /* Menambahkan X sebagai elemen Stack S */
 /* I.S. S mungkin kosong, X terdefinisi */
 /* F.S. X menjadi TOP yang baru jika alokasi X berhasil, */
 /*      jika tidak, S tetap */
 /* Pada dasarnya adalah operasi Insert First pada list linier */
-void Pop (Stack * S, infoplayer * X);
+void Pop (Stack * S, roundState * X);
 /* Menghapus X dari Stack S. */
 /* I.S. S tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, */
