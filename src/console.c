@@ -12,6 +12,9 @@ YANG ADA PADA INT MAIN() DIJADIKAN SUATU FUNGSI SEPERTI MULAI_GAME()*/
 #include <stdlib.h>
 #include <stdio.h>
 #include "console.h"
+#include "ADT/state.h"
+#include "ADT/player.h"
+#include "ADT/stack_state.h"
 
 // DEKLARASI COMMAND
 #include "commands/inspect.h"
@@ -38,12 +41,26 @@ int main(){
     // Seharusnya loc pemain ada disimpan sesuai ADT Player
 
     int JumlahPemain = 5; //Misal. Usahakan pada ADT Player, indeks pemainnya dari 1-JumlahPeman (jangan dari 0);
-
     boolean EndGame = false;
+
 
     printf("------------------------- GAME DIMULAI -------------------------\n");
 
     while (!EndGame){
+        // Inisialisai stack
+        Stack stackState;
+        CreateEmptyStack(&stackState);
+
+        // Inisialisasi state permainan
+        State currentState;
+        MakeEmpty(&currentState);
+        SetNeff(&currentState, JumlahPemain);
+        // Disini harusnya ada fungsi buat create player sebanyak JumlahPemain
+        for (int i=0;i < JumlahPemain;i++) {
+            // Disini harusnya ada fungsi buat create player (Mungkin dibuat di ADT player(?))
+            // SetPlayer(&currentState,i,CreatePlayer());   //Masukan player ke tab player
+        }
+
         // Menyimpan value 1 sebagai turn pemain pertama. Karena tiap ronde pasti dimulai pemain pertama.
         int TurnPemainKe = 1;
 
@@ -104,6 +121,7 @@ int main(){
 
                 } else if (compareString(InputCmd,"UNDO")){
                     // Bagian Modan
+                    Pop(&stackState, &currentState); // currentState diganti ke state ronde sebelumnya
                     //Balik ke state sebelumnya.
                     TakeUndo = true; //Keluar loop, dan mulai lagi ke pemain pertama karena variabel TurnPemainKe kembali di set ke 1
 
@@ -122,6 +140,7 @@ int main(){
                     //Bagian Modan
                     if (!HaveRolled) {
                         //Kasitau harus roll dulu
+                        printf("ENDTURN hanya dapat digunakan setelah ROLL")
                     } else {
                         EndTurn = true;
                     }
@@ -146,6 +165,7 @@ int main(){
             TurnPemainKe++; //Lanjut turn ke pemain selanjutnya (KOMEN: ini nggak kasih mod sesuai jumlah player? Turn kan, bukan round? -dialah_zhillanku)
         }
 
+        Push(&stackState, currentState);   // Push state ke stack saat ronde selesai
     }
 
     //Ini nanti bisa ditaro di prosedur sendiri. Tapi karna masih harus diotak-atik, aku masih taro disini.
