@@ -103,11 +103,11 @@ int main() {
             // KOMEN: sesuai yang kemaren2 ngobrol, bagian penambahan skill ku ambil yaa -dialah_zhillanku
             // gacha_skill(&<LSkillCurrentPlayer>)
 
-            printf("********** GILIRAN PEMAIN KE-%d **********\n", TurnPemainKe);
+            printf("********** GILIRAN %s **********\n", "NamaPemain"); //Ini sesuaiin sama yg lagi gilirannya pake array isi nama pemain ADT player arrplayer[TurnPemainKe]
             printf("Masukkan command: ");
             scanf("%s", &InputCmd);
             
-            while ((!EndTurn) && (!WinnerFound)){
+            while ((!EndTurn) && (!WinnerFound) && (!TakeUndo)){
                 
                 if (compareString(InputCmd,"SKILL")){
                     // Bagian Vito, Annel, dan Zhillan
@@ -171,12 +171,17 @@ int main() {
                 printf("Mobita telah mencapai ujung.\nPemenang game ini adalah Mobita\n");
                 EndGame = true;
             }
-            
 
-            TurnPemainKe++; //Lanjut turn ke pemain selanjutnya (KOMEN: ini nggak kasih mod sesuai jumlah player? Turn kan, bukan round? -dialah_zhillanku)
+            TurnPemainKe++; //Lanjut turn ke pemain selanjutnya
+            //(KOMEN: ini nggak kasih mod sesuai jumlah player? Turn kan, bukan round? -dialah_zhillanku)
+            //tapi buat apa kasih mod??  -umar
         }
 
-        Push(&stackState, currentState);   // Push state ke stack saat ronde selesai
+        //Ini gini gak si harusnya? -umar
+        if (!TakeUndo) {
+            Push(&stackState, currentState);   // Push state ke stack saat ronde selesai
+        }
+
     }
 
     //Ini nanti bisa ditaro di prosedur sendiri. Tapi karna masih harus diotak-atik, aku masih taro disini.
