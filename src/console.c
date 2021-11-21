@@ -21,12 +21,15 @@ YANG ADA PADA INT MAIN() DIJADIKAN SUATU FUNGSI SEPERTI MULAI_GAME()*/
 #include "commands/gacha_skill.h"
 #include "commands/roll.h"
 
-int JumPetak, MaxRoll, JumTP;
-TabPeta Peta;
-TabTP arrTP;
-
-int main(){
-
+// ALGORITMA PROGRAM UTAMA
+int main() {
+    // KAMUS
+    int JumPetak, MaxRoll, JumTP;
+    TabPeta Peta;
+    TabTP arrTP;
+    
+    // ALGORITMA
+    
     ReadConfigFile(&JumPetak, &MaxRoll, &JumTP, &Peta, &arrTP);
 
     //Ini untuk keperluan contoh saja

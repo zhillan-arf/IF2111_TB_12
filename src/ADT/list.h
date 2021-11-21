@@ -17,7 +17,7 @@ typedef struct tElmtlist {
 	infotype info;
 	address next;
 } ElmtList;
-typedef struct {
+typedef struct list {
 	address First;
 } List;
 

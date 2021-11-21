@@ -165,7 +165,7 @@ void InsVLast (List *L, infotype X) {
 }
 
 
-/*** PENGHAPUSAN ELEMEN ***/
+/*** PENGHAPUSAN ELEMEN, MAIN ***/
 void DelElmtKe (List *L, infotype idx, infotype *X) {
     /* I.S. List L tidak kosong dan memiliki banyak elemen <= idx. Indeks list dimulai dari 1 */
     /* F.S. Elemen ke-idx dihapus */
@@ -301,4 +301,94 @@ void Konkat1 (List *L1, List *L2, List *L3) {
     }
     CreateEmpty(L1);
     CreateEmpty(L2);
+}
+
+/*** PENGHAPUSAN ELEMEN, PRIMITIF ***/
+void DelFirst (List *L, address *P)
+/* I.S. List tidak kosong */
+/* F.S. P adalah alamat elemen pertama list sebelum penghapusan */
+/*      Elemen list berkurang satu (mungkin menjadi kosong) */
+/* First element yg baru adalah suksesor elemen pertama yang lama */
+{
+    // KAMUS LOKAL
+    address loc;
+    // ALGORITMA
+    loc = First(*L);
+    if (Next(loc) == Nil)
+    {
+        CreateEmpty(L);
+    }
+    else
+    {
+        First(*L) = Next(loc);
+    }
+    *P = loc;
+}
+
+void DelP (List *L, infotype X)
+/* I.S. Sembarang */
+/* F.S. Jika ada elemen list beraddress P, dengan Info(P)=X  */
+/* Maka P dihapus dari list dan di-dealokasi */
+/* Jika tidak ada elemen list dengan Info(P)=X, maka list tetap */
+/* List mungkin menjadi kosong karena penghapusan */
+{
+    // KAMUS LOKAL
+    address P, prevp;
+    // ALGORITMA
+    P = Search(*L, X);
+    if (P != Nil)
+    {
+        prevp = First(*L);
+        if (prevp == P)
+        {
+            DelFirst(L, &P);
+        }
+        else
+        {
+            while (Next(prevp) != P)
+            {
+                prevp = Next(prevp);
+            }
+            // Next(prevP) == P
+            DelAfter(L, &P, prevp);
+        }
+    }
+    Dealokasi(&P);
+}
+
+void DelLast (List *L, address *P)
+/* I.S. List tidak kosong */
+/* F.S. P adalah alamat elemen terakhir list sebelum penghapusan  */
+/*      Elemen list berkurang satu (mungkin menjadi kosong) */
+/* Last element baru adalah predesesor elemen terakhir yg lama, */
+/* jika ada */
+{
+    // KAMUS LOKAL
+    address prevp;
+    *P = First(*L);
+    if (Next(*P) == Nil)
+    {
+        CreateEmpty(L);
+    }
+    else
+    {
+        prevp = *P;
+        while (Next(Next(prevp)) != Nil)
+        {
+            prevp = Next(prevp);
+        }
+        DelAfter(L, P, prevp);    
+    }
+}
+
+void DelAfter (List *L, address *Pdel, address Prec)
+/* I.S. List tidak kosong. Prec adalah anggota list  */
+/* F.S. Menghapus Next(Prec): */
+/*      Pdel adalah alamat elemen list yang dihapus  */
+{
+    *Pdel = Next(Prec);
+    if (*Pdel != Nil)
+    {
+        Next(Prec) = Next(Next(Prec));
+    }
 }

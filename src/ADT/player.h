@@ -26,7 +26,7 @@ typedef struct play {
 
 #define nama(p) (p).nama
 #define current_petak(p) (p).current_petak
-#define List(p) (p).skill
+#define skill(p) (p).skill
 #define buff(p) (p).buff
 
 #endif

@@ -1,7 +1,7 @@
 /*
     TUBES IF2111 K2 KELOMPOK 12
     COMMAND ROLL - IMPLEMENTASI
-    Versi: 2021-11-15 11:30
+    Versi: 2021-11-17 21:30
 */
 
 #include "roll.h"
@@ -17,7 +17,7 @@ void roll (
         int MaxRoll,
         TabPeta peta,
         TabTP arrtp,
-        int JumlahPemain,
+        int JumPetak,
         player *p
     ) {
     // I.S. Tiap player berada di posisinya masing-masing
@@ -51,7 +51,7 @@ void roll (
     idx_now = current_petak(*p);
     nexts = (current_petak(*p)) + rolled;
     pasts = (current_petak(*p)) - rolled;
-    if ((0 < pasts) && (nexts < JumlahPemain))
+    if ((0 < pasts) && (nexts < JumPetak))
     {
         if (IsPetakKosong(peta, pasts) && IsPetakKosong(peta, nexts))
         {
@@ -102,7 +102,7 @@ void roll (
             printf("%s ngestuck, tidak bisa ke manapun.\n");
         }
     }
-    else if (nexts < JumlahPemain)
+    else if (nexts < JumPetak)
     {
         if (IsPetakKosong(peta, nexts))
         {
