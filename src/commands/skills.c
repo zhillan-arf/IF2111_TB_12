@@ -3,7 +3,7 @@
     ADT PLAYER - HEADER
     Versi: 2021-11-16 20:30
 */
-
+#include <string.h>
 #include "../boolean.h"
 #include "../ADT/array_buff.h"
 #include "../ADT/player.h"
@@ -33,62 +33,85 @@ Kamu memiliki skill:
 
 sehingga kalau user nginput "2", sistem bakal ngapus baling-baling jambu (yang adalah
 skill 3) dan list jadi [6, 3, 1, 4]? 
+1 A contoh
+! Kamu memiliki skill:
+    1. Baling-Baling Jambu
+    2. Baling-Baling Jambu
+    3. Pintu Ga Kemana Saja
+    4. Cermin Pengganda 
+    isi skill player : 3->3->1->4 akan ngedisplay yg diatas
 
-1B. Atau apakah dia bakal ngitung dulu jumlah tiap skill, sehingga ngeprint:
-
-B. Kamu memiliki skill:
-    1. Baling-Baling Jambu (2)
-    2. Senter Pengecil Hoki (1)
-    3. Pintu Ga Kemana Saja (1)
-    4. Cermin Pengganda (1)
-
-sehingga kalo user nginput "1", sistem bakal ngapus baling-baling jambu (yang adalah
-skill 3) dan list jadi [3, 6, 1, 4]? 
-
-1C. Atau apakah nggak usah dihitung jumlahnya, cukup "ada" dan tidak ada"? Terus apakah dia bakal 
-(1) ngurutin dulu list biar sesuai urutan skill, atau (2) ngasumsiin bahwa list sudah terurut, sehingga
-list jadi [1, 3, 3, 4, 6], terus pas ngeprint disesuaiin sama nomor skill betulan (bukan nomor urutan di list),
-sehingga ngeprint:
-
-Kamu memiliki skill:
-    1. Pintu Ga Kemana Saja
-    3. Baling-Baling Jambu
-    4. Cermin Pengganda
-    6. Senter Pengecil Hoki
-
-sehingga kalo user nginput "3", sistem bakal ngapus baling-baling jambu (yang adalah
-skill 3) dan list jadi [1, 3, 4, 6]? 
-
-1D. Atau apakah iterasi biar gampang, tapi nomor yang muncul di sebelah nama skill adalah nomor skillm bukan nomor urutan,
-sehingga kalo masuk list skill [3, 6, 3, 1, 4], akan ngeprint:
-
-Kamu memiliki skill:
-    3. Baling-Baling Jambu
-    6. Senter Pengecil Hoki
-    3. Baling-Baling Jambu
-    1. Pintu Ga Kemana Saja
-    4. Cermin Pengganda
-
-sehingga kalo user nginput "3", sistem bakal ngapus baling-baling jambu (yang adalah
-skill 3) dan list jadi [6, 3, 1, 4]? 
-
-(Eh berarti harus ada program validasi berarti buat nyegah user masukkin nomor yang nggak ada :kekw:)
+    Input user = 5.
+    skill = SKILL(player, 5-1) //ngirim isi skill yang ke lima
+    switch skil:
+        1:
+            break
+        ..
+    ***ini buatnya di consloe*** 
 
 2. Kalo yang lu pilih 1C atau 1D, pake DelP harusnya dah bener. Tapi kalo lu pilih 1A atau 1B (yang, tbh lebih sesuai
 ke spesifikasi kalo coba liat), jangan pake DelP ga sih? Soalnya kan ketika user masukkin misal "3",
 yang dia maksud bukan "skill 3", tapi "skill urutan ke-3 yang muncul di terminal. Kek di contoh 1A dan 1B,
 no urutan bisa != nomor skill. (Ini bisa pake proisedur DelElmtKe yang ku minggu kemaren bikin sih :feelsweirdman: ) 
-
+iya ntar inputnya di match dengan isi skill list bukan langsung sesuai input user.
 3. Ketika user masukkin input "SKILL" di console, kan ketrigger bagian skill. Itu lu mau hard-code di console.c langung
 atau bikin di file skills.c ini, sehingga di console cuma ada fungsi super panjang skill(<segala input yang diperlukan>) ?
-
+buat disini aja
 4. skillSatu, skillDua kan sama tuan mor suruh ganti kemaren, ada format namanya? Biar ku bikin fungsi skill bonusnya 
 pake format atau aesthetic nama yang sama
 
--dialah_zhillanku
+-dialah_zhillanu
 */
-
-void skillSatu(player* P) {
+string namaSkill = {"Pintu Ga Ke Mana Mana","Mesin Waktu","Baling Baling Jambu", "Cermin Pengganda", "Senter Pembesar Hoki", "Senter Pengecil Hoki", "Mesin Penukar Posisi"};
+void displaySkill(List S){
+    if (!isEmpty(S))
+    {    printf("Daftar Skill yang dimiliki pemain:\n");
+        int count = 0;
+        while (S != NULL){
+            count++;
+            printf("%d. %s\n", count, namaSkill[INFO(S)]);
+            S = NEXT(S);
+        }
+    }
+    else printf("Pemain belum memiliki skill.");
+}
+void menuSkill(State *state,player *P){ //tambahin aja parameternya kalau perlu
+    S = skill(*P);
+    displaySkill(S);
+    if (!isEmpty(S)){
+        int choice;
+        printf("Pilih Skill yang mau diakftifkan! (pilih 0 untuk keluar)");
+        scanf("%d", &choice);
+        int choiceToSkill;
+        while (S!=NULL && choice > 0){
+            choiceToSkill = INFO(S);
+            S = NEXT(S);
+            choice--;
+        }   
+        switch choiceToSkill:
+            1:
+                pintuGaKemanaSaja(P);
+                break;
+            2:
+                break;
+                //gak ngerti masukin sendiri ya hehe
+            3:
+                break;
+            4:
+                cerminPengganda(P);
+                break;
+            5: 
+                senterPembesar(P);
+                break;
+            6:
+                senterPengecil(P);
+                break;
+            7:
+                mesinTukar(state,P);
+                break;               
+    }
+}
+void pintuGaKemanaSaja(player* P) {
     //Pintu gak kemana mana
     if (Search(skill(*P), 1) != Nil){
         BUFF(buff(*P), 1) = true;
@@ -190,7 +213,7 @@ void BalingBalingJambu (State *state, player *P, int MaxRoll, int JumPetak, TabP
     }
 }
 
-void skillEmpat(player *P){
+void cerminPengganda(player *P){
     //Cermin pengganda
     if (Search(skill(*P), 4) != Nil && length(skill(*P)) < 9) {
         DelP(&skill(*P), 4);
@@ -199,21 +222,48 @@ void skillEmpat(player *P){
     }
 }
 
-void skillLima(player * P){
+void senterPembesar(player * P){
     // Senter Pembesar Hoki
     if (Search(skill(*P), 5) != Nil) {
         DelP(&skill(*P), 5);
         BUFF(buff(*P), 3);
     }
 }
-void skillEnam(player *P){
+void senterPengecil(player *P){
     // Senter Pengecil Hoki
     if (Search(skill(*P), 6) != Nil) {
         DelP(&skill(*P), 6);
         BUFF(buff(*P), 4);
     } 
 }
-
+void mesinTukar(State *state,player *P){
+    int input, player_idx, nEff;
+    boolean is_valid = false;
+    player *chosenP;
+    // ALGORITMA
+    player_idx = GetPlayerIdx((*state), (*P));
+    nEff = GetLastIdx(*state);
+    printf("Siapa yang mau ditukar posisinya denganmu?\n");
+    print_players((*state), (*P));
+    while (!is_valid)   // input user masuk
+    {
+        scanf("Masukkan pemain-ke: %d", input);
+        input--;    // idx array = urutan - 1
+        if (valid(input, player_idx, nEff))
+        {
+            is_valid = true;
+        }
+        else
+        {
+            printf("Tetot! Input invalid. Masukkan '1', '2' sesuai yang ditampilkan.\n");
+        }
+    }
+    (*chosenP) = (*state).TabPlayer[input];
+    int tmp = (*chosenP).current_petak;
+    (*chosenP).current_petak=(*P).current_petak ;
+    (*P).current_petak = temp;
+    printf("Berhasil menukar posisi!\n");
+}
 void print_players (State state, player cplayer) {
     // KAMUS
     int i = 1;

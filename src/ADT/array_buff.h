@@ -21,6 +21,11 @@ typedef struct arr_buff {
     boolean buff[MaxBuff];
 } array_buff;
 
+void CreateTabBuff(array_buff * B );
+
+
+void displayBuff(array_buff *B);
+
 #define BUFF(P, i) (P).buff[i]
 #define isImunTele(b) (b).buff[0]
 #define isSenterBesar(b) (b).buff[1]
