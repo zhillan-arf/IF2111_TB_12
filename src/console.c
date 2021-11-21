@@ -25,7 +25,7 @@ YANG ADA PADA INT MAIN() DIJADIKAN SUATU FUNGSI SEPERTI MULAI_GAME()*/
 /* KOMEN LAGI
 1. Sebaiknya secepet mungkin main_menu.c pindahin dan integrasiin ke sini biar kita semua ga bingung.
 2. Sebaiknya jangan taroh deklarasi di dalam while(){} ga sih? AFAIK compiler cuma bisa deteksi deklarasi
-sekali. Sebaiknya deklarasi di bagian KAMUS aja.
+sekali. Sebaiknya deklarasi di bagian KAMUS aja. DONE --modan
 3. Kayak kata tuan mor, semua string berkapasitas (misal char nama_var[99]) ganti sama string literal 
 (pake char *nama_var) biar bisa kapasitas yang unlimited.
 - dialah_zhillanku */
@@ -56,23 +56,23 @@ int main() {
     int JumlahPemain = 5; //Misal. Usahakan pada ADT Player, indeks pemainnya dari 1-JumlahPeman (jangan dari 0);
     boolean EndGame = false;
 
+    // Inisialisai stack
+    Stack stackState;
+    CreateEmptyStack(&stackState);
+
+    // Inisialisasi state permainan
+    State currentState;
+    MakeEmpty(&currentState);
+    SetNeff(&currentState, JumlahPemain);
+    // Disini harusnya ada fungsi buat create player sebanyak JumlahPemain
+    for (int i=0;i < JumlahPemain;i++) {
+        // Disini harusnya ada fungsi buat create player (Mungkin dibuat di ADT player(?))
+        // SetPlayer(&currentState,i,CreatePlayer());   //Masukan player ke tab player
+    }
 
     printf("------------------------- GAME DIMULAI -------------------------\n");
 
     while (!EndGame){
-        // Inisialisai stack
-        Stack stackState;
-        CreateEmptyStack(&stackState);
-
-        // Inisialisasi state permainan
-        State currentState;
-        MakeEmpty(&currentState);
-        SetNeff(&currentState, JumlahPemain);
-        // Disini harusnya ada fungsi buat create player sebanyak JumlahPemain
-        for (int i=0;i < JumlahPemain;i++) {
-            // Disini harusnya ada fungsi buat create player (Mungkin dibuat di ADT player(?))
-            // SetPlayer(&currentState,i,CreatePlayer());   //Masukan player ke tab player
-        }
 
         // Menyimpan value 1 sebagai turn pemain pertama. Karena tiap ronde pasti dimulai pemain pertama.
         int TurnPemainKe = 1;
