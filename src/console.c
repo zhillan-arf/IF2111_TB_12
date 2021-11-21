@@ -26,6 +26,8 @@ YANG ADA PADA INT MAIN() DIJADIKAN SUATU FUNGSI SEPERTI MULAI_GAME()*/
 1. Sebaiknya secepet mungkin main_menu.c pindahin dan integrasiin ke sini biar kita semua ga bingung.
 2. Sebaiknya jangan taroh deklarasi di dalam while(){} ga sih? AFAIK compiler cuma bisa deteksi deklarasi
 sekali. Sebaiknya deklarasi di bagian KAMUS aja.
+3. Kayak kata tuan mor, semua string berkapasitas (misal char nama_var[99]) ganti sama string literal 
+(pake char *nama_var) biar bisa kapasitas yang unlimited.
 - dialah_zhillanku */
 
 // ALGORITMA PROGRAM UTAMA
