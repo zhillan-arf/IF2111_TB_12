@@ -1,6 +1,6 @@
 #include "mesin_kata.h"
 #include "mesin_kar.h"
-#include "boolean.h"
+#include "../boolean.h"
 #include <stdio.h>
 
 boolean EndKata ;
@@ -27,7 +27,7 @@ void IgnoreBlank2(){
 
 void SalinKata(){
     int i = 1;
-    while ((CC != BLANK) && (CC != MARK) && (i <= NMax) && (CC != BLANK2)) {
+    while ((CC != BLANK) && (CC != MARK) && (i <= NMaxChar) && (CC != BLANK2)) {
         CKata.TabKata[i] = CC ;
         ADV() ;
         i++ ;
@@ -39,7 +39,7 @@ void SalinKata(){
    F.S. : CKata berisi kata yang sudah diakuisisi;
           CC = BLANK atau CC = MARK;
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
-          Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
+          Jika panjang kata melebihi NMaxChar, maka sisa kata "dipotong" */
           
 void STARTKATA() {
     START() ;
