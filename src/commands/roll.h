@@ -20,7 +20,6 @@ void roll (
 // I.S. Roll di console sembarang
 // F.S. Roll berisi angka random sesuai buff2
 
-
 void maju(player *p, int nexts, TabPeta peta, TabTP arrtp);
     // I.S. Player P berada di tempatnya, nexts + tempat saat ini ada di peta dan tidak kosong
     // F.S. Player P pindah ke nexts. Jika is_teleport dan not immune dan ketemu teleporter, teleport.

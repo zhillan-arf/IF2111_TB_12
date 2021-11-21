@@ -58,6 +58,9 @@ IdxType GetFirstIdx (State T);
 IdxType GetLastIdx (State T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen terakhir */
+IdxType GetPlayerIdx (State T, ElType P);
+/* Prekondisi : Tabel T tidak kosong */
+/* Mengirimkan idx player P dalam array */
 /* *** Menghasilkan sebuah elemen *** */
 ElType GetPlayer (State T, IdxType i);
 /* Prekondisi : Tabel tidak kosong, i antara FirstIdx(T)..LastIdx(T) */

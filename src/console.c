@@ -20,6 +20,13 @@ YANG ADA PADA INT MAIN() DIJADIKAN SUATU FUNGSI SEPERTI MULAI_GAME()*/
 #include "commands/inspect.h"
 #include "commands/gacha_skill.h"
 #include "commands/roll.h"
+#include "commands/skills.h"
+
+/* KOMEN LAGI
+1. Sebaiknya secepet mungkin main_menu.c pindahin dan integrasiin ke sini biar kita semua ga bingung.
+2. Sebaiknya jangan taroh deklarasi di dalam while(){} ga sih? AFAIK compiler cuma bisa deteksi deklarasi
+sekali. Sebaiknya deklarasi di bagian KAMUS aja.
+- dialah_zhillanku */
 
 // ALGORITMA PROGRAM UTAMA
 int main() {
@@ -27,6 +34,7 @@ int main() {
     int JumPetak, MaxRoll, JumTP;
     TabPeta Peta;
     TabTP arrTP;
+    boolean TakeUndo, HaveRolled, EndTurn, WinnerFound;
     
     // ALGORITMA
     
@@ -74,16 +82,16 @@ int main() {
         char InputCmd[10];
 
         //Untuk mengetahui apakah ada pemain yang memanggil UNDO. Jika ya maka akan true dan kembali ke state sebelumnya
-        boolean TakeUndo = false;
+        TakeUndo = false;
 
         //Untuk mengetahui apakah roll sudah dilakukan sehingga dapat endturn
-        boolean HaveRolled = false;
+        HaveRolled = false;
 
         //Untuk mengetahui apakah endturn sudah dilakukan
-        boolean EndTurn = false;
+        EndTurn = false;
 
         //Untuk mengetahui apakah sudah ada yang sampai ujung peta
-        boolean WinnerFound = false;
+        WinnerFound = false;
 
         //Setiap awal ronde harus memperlihatkan peta setiap pemain
         for (int i = 0; i < JumlahPemain; i++) //Ini JumlahPemain menyesuaikan yang ada di ADT Player

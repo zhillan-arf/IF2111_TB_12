@@ -7,14 +7,17 @@
 #include "gacha_skill.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 void gacha_skill(List *LSkillCurrentP) {
     // I.S. List Skill si player kosong atau berisi <= 10 skill
     // F.S. List Skill bertambah 1 skill random atau tidak nambah jika penuh
     // KAMUS
     int rolled, newskill, nbelmt;
+    time_t t;
     // ALGORITMA
     printf("Memulai gacha skil...");
+    srand((unsigned) time(&t)); // Inisialisasi rand
     nbelmt = NbElmt(*LSkillCurrentP);
     if (nbelmt <= 10)
     {
