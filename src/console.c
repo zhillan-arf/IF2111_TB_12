@@ -1,12 +1,8 @@
 /*
     TUBES IF2111 K2 KELOMPOK 12
     PERMAINAN "<LOREM IPSUM DOLOR>"
-    Versi: 2021-11-15 11:30
+    Versi: 2021-11-22 19:00
 */
-
-/* INI MASIH DALAM BENTUK PERCOBAAN DAN MASIH BELUM RAPIH. MOHON SAAT MENGERJAKAN JANGAN SAMPAI BERANTAKAN AGAR NANTI SAAT
-SUDAH JADI TIDAK PERLU ADA BANYAK YANG HARUS DIRAPIHKAN LAGI. DISINI MASIH PAKAI INT MAIN() UNTUK KEPERLUAN PENGETESAN. SEHARUSNYA
-YANG ADA PADA INT MAIN() DIJADIKAN SUATU FUNGSI SEPERTI MULAI_GAME()*/
 
 // DEKLARASI MODULE2 DASAR
 #include <stdlib.h>
@@ -15,6 +11,7 @@ YANG ADA PADA INT MAIN() DIJADIKAN SUATU FUNGSI SEPERTI MULAI_GAME()*/
 #include "ADT/state.h"
 #include "ADT/player.h"
 #include "ADT/stack_state.h"
+#include "boolean.h"
 
 // DEKLARASI COMMAND
 #include "commands/inspect.h"
@@ -22,57 +19,98 @@ YANG ADA PADA INT MAIN() DIJADIKAN SUATU FUNGSI SEPERTI MULAI_GAME()*/
 #include "commands/roll.h"
 #include "commands/skills.h"
 
-/* KOMEN LAGI
-1. Sebaiknya secepet mungkin main_menu.c pindahin dan integrasiin ke sini biar kita semua ga bingung.
-2. Sebaiknya jangan taroh deklarasi di dalam while(){} ga sih? AFAIK compiler cuma bisa deteksi deklarasi
-sekali. Sebaiknya deklarasi di bagian KAMUS aja. DONE --modan
-3. Kayak kata tuan mor, semua string berkapasitas (misal char nama_var[99]) ganti sama string literal 
-(pake char *nama_var) biar bisa kapasitas yang unlimited.
-- dialah_zhillanku */
+/* RECENT UPDATEs &/ Qs
+1. Aight beda2 puts (otomatis ngasih 1 buah \n) dan printf (nggak
+ngasih) tbh bikin ambigu, jadi harus mikir kayak gimana \n nya bakal 
+keluar di temrinal, diganti jadi printf semua gapapa ya :kekw:
+2. Invalid mending ga usah ngulang Menunya ga sih (?) biar ga spam (?), 
+kan tinggal scroll atas buat liat (?) jadi loop nya pindah ke bawah menu
+3. mesinkar dan mesinkata diubah2 biar bisa nerima inputan filename yaa
+4. Ner uga tapi: mesinkar sama tempat nyimpen file kan beda directory, itu
+perlu penanganan khusus ga sih?
+5. exit(0) tuh fungsinya apa sih?
+6. Kalo yang di sini dah oke pasti, tolong deletin main_menu.c
+7. Tbh inisialisasi2 di bawah lebih baik digabung sama bagian atas, soalnya
+kan harus input2in nama2 players dsb
+8. semua currloc1 diganti jadi sehingga ngakses player sekarang lagi siapa
+*/
 
 // ALGORITMA PROGRAM UTAMA
 int main() {
     // KAMUS
-    int JumPetak, MaxRoll, JumTP;
+    int JumPetak, MaxRoll, JumTP, choice, i, JumPlayer;
+    boolean TakeUndo, HaveRolled, EndTurn, WinnerFound, EndGame, is_valid = false;
     TabPeta Peta;
     TabTP arrTP;
-    boolean TakeUndo, HaveRolled, EndTurn, WinnerFound;
-    
-    // ALGORITMA
-    
-    ReadConfigFile(&JumPetak, &MaxRoll, &JumTP, &Peta, &arrTP);
-
-    //Ini untuk keperluan contoh saja
-    List LSkillP1;
-    List LSkillP2;
-    CreateEmpty(&LSkillP1);
-    CreateEmpty(&LSkillP2);
-
-
-    int currlocp1 = 1; //Misalkan ini posisi pemain 1
-    int currlocp2 = 1; //Misalkan ini posisi pemain 2
-    // Seharusnya loc pemain ada disimpan sesuai ADT Player
-
-    int JumlahPemain = 5; //Misal. Usahakan pada ADT Player, indeks pemainnya dari 1-JumlahPeman (jangan dari 0);
-    boolean EndGame = false;
-
-    // Inisialisai stack
+    player WinnerPlayer;
+    char *filename;
     Stack stackState;
-    CreateEmptyStack(&stackState);
-
-    // Inisialisasi state permainan
     State currentState;
+
+    // ALGORITMA
+    // MULAI PERMAINAN "<TBD>!"
+    printf("\n/============================/\n");
+    printf("             MENU             \n");
+    printf("/============================/\n");
+    printf("1) New Game\n");
+    printf("2) Exit\n");
+    printf("3) Help\n");
+    printf("/============================/\n");
+
+    // Inisialisasi State Permainan
+    CreateEmptyStack(&stackState);
     MakeEmpty(&currentState);
-    SetNeff(&currentState, JumlahPemain);
-    // Disini harusnya ada fungsi buat create player sebanyak JumlahPemain
-    for (int i=0;i < JumlahPemain;i++) {
-        // Disini harusnya ada fungsi buat create player (Mungkin dibuat di ADT player(?))
-        // SetPlayer(&currentState,i,CreatePlayer());   //Masukan player ke tab player
+
+    // Loop input
+    while (!is_valid)
+    {
+        printf("\n>> ");
+        scanf("%d", &choice);
+        switch (choice) 
+        {
+            case 1:
+                // 1. INPUT nama file
+                printf("Enter a file name : ");
+                scanf("%s", filename);
+                // 2. INPUT jumlah player
+                printf("Enter number of player : ");
+                scanf("%d", &JumPlayer);
+                ReadConfigFile(&JumPetak, &MaxRoll, &JumTP, &Peta, &arrTP, filename);
+                // 3. INPUT nama-nama player
+                SetNeff(&currentState, JumPlayer);
+                /* Disini harusnya ada fungsi buat mengisi currentState dengan 
+                player. (Mungkin dibuat di ADT player(?))
+                Misal:
+                for (int i=0;i < JumPlayer;i++) 
+                {
+                     
+                    <scanf untuk nama player saat ini, yang jelas deklarasiin dulu
+                    var nya>
+                    SetPlayer(&currentState, i, <variabel isi nama player>);
+                }
+                */
+                // 4. INPUT2 selesai.
+                printf("\nStarting the game...");
+                EndGame = false;
+                break;
+                exit(0);    // eh ini apa :monkaHmm:
+
+            case 2:
+                printf("See you later!");
+                exit(0);    // eh ini apa :monkaHmm:
+            
+            case 3:
+                /* <Sesuatu sehingga display help. Mungkin
+                di sinilah baru print lagi command2 yang tersedia,
+                mayhaps dengan petunjuk format dll> */
+
+            default: printf("Invalid Input!\n");
+        }
     }
 
-    printf("------------------------- GAME DIMULAI -------------------------\n");
+    printf("------------------------- GAME DIMULAI! -------------------------\n");
 
-    while (!EndGame){
+    while (!EndGame) {
 
         // Menyimpan value 1 sebagai turn pemain pertama. Karena tiap ronde pasti dimulai pemain pertama.
         int TurnPemainKe = 1;
@@ -96,60 +134,49 @@ int main() {
         WinnerFound = false;
 
         //Setiap awal ronde harus memperlihatkan peta setiap pemain
-        for (int i = 0; i < JumlahPemain; i++) //Ini JumlahPemain menyesuaikan yang ada di ADT Player
-            DisplayPetaPemain(Peta, currlocp1, JumPetak); //Ini currloc menyesuaikan posisi player dgn masukan sesuai yang ada di ADT Player
+        for (int i = 0; i < JumPlayer; i++) //Ini JumPlayer menyesuaikan yang ada di ADT Player
+            DisplayPetaPemain(Peta, currentState.TabPlayer[i].current_petak, JumPetak);
 
         //Mulai turn tiap pemain
-        while((TurnPemainKe != (JumlahPemain+1)) && (!TakeUndo) && (!EndGame)){
-
-            // KOMEN: sesuai yang kemaren2 ngobrol, bagian penambahan skill ku ambil yaa -dialah_zhillanku
-            // gacha_skill(&<LSkillCurrentPlayer>)
-
-            printf("********** GILIRAN %s **********\n", "NamaPemain"); //Ini sesuaiin sama yg lagi gilirannya pake array isi nama pemain ADT player arrplayer[TurnPemainKe]
+        while((TurnPemainKe != (JumPlayer+1)) && (!TakeUndo) && (!EndGame)){
+            gacha_skill(&currentState.TabPlayer[TurnPemainKe - 1].skill);
+            printf("********** GILIRAN %s! **********\n", currentState.TabPlayer[TurnPemainKe - 1].nama);
             printf("Masukkan command: ");
             scanf("%s", &InputCmd);
             
             while ((!EndTurn) && (!WinnerFound) && (!TakeUndo)){
                 
-                if (compareString(InputCmd,"SKILL")){
+                if (compareString(InputCmd,"SKILL")) {
                     // Bagian Vito, Annel, dan Zhillan
                     if (HaveRolled) {
                         printf("Anda tidak dapat menggunakan skill karena sudah melakukan roll!");
                     } else {
                         //Ini diisi display skill dan kemanisme penggunaan skill dan penghapusan skill sesuai ADT Skill!
                         menuSkill(&currentState, &currentState.TabPlayer[TurnPemainKe - 1], MaxRoll, JumPetak, Peta, arrTP, namaSkill);
+                    } 
+                } else if (compareString(InputCmd,"MAP")) {
+                    for(int i = 0; i < JumPlayer; i++){
+                        DisplayPetaPemain(Peta, currentState.TabPlayer[i].current_petak, JumPetak);
                     }
-                    
-                } else if (compareString(InputCmd,"MAP")){
-                    for(int i = 0; i < JumlahPemain; i++){
-                        DisplayPetaPemain(Peta, currlocp1, JumPetak); //ini harusnya setiap pemain. Hanya perlu replace currlocp1 sesuai dengan ADT Player terkait posisi pemain
-                    }
-
-                } else if (compareString(InputCmd,"BUFF")){
-                    //Bagian Annel
-                    //Display buff untuk TurnPemainKe (berapa). Kalo true brarti buff aktif kalau false ga aktif. Harus sesuai ADT Buff
+                } else if (compareString(InputCmd,"BUFF")) {
                     displayBuff(buff(currentState.TabPlayer[TurnPemainKe - 1]), namaBuff); // namaBuff berasal dari array_buff.h
-                } else if (compareString(InputCmd,"INSPECT")){
+                } else if (compareString(InputCmd,"INSPECT")) {
                     inspect(&Peta);
-                    //Kasitau teleport, terlarang, atau kosong berdasarkan masukan InputInspect. Bisa pakai IsPetakTP, IsPetakTerlarang, IsPetakKosong dari ADT map & tp
 
-                } else if (compareString(InputCmd,"UNDO")){
+                } else if (compareString(InputCmd,"UNDO")) {
                     // Bagian Modan
                     Pop(&stackState, &currentState); // currentState diganti ke state ronde sebelumnya
                     //Balik ke state sebelumnya.
                     TakeUndo = true; //Keluar loop, dan mulai lagi ke pemain pertama karena variabel TurnPemainKe kembali di set ke 1
 
-                } else if (compareString(InputCmd, "ROLL")){
-                    //Panggil fungsi roll
-
+                } else if (compareString(InputCmd, "ROLL")) {
+                    roll(&Roll, MaxRoll, Peta, arrTP, JumPlayer, &currentState.TabPlayer[TurnPemainKe - 1]);
                     HaveRolled = true;
-
-                    if (currlocp1 == JumPetak){ //Ini harus loc pemain yang sedang turn-nya. Sesuaikan dengan ADT Player
-                        //Simpen ke suatu variabel type player siapa yang menang.
-
+                    if (currentState.TabPlayer[TurnPemainKe - 1].current_petak == JumPetak) { 
+                        // Player menang
+                        WinnerPlayer = currentState.TabPlayer[TurnPemainKe - 1];
                         WinnerFound = true;
                     }
-
                 } else if (compareString(InputCmd, "ENDTURN")) {
                     //Bagian Modan
                     if (!HaveRolled) {
@@ -158,8 +185,6 @@ int main() {
                     } else {
                         EndTurn = true;
                     }
-                
-                
                 } else {
                     printf("Masukan command tidak valid! Silahkan coba lagi.\n");
 
@@ -190,8 +215,8 @@ int main() {
     //Ini nanti bisa ditaro di prosedur sendiri. Tapi karna masih harus diotak-atik, aku masih taro disini.
     printf("------------------------- PERINGKAT PEMAIN -------------------------");
     char ExNamaPemain[20] = "Itti Hililintir"; //Misal. Harusnya sesuai array daftar nama pemain
-    for(int i = 1; i <= JumlahPemain; i++){
-        printf("%d. %s [Pemain berada di petak %d]", i, ExNamaPemain, currlocp1);
+    for(int i = 1; i <= JumPlayer; i++){
+        //printf("%d. %s [Pemain berada di petak %d]", i, ExNamaPemain, currlocp1);
          /*Ini harusnya format %s diisi berdasarkan array pemain yang sudah di-sort
          berdasarkan currloc. Seharusnya ada di ADT Pemain*/
     }
@@ -220,10 +245,10 @@ int strToInt(char s[]){
     return n;
 }
 
-void ReadConfigFile(int *JPetak, int *MRoll, int *JTP, TabPeta *P, TabTP *ARTP){
+void ReadConfigFile(int *JPetak, int *MRoll, int *JTP, TabPeta *P, TabTP *ARTP, char *filename){
 
     //Menyimpan value jumlah petak ke sebuah variabel
-    STARTKATA();
+    STARTKATA(filename);
     *JPetak = strToInt(CKata.TabKata);
 
     // Menyimpan peta ke sebuah tabel
