@@ -20,23 +20,16 @@ typedef struct arr_buff {
     boolean buff[MaxBuff];
 } array_buff;
 
-extern char namaBuff[4][25];
+extern char *namaBuff[];
 
 void CreateTabBuff(array_buff * B );
 
-void displayBuff(array_buff *B);
+void displayBuff(array_buff B, char namaBuff);
 
 #define BUFF(P, i) (P).buff[i]
 #define isImunTele(b) (b).buff[0]
 #define isSenterBesar(b) (b).buff[1]
 #define isSenterKecil(b) (b).buff[2]
 #define isCerminGanda(b) (b).buff[3]
-
-
-
-
-
-
-
 
 #endif

@@ -18,15 +18,15 @@ kalo ku harus ganti2 lagi tar :kekw: */
 
 #define MAX_NAMA 100
 typedef struct play {
-    char *Nama;
-    int Current_petak;
-    List Skill;
-    array_buff Buff;
+    char *nama;
+    int current_petak;
+    List skill;
+    array_buff buff;
 } player;
 
-#define nama(p) (p).Nama
-#define current_petak(p) (p).Current_petak
-#define skill(p) (p).Skill
-#define buff(p) (p).Buff
+#define nama(p) (p).nama
+#define current_petak(p) (p).current_petak
+#define skill(p) (p).skill
+#define buff(p) (p).buff
 
 #endif

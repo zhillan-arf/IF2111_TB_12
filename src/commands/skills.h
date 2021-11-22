@@ -5,11 +5,13 @@
 #include "../ADT/array_map.h"
 #include "../ADT/state.h"
 
+extern char *namaSkill[];
+
 void displaySkill(List S, char namaSkill);
 
-void menuSkill(State *state, player *P);
+void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp, char namaSkill);
 
-void pintuGaKemanaSaja(player* P);
+void PintuGaKemanaSaja(player* P);
 //Pintu gak kemana mana
 //I.S player memanggil skill 1 dan skill 1 terdapat pada list skill player, 
 //F.S buff telport palyer immune akan aktif dan skill 1 dihapus dari list skill palyer.
@@ -32,17 +34,22 @@ void BalingBalingJambu (State *state, player *P, int MaxRoll, int JumPetak, TabP
             Vice versa berhasil, hapus salah satu skill 2 dari list skill player itu, laksanakan perintah
 */
 
-void cerminPengganda(player *P);
+void CerminPengganda(player *P);
 //Cermin pengganda
 //I.S player memanggil skill 4 dan skill 4 terdapat pada list skill player  
 //F.S skill 4 pada list player terhapus, dan terdapat penambahan 2 skill baru
 
-void senterPengecil(player * P);
+void SenterPembesarHoki(player *P);
 // Senter Pembesar Hoki
 //I.S player memanggil skill 5 dan skill 5 terdapat pada list skill player 
 //F.S buff senter pembesar hoki aktif
 
-void mesinTukar(State *state,player *P);
+void SenterPengecilHoki(player *P);
+// Senter pengecil Hoki
+//I.S player memanggil skill 5 dan skill 5 terdapat pada list skill player 
+//F.S buff senter pembesar hoki aktif
+
+void MesinTukar(State *state,player *P);
 // Senter Pengecil Hoki
 //I.S player memanggil skill 5 dan skill 5 terdapat pada list skill player 
 //F.S buff senter pengecil hoki aktif
@@ -54,5 +61,5 @@ void print_players (State state, player current_player);
 boolean valid (int idx, int player_idx, int nEff);
 // return boolean jika anggota dan bukan player sekarang
 
-boolean valid_display (int idx_choice, int nbelmt);
+boolean valid_menuSkill (int idx_choice, int nbelmt);
 // return booelan apakah input int diantara 0 dan banyak elemen di list

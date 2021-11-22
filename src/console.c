@@ -117,7 +117,7 @@ int main() {
                         printf("Anda tidak dapat menggunakan skill karena sudah melakukan roll!");
                     } else {
                         //Ini diisi display skill dan kemanisme penggunaan skill dan penghapusan skill sesuai ADT Skill!
-                        menuSkill(&currentState, &currentState.TabPlayer[TurnPemainKe - 1], MaxRoll, JumPetak, Peta, arrTP);
+                        menuSkill(&currentState, &currentState.TabPlayer[TurnPemainKe - 1], MaxRoll, JumPetak, Peta, arrTP, namaSkill);
                     }
                     
                 } else if (compareString(InputCmd,"MAP")){
@@ -128,7 +128,7 @@ int main() {
                 } else if (compareString(InputCmd,"BUFF")){
                     //Bagian Annel
                     //Display buff untuk TurnPemainKe (berapa). Kalo true brarti buff aktif kalau false ga aktif. Harus sesuai ADT Buff
-                    displayBuff(&buff(currentState.TabPlayer[TurnPemainKe - 1]), namaBuff); // namaBuff berasal dari array_buff.h
+                    displayBuff(buff(currentState.TabPlayer[TurnPemainKe - 1]), namaBuff); // namaBuff berasal dari array_buff.h
                 } else if (compareString(InputCmd,"INSPECT")){
                     inspect(&Peta);
                     //Kasitau teleport, terlarang, atau kosong berdasarkan masukan InputInspect. Bisa pakai IsPetakTP, IsPetakTerlarang, IsPetakKosong dari ADT map & tp

@@ -11,10 +11,10 @@
 #include "../ADT/array_buff.h"
 #include "../ADT/player.h"
 #include "../ADT/list.h"
+#include "../ADT/state.h"
 #include "../commands/roll.h"
 #include "gacha_skill.h"
 #include "skills.h"
-#include "state.h"
 
 /*  RECENT UPDATEs & Qs
 1. Eh ADT string yang dari #include <string.h> buat apa, ga bisa pake char aja (?) soalnya ku IDE nya 
@@ -41,7 +41,7 @@ choiceToSkill bakal jadi skill terakhir yang adalah salah (harusnya keluarin "in
 7. skills.h juga diupdate biar sesuai sama skills.c
 8. Integrasi skill bonus dengan fungsi2. Tapi masih ada merah2 error, though tbh ku IDE
 lagi gaje jadi gatau error benerannya di mana
-9. temp di mesintukar dideklarasiin
+9. temp di MesinTukar dideklarasiin
 10. Pemanggilan menuSkill di console dah diupdate biar sesuai sama sini
 11. Kalo bisa di file2 .h, tulis penjelasan tentang fungsi/prosedur, biar kita2
 sama tuan mor ngerti itu fungsi/prosedur gunanya buat apa kkwkwkwkw
@@ -51,24 +51,13 @@ again, ku IDE nya dah gila sehingga ga tau apakah merah2 errornya karena emang e
 lom ngupdate.
 */
 
-// DEFINISI VARIABEL KONSTAN
-char namaSkill[7][25] = {
-    {"Pintu Ga Ke Mana Mana"},
-    {"Mesin Waktu"},
-    {"Baling Baling Jambu"}, 
-    {"Cermin Pengganda"}, 
-    {"Senter Pembesar Hoki"}, 
-    {"Senter Pengecil Hoki"}, 
-    {"Mesin Penukar Posisi"}
-};
-
 // DEFINISI FUNGSI PROSEDUR SKILL UTAMA
 void displaySkill(List S, char namaSkill) {
     // KAMUS LOKAL
     address loc;
     int count;
     // ALGORITMA
-    if (!isEmpty(S)) {
+    if (!IsEmpty(S)) {
         loc = First(S);
         count = 0;
         printf("Daftar Skill yang dimiliki pemain:\n");
@@ -89,7 +78,7 @@ void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta,
     // ALGORITMA
     S = skill(*P);
     displaySkill(S, namaSkill);
-    if (!isEmpty(S)) {
+    if (!IsEmpty(S)) {
         loc = First(S);
         while (!is_valid)
         {
@@ -109,7 +98,7 @@ void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta,
                 // Didapat nomor skill betulan (bukan nomor urut di terminal)  
                 switch (choiceToSkill) {
                     case 1:
-                        pintuGaKemanaSaja(P);
+                        PintuGaKemanaSaja(P);
                         break;
                     case 2:
                         MesinWaktu(state, P, MaxRoll, JumPetak, peta, arrtp);
@@ -118,16 +107,16 @@ void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta,
                         BalingBalingJambu(state, P, MaxRoll, JumPetak, peta, arrtp);
                         break;
                     case 4:
-                        cerminPengganda(P);
+                        CerminPengganda(P);
                         break;
                     case 5: 
-                        senterPembesar(P);
+                        SenterPembesarHoki(P);
                         break;
                     case 6:
-                        senterPengecil(P);
+                        SenterPengecilHoki(P);
                         break;
                     case 7:
-                        mesinTukar(state,P);
+                        MesinTukar(state,P);
                         break;  
                 }
             }
@@ -145,8 +134,19 @@ void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta,
     }       
 }
 
+// DEFINISI VARIABEL KONSTAN
+char *namaSkill[] = {
+    "Pintu Ga Ke Mana Mana",
+    "Mesin Waktu",
+    "Baling Baling Jambu", 
+    "Cermin Pengganda", 
+    "Senter Pembesar Hoki", 
+    "Senter Pengecil Hoki", 
+    "Mesin Penukar Posisi"
+};
+
 // DEFINISI FUNGSI PROSEDUR TIAP SKILL
-void pintuGaKemanaSaja(player* P) {
+void PintuGaKemanaSaja(player* P) {
     //Pintu gak kemana mana
     if (Search(skill(*P), 1) != Nil){
         BUFF(buff(*P), 1) = true;
@@ -248,30 +248,30 @@ void BalingBalingJambu (State *state, player *P, int MaxRoll, int JumPetak, TabP
     }
 }
 
-void cerminPengganda(player *P){
+void CerminPengganda(player *P){
     //Cermin pengganda
-    if (Search(skill(*P), 4) != Nil && length(skill(*P)) < 9) {
+    if (Search(skill(*P), 4) != Nil && NbElmt(skill(*P)) < 9) {
         DelP(&skill(*P), 4);
         gacha_skill(&skill(*P));
         gacha_skill(&skill(*P));
     }
 }
 
-void senterPembesar(player * P){
+void SenterPembesarHoki(player *P){
     // Senter Pembesar Hoki
     if (Search(skill(*P), 5) != Nil) {
         DelP(&skill(*P), 5);
         BUFF(buff(*P), 3);
     }
 }
-void senterPengecil(player *P){
+void SenterPengecilHoki(player *P){
     // Senter Pengecil Hoki
     if (Search(skill(*P), 6) != Nil) {
         DelP(&skill(*P), 6);
         BUFF(buff(*P), 4);
     } 
 }
-void mesinTukar(State *state, player *P) {
+void MesinTukar(State *state, player *P) {
     int input, player_idx, nEff, temp;
     boolean is_valid = false;
     player *chosenP;

@@ -2,7 +2,7 @@
 #include "array_buff.h"
 #include <string.h>
 
-char namaBuff[4][25] = {
+char *namaBuff[] = {
     "Imunitas Teleport", 
     "Cermin Pengganda", 
     "Senter Pembesar Hoki", 
