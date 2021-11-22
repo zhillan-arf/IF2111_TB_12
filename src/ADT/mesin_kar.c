@@ -10,7 +10,7 @@ boolean EOP;
 static FILE * pita;
 static int retval;
 
-void START(char filename) {
+void START(char *filename) {
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
