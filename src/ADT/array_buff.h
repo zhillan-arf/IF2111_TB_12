@@ -16,13 +16,13 @@ kalo ku harus ganti2 lagi tar :kekw: */
 #define array_buff_H
 #define MaxBuff 4
 
-
 typedef struct arr_buff {
     boolean buff[MaxBuff];
 } array_buff;
 
-void CreateTabBuff(array_buff * B );
+extern char namaBuff[4][25];
 
+void CreateTabBuff(array_buff * B );
 
 void displayBuff(array_buff *B);
 

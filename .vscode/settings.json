@@ -4,6 +4,7 @@
         "array_map.h": "c",
         "array_tp.h": "c",
         "stack_state.h": "c",
-        "inspect.h": "c"
+        "inspect.h": "c",
+        "list.h": "c"
     }
 }

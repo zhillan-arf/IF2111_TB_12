@@ -32,6 +32,19 @@ IdxType GetLastIdx (State T) {
 /* Mengirimkan indeks elemen terakhir */
     return (T).Neff;
 }
+IdxType GetPlayerIdx (State T, ElType P) {
+    /* Prekondisi : Tabel T tidak kosong, P ada di tabel, tiap nama berbeda */
+    /* Mengirimkan idx player P dalam array */
+    // KAMUS
+    int idx = 0;
+    // ALGORITMA
+    while (P.nama != T.TabPlayer[idx].nama && idx < T.Neff)
+    {
+        idx++;
+    }
+    // P found at idx
+    return idx;
+}
 /* *** Menghasilkan sebuah elemen *** */
 ElType GetPlayer (State T, IdxType i) {
 /* Prekondisi : Tabel tidak kosong, i antara FirstIdx(T)..LastIdx(T) */

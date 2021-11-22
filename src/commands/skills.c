@@ -4,113 +4,148 @@
     Versi: 2021-11-16 20:30
 */
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 #include "../boolean.h"
 #include "../ADT/array_buff.h"
 #include "../ADT/player.h"
 #include "../ADT/list.h"
+#include "../commands/roll.h"
 #include "gacha_skill.h"
 #include "skills.h"
-#include <stdlib.h>
-#include <time.h>
 #include "state.h"
-#include "../commands/roll.h"
 
-/* KOMEN
-0. Nambah2 #include yang lom dimasukkin, ngubah "Player" jadi "player" dan List(*P) jadi skill(*P) 
-(soalnya di file ADT player nya gitu kwkwkwk), ngubah DelP(skill(*P), X) jadi DelP(&skill(*P), X))
-(soalnya di file ADT list DelP minta alamat kwkwk)
-
-1. Prosedur yang ngeprint skill tuh gimana detailnya? Misal ada misal ada list skill [3, 6, 3, 1, 4].
-
-1A. Apakah dia bakal ngeprint berdasar iterasi list, sehingga ngeprint:
-
-Kamu memiliki skill:
-    1. Baling-Baling Jambu
-    2. Senter Pengecil Hoki
-    3. Baling-Baling Jambu
-    4. Pintu Ga Kemana Saja
-    5. Cermin Pengganda
-
-sehingga kalau user nginput "2", sistem bakal ngapus baling-baling jambu (yang adalah
-skill 3) dan list jadi [6, 3, 1, 4]? 
-1 A contoh
-! Kamu memiliki skill:
-    1. Baling-Baling Jambu
-    2. Baling-Baling Jambu
-    3. Pintu Ga Kemana Saja
-    4. Cermin Pengganda 
-    isi skill player : 3->3->1->4 akan ngedisplay yg diatas
-
-    Input user = 5.
-    skill = SKILL(player, 5-1) //ngirim isi skill yang ke lima
-    switch skil:
-        1:
-            break
-        ..
-    ***ini buatnya di consloe*** 
-
-2. Kalo yang lu pilih 1C atau 1D, pake DelP harusnya dah bener. Tapi kalo lu pilih 1A atau 1B (yang, tbh lebih sesuai
-ke spesifikasi kalo coba liat), jangan pake DelP ga sih? Soalnya kan ketika user masukkin misal "3",
-yang dia maksud bukan "skill 3", tapi "skill urutan ke-3 yang muncul di terminal. Kek di contoh 1A dan 1B,
-no urutan bisa != nomor skill. (Ini bisa pake proisedur DelElmtKe yang ku minggu kemaren bikin sih :feelsweirdman: ) 
-iya ntar inputnya di match dengan isi skill list bukan langsung sesuai input user.
-3. Ketika user masukkin input "SKILL" di console, kan ketrigger bagian skill. Itu lu mau hard-code di console.c langung
-atau bikin di file skills.c ini, sehingga di console cuma ada fungsi super panjang skill(<segala input yang diperlukan>) ?
-buat disini aja
-4. skillSatu, skillDua kan sama tuan mor suruh ganti kemaren, ada format namanya? Biar ku bikin fungsi skill bonusnya 
-pake format atau aesthetic nama yang sama
-
--dialah_zhillanu
+/*  RECENT UPDATEs & Qs
+1. Eh ADT string yang dari #include <string.h> buat apa, ga bisa pake char aja (?) soalnya ku IDE nya 
+ga bisa detect ADT "string" kwkwkwk (though tbh IDE nya emang lagi masalah sih, jadi idk yang error yang mana)
+1b. Though ngl masih kurang ngerti juga ku tentang string, TLDR sih (1) ku deklarasiin dulu 
+extern char <variabel> di .h, udah gitu definisiin biasa char <variabel & isinya> di .c, sehingga
+bisa diakses di console dengan #include .h nya. Soalnya kan biar fungsi/prosedur nya bisa ngakses
+array of strings itu, kita butuh masukkin datanya ke deifnisi fungsinya, dan karena fungsinya diaktivin
+di console, berarti console harus punya akses ke data tersebut.
+1c. Masalahnya, ini di displaySkill masih ada error Merah Misterius Menyeramkan yang ku kurang
+ngerti kenapa, berhubungan ke kalo misal kita mau ngakses namaSkill[i], apparently kalo di code yang
+sekarang, ada masalah sama tipe data i nya. Ini ku lagi nanya bagas.
+1d. Ref: https://www.delftstack.com/howto/c/array-of-strings-in-c/
+2. List != node2 yang terdapat dalam list (yang diakses lewat address) (sehingga 
+List S ga bisa diakses langsung, paling harus pake loc = First(S))
+3. Ubah2 macro biar sesuai (NEXT(P) -> Next(P))
+4. Ada error di displaySkill di printf nya yang ku ga ngerti, dia berhubungan sama 
+cara ngakses elemen ke-sekian di namaSkill
+5. menuSkill: Kalo langusng akses List, kalo choice > jumlah elemen list, 
+choiceToSkill bakal jadi skill terakhir yang adalah salah (harusnya keluarin "invalid")
+5b. Actually yeah lom ada kondisional input invalid ya (?)
+5c. Ditambah fungsi valid_menuSkill buat keperluan ini
+6. Validasi input berarti juga harus ada loop nya
+7. skills.h juga diupdate biar sesuai sama skills.c
+8. Integrasi skill bonus dengan fungsi2. Tapi masih ada merah2 error, though tbh ku IDE
+lagi gaje jadi gatau error benerannya di mana
+9. temp di mesintukar dideklarasiin
+10. Pemanggilan menuSkill di console dah diupdate biar sesuai sama sini
+11. Kalo bisa di file2 .h, tulis penjelasan tentang fungsi/prosedur, biar kita2
+sama tuan mor ngerti itu fungsi/prosedur gunanya buat apa kkwkwkwkw
+ - Berkaitan dengan buff (Gabung aja biar sekali baca kwkwkwk)
+12. Kalo prosedur/fungsi mo baca suatu data kan harus dimasukkin, termasuk namaBuff. Though
+again, ku IDE nya dah gila sehingga ga tau apakah merah2 errornya karena emang error atau dia
+lom ngupdate.
 */
-string namaSkill = {"Pintu Ga Ke Mana Mana","Mesin Waktu","Baling Baling Jambu", "Cermin Pengganda", "Senter Pembesar Hoki", "Senter Pengecil Hoki", "Mesin Penukar Posisi"};
-void displaySkill(List S){
-    if (!isEmpty(S))
-    {    printf("Daftar Skill yang dimiliki pemain:\n");
-        int count = 0;
-        while (S != NULL){
+
+// DEFINISI VARIABEL KONSTAN
+char namaSkill[7][25] = {
+    {"Pintu Ga Ke Mana Mana"},
+    {"Mesin Waktu"},
+    {"Baling Baling Jambu"}, 
+    {"Cermin Pengganda"}, 
+    {"Senter Pembesar Hoki"}, 
+    {"Senter Pengecil Hoki"}, 
+    {"Mesin Penukar Posisi"}
+};
+
+// DEFINISI FUNGSI PROSEDUR SKILL UTAMA
+void displaySkill(List S, char namaSkill) {
+    // KAMUS LOKAL
+    address loc;
+    int count;
+    // ALGORITMA
+    if (!isEmpty(S)) {
+        loc = First(S);
+        count = 0;
+        printf("Daftar Skill yang dimiliki pemain:\n");
+        while (loc != Nil){
             count++;
-            printf("%d. %s\n", count, namaSkill[INFO(S)]);
-            S = NEXT(S);
+            printf("%d, %s\n", count, namaSkill[Info(loc)]);
+            loc = Next(loc);
         }
     }
     else printf("Pemain belum memiliki skill.");
 }
-void menuSkill(State *state,player *P){ //tambahin aja parameternya kalau perlu
+void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp, char namaSkill) {
+    // KAMUS LOKAL
+    List S;
+    int idx_choice, choiceToSkill, ctr;
+    address loc;
+    boolean is_valid = false;
+    // ALGORITMA
     S = skill(*P);
-    displaySkill(S);
-    if (!isEmpty(S)){
-        int choice;
-        printf("Pilih Skill yang mau diakftifkan! (pilih 0 untuk keluar)");
-        scanf("%d", &choice);
-        int choiceToSkill;
-        while (S!=NULL && choice > 0){
-            choiceToSkill = INFO(S);
-            S = NEXT(S);
-            choice--;
-        }   
-        switch choiceToSkill:
-            1:
-                pintuGaKemanaSaja(P);
-                break;
-            2:
-                break;
-                //gak ngerti masukin sendiri ya hehe
-            3:
-                break;
-            4:
-                cerminPengganda(P);
-                break;
-            5: 
-                senterPembesar(P);
-                break;
-            6:
-                senterPengecil(P);
-                break;
-            7:
-                mesinTukar(state,P);
-                break;               
-    }
+    displaySkill(S, namaSkill);
+    if (!isEmpty(S)) {
+        loc = First(S);
+        while (!is_valid)
+        {
+            printf("Pilih Skill yang mau diakftifkan! (pilih 0 untuk keluar)");
+            scanf("%d", &idx_choice);
+            // Didapat no urut di terminal yang dipilih
+            if (valid_menuSkill(idx_choice, NbElmt(S)))  // idx_choice = antara 1 sampe NbElmt(S)
+            {
+                is_valid = true;
+                ctr = 0;
+                while (loc != NULL && ctr < idx_choice) {
+                    ctr++;
+                    choiceToSkill = Info(loc);
+                    loc = Next(loc);
+                }
+                // ctr == idx_choice
+                // Didapat nomor skill betulan (bukan nomor urut di terminal)  
+                switch (choiceToSkill) {
+                    case 1:
+                        pintuGaKemanaSaja(P);
+                        break;
+                    case 2:
+                        MesinWaktu(state, P, MaxRoll, JumPetak, peta, arrtp);
+                        break;
+                    case 3:
+                        BalingBalingJambu(state, P, MaxRoll, JumPetak, peta, arrtp);
+                        break;
+                    case 4:
+                        cerminPengganda(P);
+                        break;
+                    case 5: 
+                        senterPembesar(P);
+                        break;
+                    case 6:
+                        senterPengecil(P);
+                        break;
+                    case 7:
+                        mesinTukar(state,P);
+                        break;  
+                }
+            }
+            else if (idx_choice = 0)
+            {
+                is_valid = true;
+                printf("Command SKILL diterminasi. Kembali ke turn.\n");
+                // Selesai
+            }
+            else
+            {
+                printf("Tetot! Input invalid. Mohon masukkan nomor skill yang tertera (misal '1').");
+            }
+        }
+    }       
 }
+
+// DEFINISI FUNGSI PROSEDUR TIAP SKILL
 void pintuGaKemanaSaja(player* P) {
     //Pintu gak kemana mana
     if (Search(skill(*P), 1) != Nil){
@@ -236,8 +271,8 @@ void senterPengecil(player *P){
         BUFF(buff(*P), 4);
     } 
 }
-void mesinTukar(State *state,player *P){
-    int input, player_idx, nEff;
+void mesinTukar(State *state, player *P) {
+    int input, player_idx, nEff, temp;
     boolean is_valid = false;
     player *chosenP;
     // ALGORITMA
@@ -264,6 +299,8 @@ void mesinTukar(State *state,player *P){
     (*P).current_petak = temp;
     printf("Berhasil menukar posisi!\n");
 }
+
+// DEFINISI FUNGSI PROSEDUR TAMBAHAN
 void print_players (State state, player cplayer) {
     // KAMUS
     int i = 1;
@@ -283,6 +320,7 @@ boolean valid (int idx, int player_idx, int nEff) {
     // KAMUS
     boolean is_in_array = false;
     int i = 0;
+    // ALGORITMA
     while (i < nEff)
     {
         if (idx = i)
@@ -292,4 +330,20 @@ boolean valid (int idx, int player_idx, int nEff) {
         i++;
     }
     return is_in_array && (idx != player_idx);
+}
+
+boolean valid_menuSkill (int idx_choice, int nbelmt) {
+    // KAMUS
+    int i = 1;
+    boolean found = false;
+    // ALGORITMA
+    while (i <= nbelmt && !found)
+    {
+        if (idx_choice == i)
+        {
+            found = true;
+        }
+        i++;
+    }
+    return found;
 }
