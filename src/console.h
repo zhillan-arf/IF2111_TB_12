@@ -2,15 +2,20 @@
 #define CONSOLE_H
 
 #include "boolean.h"
-#include "mesin_kata.h"
-#include "mesin_kar.h"
-#include "list.h"
-#include "array_tp.h"
-#include "array_map.h"
+#include "ADT/mesin_kata.h"
+#include "ADT/mesin_kar.h"
+#include "ADT/list.h"
+#include "ADT/array_tp.h"
+#include "ADT/array_map.h"
+#include "ADT/state.h"
 
 extern int JumPetak, MaxRoll, JumTP;
 extern TabPeta Peta;
 extern TabTP arrTP;
+
+void displayPeringkat(State currentState, int JumPlayer);
+// I.S. currentState berisi data seluruh pemain ketika GAME berakhir
+// F.S. Terdisplay siapa yang menang, dan leaderbord
 
 void KataToTabPeta(Kata TabKata, TabPeta *P);
 /* I.S. TabKata dan P terdefinisi */

@@ -3,6 +3,7 @@
     ADT PLAYER - HEADER
     Versi: 2021-11-16 20:30
 */
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -52,7 +53,7 @@ lom ngupdate.
 */
 
 // DEFINISI VARIABEL KONSTAN
-const char *namaSkill[] = {
+*namaSkill[] = {
     "Pintu Ga Ke Mana Mana",
     "Mesin Waktu",
     "Baling Baling Jambu", 

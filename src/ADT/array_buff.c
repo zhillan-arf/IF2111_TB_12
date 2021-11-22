@@ -1,8 +1,9 @@
 #include "../boolean.h"
 #include "array_buff.h"
 #include <string.h>
+#include <stdio.h>
 
-const char *namaBuff[] = {
+*namaBuff[] = {
     "Imunitas Teleport", 
     "Cermin Pengganda", 
     "Senter Pembesar Hoki", 

@@ -171,7 +171,7 @@ void teleport(player *p, int new_petak) {
         is_valid = false;
         while (!is_valid)
         {
-            if (input == "Y" || input == "y")
+            if ((input == "Y") || (input == "y"))
             {
                 is_valid = true;
                 printf("Klep! Sobekan ditutup sementara.\nKamu menemukan tempat berlindung dan tidak berpindah.\n");

@@ -2,6 +2,8 @@
 # MAKEFILE - Eksekusi dilakukan dari dir yang mengandung README
 
 # CONSOLE
+console :
+	gcc -o console src/console.c src/ADT/array_buff.c src/ADT/array_map.c src/ADT/array_tp.c src/ADT/list.c src/ADT/mesin_kar.c src/ADT/mesin_kata.c src/ADT/stack_state.c src/ADT/state.c src/commands/gacha_skill.c src/commands/inspect.c src/commands/roll.c src/commands/skills.c
 
 # ADT UNIT TESTS
 mlist :

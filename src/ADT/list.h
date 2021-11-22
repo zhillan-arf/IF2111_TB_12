@@ -4,10 +4,10 @@
     Versi: 2021-11-14 08:30
 */
 
+#include "../boolean.h"
+
 #ifndef listlinier_H
 #define listlinier_H
-
-#include "../boolean.h"
 
 #define Nil NULL
 

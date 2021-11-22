@@ -5,6 +5,8 @@
 */
 
 #include "inspect.h"
+#include "../ADT/array_map.h"
+#include <stdio.h>
 
 void inspect (TabPeta *Peta) {
     // I.S. Peta dari file config terbaca, turn sembarang

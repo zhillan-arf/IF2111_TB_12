@@ -1,10 +1,10 @@
 /* File: mesinkar.h */
 /* Definisi Mesin Karakter */
 
+#include "../boolean.h"
+
 #ifndef __MESIN_KAR_H_
 #define __MESIN_KAR_H_
-
-#include "../boolean.h"
 
 #define MARK ','
 /* State Mesin */

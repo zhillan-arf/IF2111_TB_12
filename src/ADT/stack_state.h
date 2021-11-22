@@ -1,10 +1,10 @@
-#ifndef _STACKLIST_H
-#define _STACKLIST_H
-
 #include "../boolean.h"
 #include "player.h"
 #include "state.h"
 #include <stdlib.h>
+
+#ifndef _STACKLIST_H
+#define _STACKLIST_H
 
 /* Konstanta */
 #define Nil NULL

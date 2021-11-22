@@ -1,3 +1,9 @@
+/*
+    TUBES IF2111 K2 KELOMPOK 12
+    ADT PLAYER - HEADER
+    Versi: 2021-11-16 20:30
+*/
+
 #include "../boolean.h"
 #include "../ADT/array_buff.h"
 #include "gacha_skill.h"
@@ -5,7 +11,10 @@
 #include "../ADT/array_map.h"
 #include "../ADT/state.h"
 
-extern char *namaSkill[];
+#ifndef SKILLS_H
+#define SKILLS_H
+
+extern const char *namaSkill[];
 
 void displaySkill(List S, char *namaSkill);
 
@@ -63,3 +72,5 @@ boolean valid (int idx, int player_idx, int nEff);
 
 boolean valid_menuSkill (int idx_choice, int nbelmt);
 // return booelan apakah input int diantara 0 dan banyak elemen di list
+
+#endif

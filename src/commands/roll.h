@@ -9,6 +9,9 @@
 #include "../ADT/array_buff.h"
 #include "../ADT/player.h"
 
+#ifndef ROLL_H
+#define ROLL_H
+
 void roll (
         int *Roll,
         int MaxRoll,
@@ -33,3 +36,5 @@ void mundur(player *p, int pasts, TabPeta peta, TabTP arrtp);
 void teleport(player *p, int new_petak);
     // I.S. Player P berada di tempatnya, new_petak adalah petak kosong di peta
     // F.S. Player P pindah ke tempat kosong tersebut. P diupdate.
+
+#endif

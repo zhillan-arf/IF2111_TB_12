@@ -6,6 +6,11 @@
 
 #include "../ADT/list.h"
 
+#ifndef GACHA_SKILL_H
+#define GACHSLL_H
+
 void gacha_skill(List *LSkillCurrentP);
 // I.S. List Skill si player kosong atau berisi <= 10 skill
 // F.S. List Skill bertambah 1 skill random atau tidak nambah jika penuh
+
+#endif
