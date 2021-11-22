@@ -22,7 +22,7 @@ int charToInt(char c);
 int strToInt(char s[]);
 /* Mengembalikan nilai pada string dalam bentuk integer */
 
-void ReadConfigFile(int *JPetak, int *MRoll, int *JTP, TabPeta *P, TabTP *ARTP);
+void ReadConfigFile(int *JPetak, int *MRoll, int *JTP, TabPeta *P, TabTP *ARTP, char *filename);
 /* Membaca file konfigurasi dan menyimpan keperluan informasi kepada masing-masing variabel*/
 /* I.S. Seluruh variabel pada input terdefinisi*/
 /* F.S. Seluruh variabel menyimpan value yang sesuai berdasarkan file konfigurasi */
