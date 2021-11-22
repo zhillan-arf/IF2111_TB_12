@@ -51,8 +51,19 @@ again, ku IDE nya dah gila sehingga ga tau apakah merah2 errornya karena emang e
 lom ngupdate.
 */
 
+// DEFINISI VARIABEL KONSTAN
+const char *namaSkill[] = {
+    "Pintu Ga Ke Mana Mana",
+    "Mesin Waktu",
+    "Baling Baling Jambu", 
+    "Cermin Pengganda", 
+    "Senter Pembesar Hoki", 
+    "Senter Pengecil Hoki", 
+    "Mesin Penukar Posisi"
+};
+
 // DEFINISI FUNGSI PROSEDUR SKILL UTAMA
-void displaySkill(List S, char namaSkill) {
+void displaySkill(List S, char *namaSkill) {
     // KAMUS LOKAL
     address loc;
     int count;
@@ -69,7 +80,7 @@ void displaySkill(List S, char namaSkill) {
     }
     else printf("Pemain belum memiliki skill.");
 }
-void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp, char namaSkill) {
+void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp, char *namaSkill) {
     // KAMUS LOKAL
     List S;
     int idx_choice, choiceToSkill, ctr;
@@ -133,17 +144,6 @@ void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta,
         }
     }       
 }
-
-// DEFINISI VARIABEL KONSTAN
-char *namaSkill[] = {
-    "Pintu Ga Ke Mana Mana",
-    "Mesin Waktu",
-    "Baling Baling Jambu", 
-    "Cermin Pengganda", 
-    "Senter Pembesar Hoki", 
-    "Senter Pengecil Hoki", 
-    "Mesin Penukar Posisi"
-};
 
 // DEFINISI FUNGSI PROSEDUR TIAP SKILL
 void PintuGaKemanaSaja(player* P) {
