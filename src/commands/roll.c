@@ -160,7 +160,7 @@ void teleport(player *p, int new_petak) {
     // I.S. Player P berada di tempatnya, new_petak adalah petak kosong di peta
     // F.S. Player P pindah ke tempat kosong tersebut. P diupdate.
     // KAMUS LOKAL
-    char input;
+    char *input;
     boolean is_valid;
     // ALGORITMA
     printf("!!! Sobekan dimensional menuju petak %d terdeteksi!\n");
