@@ -107,7 +107,7 @@ void displaySkill(List S, char *namaSkill[]) {
     }
     else printf("Pemain belum memiliki skill.");
 }
-void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp, char *namaSkill) {
+void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp, char *namaSkill[]) {
     // KAMUS LOKAL
     List S;
     int idx_choice, choiceToSkill, ctr;

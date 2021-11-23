@@ -18,7 +18,7 @@ extern char *namaSkill[];
 
 void displaySkill(List S, char *namaSkill[]);
 
-void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp, char *namaSkill);
+void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp, char *namaSkill[]);
 
 void PintuGaKemanaSaja(player* P);
 //Pintu gak kemana mana
