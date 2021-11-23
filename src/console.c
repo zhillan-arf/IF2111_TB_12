@@ -1,6 +1,6 @@
 /*
     TUBES IF2111 K2 KELOMPOK 12
-    PERMAINAN "<LOREM IPSUM DOLOR>"
+    PERMAINAN "SNEK AND MADDER"
     Versi: 2021-11-22 23:00
 */
 
@@ -18,6 +18,7 @@
 #include "commands/gacha_skill.h"
 #include "commands/roll.h"
 #include "commands/skills.h"
+#include "commands/start_display.h"
 
 /* RECENT UPDATEs &/ Qs
 1. Aight beda2 puts (otomatis ngasih 1 buah \n) dan printf (nggak
@@ -53,19 +54,20 @@ int main() {
     State currentState;
 
     // ALGORITMA
-    // MULAI PERMAINAN "<TBD>!"
+    // MULAI PERMAINAN "SNEK AND MADDER!"
+    start_display();
     printf("\n/============================/\n");
-    printf("             MENU             \n");
+    printf("  PERMAINAN 'SNEK AND MADDER'\n");
     printf("/============================/\n");
+    printf("             MENU             \n");
     printf("1) New Game\n");
     printf("2) Exit\n");
     printf("3) Help\n");
     printf("/============================/\n");
-
+    
     // Inisialisasi State Permainan
     CreateEmptyStack(&stackState);
     MakeEmpty(&currentState);
-
     // Loop input
     while (!is_valid)
     {
