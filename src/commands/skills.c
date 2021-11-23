@@ -53,18 +53,18 @@ lom ngupdate.
 */
 
 // DEFINISI VARIABEL KONSTAN
-*namaSkill[] = {
+char *namaSkill[] = {
     "Pintu Ga Ke Mana Mana",
     "Mesin Waktu",
-    "Baling Baling Jambu", 
-    "Cermin Pengganda", 
+    "Baling Baling Jambu",
+    "Cermin Pengganda",
     "Senter Pembesar Hoki", 
     "Senter Pengecil Hoki", 
     "Mesin Penukar Posisi"
 };
 
 // DEFINISI FUNGSI PROSEDUR SKILL UTAMA
-void displaySkill(List S, char *namaSkill) {
+void displaySkill(List S, char *namaSkill[]) {
     // KAMUS LOKAL
     address loc;
     int count;
@@ -73,9 +73,35 @@ void displaySkill(List S, char *namaSkill) {
         loc = First(S);
         count = 0;
         printf("Daftar Skill yang dimiliki pemain:\n");
-        while (loc != Nil){
+        while (loc != Nil) {
             count++;
-            printf("%d, %s\n", count, namaSkill[Info(loc)]);
+            /*
+            printf("%d. ");
+            switch (namaSkill[Info(loc)]) {
+            case 1:
+                printf("Pintu Ga Ke Mana Mana");
+                break;
+            case 2:
+                printf("Mesin Waktu");
+                break;
+            case 3:
+                printf("Baling Baling Jambu");
+                break;
+            case 4:
+                printf("Cermin Pengganda");
+                break;
+            case 5:
+                printf("Senter Pembesar Hoki");
+                break;
+            case 6:
+                printf("Senter Pengecil Hoki");
+                break;
+            case 7:
+                printf("Mesin Penukar Posisi");
+                break;
+            }
+            */
+            printf("%d. %s\n", count, namaSkill[Info(loc)]);
             loc = Next(loc);
         }
     }

@@ -31,9 +31,3 @@ boolean IsPetakKosong (TabPeta P, int NoPetak){
 boolean IsPetakTerlarang (TabPeta P, int NoPetak){
     return (P.Peta[NoPetak - 1] == '#');
 }
-
-int GetPetak(TabPeta P, int NoPetak) {
-    /* Mengembalikan isi petak di nomor ke-sekian*/
-    // ALGORITMA
-    return (int) P.Peta[NoPetak - 1];
-}

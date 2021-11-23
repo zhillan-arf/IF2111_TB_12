@@ -5,12 +5,13 @@
 */
 
 #include "../ADT/array_map.h"
+#include "../ADT/array_tp.h"
 #include "../boolean.h"
 
 #ifndef INSPECT_H
 #define INSPECT_H
 
-void inspect (TabPeta *Peta);
+void inspect (TabPeta Peta, TabTP arrtp);
 // I.S. Peta dari file config terbaca, turn sembarang
 // F.S. Teroutput hal2 yang diinginkan player, jika ada
 

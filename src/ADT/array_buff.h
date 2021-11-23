@@ -20,11 +20,11 @@ typedef struct arr_buff {
     boolean buff[MaxBuff];
 } array_buff;
 
-extern const char *namaBuff[];
+extern char *namaBuff[];
 
-void CreateTabBuff(array_buff * B );
+void CreateTabBuff(array_buff *B);
 
-void displayBuff(array_buff B, char *namaBuff);
+void displayBuff(array_buff B, char *namaBuff[]);
 
 #define BUFF(P, i) (P).buff[i]
 #define isImunTele(b) (b).buff[0]

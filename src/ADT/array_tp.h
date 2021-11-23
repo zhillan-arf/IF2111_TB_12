@@ -10,7 +10,7 @@
 
 typedef int ElTypeTP;
 
-typedef struct {
+typedef struct tabtp {
 	ElTypeTP TTP [IdxMaxTP-IdxMinTP+1+1]; //Yang dipakai adalah [1..IdxMax]
 } TabTP;
 

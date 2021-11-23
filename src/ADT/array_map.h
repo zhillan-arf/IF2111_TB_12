@@ -10,7 +10,7 @@
 
 typedef char Petak;
 
-typedef struct {
+typedef struct tabpeta {
 	Petak Peta [IdxMaxPetak-IdxMinPetak+1+1]; //Yang dipakai adalah [1..IdxMax]
 } TabPeta;
 

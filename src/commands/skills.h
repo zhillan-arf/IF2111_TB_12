@@ -14,9 +14,9 @@
 #ifndef SKILLS_H
 #define SKILLS_H
 
-extern const char *namaSkill[];
+extern char *namaSkill[];
 
-void displaySkill(List S, char *namaSkill);
+void displaySkill(List S, char *namaSkill[]);
 
 void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp, char *namaSkill);
 

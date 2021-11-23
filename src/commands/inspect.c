@@ -5,10 +5,9 @@
 */
 
 #include "inspect.h"
-#include "../ADT/array_map.h"
 #include <stdio.h>
 
-void inspect (TabPeta *Peta) {
+void inspect (TabPeta Peta, TabTP arrtp) {
     // I.S. Peta dari file config terbaca, turn sembarang
     // F.S. Teroutput hal2 yang diinginkan player, jika ada
     // KAMUS LOKAL
@@ -16,16 +15,16 @@ void inspect (TabPeta *Peta) {
     // ALGORITMA
     printf("Masukkan petak: ");
     scanf("%d", &NoPetak);
-    if (IsPetakKosong((*Peta), NoPetak))
+    if (IsPetakKosong(Peta, NoPetak))
     {
-        printf("Petak %d adalah petak kosong!\n", NoPetak);
+        printf("Petak %d adalah petak kosong. Aman!\n", NoPetak);
     }
-    else if (IsPetakTerlarang((*Peta), NoPetak))
+    else if (IsPetakTerlarang(Peta, NoPetak))
     {
         printf("Petak %d adalah petak terlarang. ¡No Pasaran!\n", NoPetak);
     }
     else
     {
-        printf("Awas! Petak %d memiliki teleporter ke petak %d!\n", NoPetak, GetPetak((*Peta), NoPetak));
+        printf("Awas! Petak %d memiliki teleporter ke petak %d!\n", NoPetak, arrtp.TTP[NoPetak]);
     }
 }

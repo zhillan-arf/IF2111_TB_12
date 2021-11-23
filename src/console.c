@@ -151,13 +151,12 @@ int main() {
                     displayBuff(buff(currentState.TabPlayer[TurnPemainKe - 1]), namaBuff); // namaBuff berasal dari array_buff.h
                 } 
                 else if (compareString(InputCmd,"INSPECT")) {
-                    inspect(&Peta);
+                    inspect(Peta, arrTP);
                 } 
                 else if (compareString(InputCmd,"UNDO")) {
                     Pop(&stackState, &currentState); // currentState diganti ke state ronde sebelumnya
                     //Balik ke state sebelumnya.
                     TakeUndo = true; //Keluar loop, dan mulai lagi ke pemain pertama karena variabel TurnPemainKe kembali di set ke 1
-
                 } 
                 else if (compareString(InputCmd, "ROLL")) {
                     roll(&Roll, MaxRoll, Peta, arrTP, JumPlayer, &currentState.TabPlayer[TurnPemainKe - 1]);
