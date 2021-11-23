@@ -36,9 +36,9 @@ IdxType GetPlayerIdx (State T, ElType P) {
     /* Prekondisi : Tabel T tidak kosong, P ada di tabel, tiap nama berbeda */
     /* Mengirimkan idx player P dalam array */
     // KAMUS
-    int idx = 0;
+    int idx = 1;
     // ALGORITMA
-    while (P.nama != T.TabPlayer[idx].nama && idx < T.Neff)
+    while (*P.nama != *T.TabPlayer[idx].nama && idx < T.Neff)
     {
         idx++;
     }

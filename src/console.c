@@ -68,6 +68,8 @@ int main() {
     // Inisialisasi State Permainan
     CreateEmptyStack(&stackState);
     MakeEmpty(&currentState);
+    int currentRound = 1;   // Setiap permainan dimulai dari ronde 1
+    SetRound(&currentState,currentRound); 
     // Loop input
     while (!is_valid)
     {
@@ -182,18 +184,22 @@ int main() {
                 }
             }
             // TURN player ke-sekian selesai
-            
+
             if (WinnerFound) { 
                 EndGame = true;
                 // GAME selesai...
             }
             else {
+                SetPlayer(&currentState, TurnPemainKe-1 ,currentState.TabPlayer[TurnPemainKe - 1]); 
+                // Update data player ke currentState setiap gilirannya selesai (Kayaknya ini dibutuhin, tapi bisa dicek lagi bakal error apa engga) -modan
                 TurnPemainKe++;
                 // Mulai TURN player ke-berikutnya
             }
         }
         // ROUND ke-sekian selesai
         if (!TakeUndo) {
+            currentRound++; 
+            SetRound(&currentState, currentRound); // Round baru di-update di currentstate
             Push(&stackState, currentState);   // Push state ke stack saat ronde selesai
         }
     }
