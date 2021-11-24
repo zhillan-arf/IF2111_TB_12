@@ -20,27 +20,6 @@
 #include "commands/skills.h"
 #include "commands/start_display.h"
 
-/* RECENT UPDATEs &/ Qs
-1. Aight beda2 puts (otomatis ngasih 1 buah \n) dan printf (nggak
-ngasih) tbh bikin ambigu, jadi harus mikir kayak gimana \n nya bakal 
-keluar di temrinal, diganti jadi printf semua gapapa ya :kekw:
-2. Invalid mending ga usah ngulang Menunya ga sih (?) biar ga spam (?), 
-kan tinggal scroll atas buat liat (?) jadi loop nya pindah ke bawah menu
-3. mesinkar dan mesinkata diubah2 biar bisa nerima inputan filename yaa
-4. Ner uga tapi: mesinkar sama tempat nyimpen file kan beda directory, itu
-perlu penanganan khusus ga sih?
-5. exit(0) tuh fungsinya apa sih?
-6. Kalo yang di sini dah oke pasti, tolong deletin main_menu.c
-7. Tbh inisialisasi2 di bawah lebih baik digabung sama bagian atas, soalnya
-kan harus input2in nama2 players dsb
-8. semua currloc1 diganti jadi sehingga ngakses player sekarang lagi siapa
-9. Display peringkat, now a thing
-10. Rapiin di sana sini in general biar ngurangin sakit mata
-11. Tapi yah.. tbh coba cek2, tkautnya ku salah terus logicnya jadi berantakan .-.
-12. soal charToInt dll, dia ga bisa pake typecast aja?
-13. ngebenerin path2 #include
-*/
-
 // ALGORITMA PROGRAM UTAMA
 int main() {
     // KAMUS
@@ -88,15 +67,8 @@ int main() {
                 SetNeff(&currentState, JumPlayer);
                 /* Disini harusnya ada fungsi buat mengisi currentState dengan 
                 player. (Mungkin dibuat di ADT player(?))
-                Misal something2 gini kali:
-                for (int i=0;i < JumPlayer;i++) 
-                {
-                    <scanf untuk nama player saat ini, yang jelas deklarasiin dulu
-                    var nya>
-                    SetPlayer(&currentState, i, <variabel isi nama player>);
-                }
-                < Atribut2 state yag lain kayak round ke-berapa sekarang juga harus diinisialisasi
-                awal >
+                < Atribut2 state yag lain kayak round ke-berapa sekarang 
+                juga harus diinisialisasi awal >
                 */
                 // 4. INPUT2 selesai.
                 printf("\nStarting the game...");

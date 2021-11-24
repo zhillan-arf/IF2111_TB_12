@@ -17,41 +17,6 @@
 #include "gacha_skill.h"
 #include "skills.h"
 
-/*  RECENT UPDATEs & Qs
-1. Eh ADT string yang dari #include <string.h> buat apa, ga bisa pake char aja (?) soalnya ku IDE nya 
-ga bisa detect ADT "string" kwkwkwk (though tbh IDE nya emang lagi masalah sih, jadi idk yang error yang mana)
-1b. Though ngl masih kurang ngerti juga ku tentang string, TLDR sih (1) ku deklarasiin dulu 
-extern char <variabel> di .h, udah gitu definisiin biasa char <variabel & isinya> di .c, sehingga
-bisa diakses di console dengan #include .h nya. Soalnya kan biar fungsi/prosedur nya bisa ngakses
-array of strings itu, kita butuh masukkin datanya ke deifnisi fungsinya, dan karena fungsinya diaktivin
-di console, berarti console harus punya akses ke data tersebut.
-1c. Masalahnya, ini di displaySkill masih ada error Merah Misterius Menyeramkan yang ku kurang
-ngerti kenapa, berhubungan ke kalo misal kita mau ngakses namaSkill[i], apparently kalo di code yang
-sekarang, ada masalah sama tipe data i nya. Ini ku lagi nanya bagas.
-1d. Ref: https://www.delftstack.com/howto/c/array-of-strings-in-c/
-2. List != node2 yang terdapat dalam list (yang diakses lewat address) (sehingga 
-List S ga bisa diakses langsung, paling harus pake loc = First(S))
-3. Ubah2 macro biar sesuai (NEXT(P) -> Next(P))
-4. Ada error di displaySkill di printf nya yang ku ga ngerti, dia berhubungan sama 
-cara ngakses elemen ke-sekian di namaSkill
-5. menuSkill: Kalo langusng akses List, kalo choice > jumlah elemen list, 
-choiceToSkill bakal jadi skill terakhir yang adalah salah (harusnya keluarin "invalid")
-5b. Actually yeah lom ada kondisional input invalid ya (?)
-5c. Ditambah fungsi valid_menuSkill buat keperluan ini
-6. Validasi input berarti juga harus ada loop nya
-7. skills.h juga diupdate biar sesuai sama skills.c
-8. Integrasi skill bonus dengan fungsi2. Tapi masih ada merah2 error, though tbh ku IDE
-lagi gaje jadi gatau error benerannya di mana
-9. temp di MesinTukar dideklarasiin
-10. Pemanggilan menuSkill di console dah diupdate biar sesuai sama sini
-11. Kalo bisa di file2 .h, tulis penjelasan tentang fungsi/prosedur, biar kita2
-sama tuan mor ngerti itu fungsi/prosedur gunanya buat apa kkwkwkwkw
- - Berkaitan dengan buff (Gabung aja biar sekali baca kwkwkwk)
-12. Kalo prosedur/fungsi mo baca suatu data kan harus dimasukkin, termasuk namaBuff. Though
-again, ku IDE nya dah gila sehingga ga tau apakah merah2 errornya karena emang error atau dia
-lom ngupdate.
-*/
-
 // DEFINISI VARIABEL KONSTAN
 char *namaSkill[] = {
     "Pintu Ga Ke Mana Mana",

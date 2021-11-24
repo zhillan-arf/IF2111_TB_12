@@ -20,7 +20,7 @@ penampilan outputnya adalah seperti berikut
 int main(){
 
     //Menuliskan output 3 baris pertama
-    STARTKATA();
+    STARTKATA("../../data/config.txt");
     for (int i = 0; i < 3; i++){
         for (int i = 1; i <= CKata.Length; i++){
             printf("%c", CKata.TabKata[i]);

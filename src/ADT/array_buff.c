@@ -11,7 +11,10 @@ char *namaBuff[] = {
 };
 
 void ResetTabBuff(array_buff *B) {
-    for (int i = 0; i < MaxBuff; i++) BUFF((*B), i) = false;
+    for (int i = 0; i < MaxBuff; i++) 
+    { 
+        BUFF((*B), i) = false;
+    }
 }
 
 void displayBuff(array_buff B, char *namaBuff[]){
