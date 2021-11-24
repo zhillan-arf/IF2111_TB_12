@@ -40,32 +40,6 @@ void displaySkill(List S, char *namaSkill[]) {
         printf("Daftar Skill yang dimiliki pemain:\n");
         while (loc != Nil) {
             count++;
-            /*
-            printf("%d. ");
-            switch (namaSkill[Info(loc)]) {
-            case 1:
-                printf("Pintu Ga Ke Mana Mana");
-                break;
-            case 2:
-                printf("Mesin Waktu");
-                break;
-            case 3:
-                printf("Baling Baling Jambu");
-                break;
-            case 4:
-                printf("Cermin Pengganda");
-                break;
-            case 5:
-                printf("Senter Pembesar Hoki");
-                break;
-            case 6:
-                printf("Senter Pengecil Hoki");
-                break;
-            case 7:
-                printf("Mesin Penukar Posisi");
-                break;
-            }
-            */
             printf("%d. %s\n", count, namaSkill[Info(loc)]);
             loc = Next(loc);
         }
@@ -162,7 +136,7 @@ void MesinWaktu (State *state, player *P, int MaxRoll, int JumPetak, TabPeta pet
     print_players((*state), (*P));
     while (!is_valid)   // input user masuk
     {
-        scanf("Masukkan pemain-ke: %d", input);
+        scanf("Masukkan pemain-ke: %d", &input);
         input--;    // idx array = urutan - 1
         if (valid(input, player_idx, nEff))
         {
@@ -209,7 +183,7 @@ void BalingBalingJambu (State *state, player *P, int MaxRoll, int JumPetak, TabP
     print_players((*state), (*P));
     while (!is_valid)   // input user masuk
     {
-        scanf("Masukkan pemain-ke: %d", input);
+        scanf("Masukkan pemain-ke: %d", &input);
         input--;    // idx array = urutan - 1
         if (valid(input, player_idx, nEff))
         {
@@ -274,7 +248,7 @@ void MesinTukar(State *state, player *P) {
     print_players((*state), (*P));
     while (!is_valid)   // input user masuk
     {
-        scanf("Masukkan pemain-ke: %d", input);
+        scanf("Masukkan pemain-ke: %d", &input);
         input--;    // idx array = urutan - 1
         if (valid(input, player_idx, nEff))
         {
