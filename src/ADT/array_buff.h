@@ -22,7 +22,7 @@ typedef struct arr_buff {
 
 extern char *namaBuff[];
 
-void CreateTabBuff(array_buff *B);
+void ResetTabBuff(array_buff *B);
 
 void displayBuff(array_buff B, char *namaBuff[]);
 

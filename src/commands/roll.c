@@ -14,7 +14,6 @@
 #include <time.h>
 
 void roll (
-        int *Roll,
         int MaxRoll,
         TabPeta peta,
         TabTP arrtp,
@@ -46,7 +45,6 @@ void roll (
     {
         rolled = (rand() % (MaxRoll)) + 1;
     }
-    (*Roll) = rolled;
     printf("%s meng-roll dan mendapat %d\n", nama(*p));
     
     // Kondisional

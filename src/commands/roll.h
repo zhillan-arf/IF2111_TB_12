@@ -13,7 +13,6 @@
 #define ROLL_H
 
 void roll (
-        int *Roll,
         int MaxRoll,
         TabPeta peta,
         TabTP arrtp,

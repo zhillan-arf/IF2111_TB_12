@@ -8,10 +8,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "console.h"
+#include "boolean.h"
+
+// DEKLARASI ADT
 #include "ADT/state.h"
 #include "ADT/player.h"
 #include "ADT/stack_state.h"
-#include "boolean.h"
+#include "ADT/array_buff.h"
+#include "ADT/list.h"
 
 // DEKLARASI COMMAND
 #include "commands/inspect.h"
@@ -23,9 +27,9 @@
 // ALGORITMA PROGRAM UTAMA
 int main() {
     // KAMUS
-    int choice, i, JumPetak, MaxRoll, JumTP, JumPlayer, TurnPemainKe, Roll;
+    int choice, i, JumPetak, MaxRoll, JumTP, JumPlayer, TurnPemainKe;
     boolean TakeUndo, HaveRolled, EndTurn, WinnerFound, EndGame, is_valid = false;
-    char *filename, *InputCmd, *playername;
+    char *filename, *InputCmd;
     TabPeta Peta;
     TabTP arrTP;
     player WinnerPlayer;
@@ -33,22 +37,12 @@ int main() {
     State currentState;
 
     // ALGORITMA
-    // MULAI PERMAINAN "SNEK AND MADDER!"
-    start_display();
-    printf("\n/============================/\n");
-    printf("  PERMAINAN 'SNEK AND MADDER'\n");
-    printf("/============================/\n");
-    printf("             MENU             \n");
-    printf("1) New Game\n");
-    printf("2) Exit\n");
-    printf("3) Help\n");
-    printf("/============================/\n");
+    print_start();
     
     // Inisialisasi State Permainan
     CreateEmptyStack(&stackState);
     MakeEmpty(&currentState);
     currentState.Round = 0;
-    // Loop input
     while (!is_valid)
     {
         printf("\n>> ");
@@ -56,50 +50,33 @@ int main() {
         switch (choice) 
         {
             case 1:
-                // 1. INPUT nama file
+                is_valid = true;
                 printf("Masukkan nama file : ");
                 scanf("%s", filename);
-                // 2. INPUT jumlah player
                 printf("Masukkan jumlah pemain : ");
                 scanf("%d", &JumPlayer);
                 ReadConfigFile(&JumPetak, &MaxRoll, &JumTP, &Peta, &arrTP, filename);
-                // 3. INPUT nama-nama player
                 SetNeff(&currentState, JumPlayer);
-                /* Disini harusnya ada fungsi buat mengisi currentState dengan 
-                player. (Mungkin dibuat di ADT player(?))
-                < Atribut2 state yag lain kayak round ke-berapa sekarang 
-                juga harus diinisialisasi awal >
-                */
                 SetRound(&currentState, 1);
-                for (int i = 0; i < JumPlayer; i++) {
-                    printf("Masukkan nama pemain : ");
-                    scanf("%s", &playername);
-                    currentState.TabPlayer[i].current_petak = 1;
-                    CreateEmpty(&currentState.TabPlayer[i].skill);
-                    ResetTabBuff(&currentState.TabPlayer[i].buff);
-                }
-                // 4. INPUT2 selesai.
+                insert_players(&currentState, JumPlayer);
                 printf("\nStarting the game...");
                 EndGame = false;
                 break;
-            case 2:
-                printf("See you later!");
-            case 3:
-                /* <Sesuatu sehingga display help. Mungkin
-                di sinilah baru print lagi command2 yang tersedia,
-                mayhaps dengan petunjuk format dll> */
-                printf("Masukkan '1' untuk mulai bermain\n");
-                printf("Masukkan '2' untuk keluar dari permainan\n");
-                printf("List Command\n");
-                printf("1) SKILL   : Menampilkan daftar skill yang dimiliki dan menanyakan apakah ingin menggunakan skill\n");
-                printf("2) MAP     : Menampilkan state peta saat ini\n");
-                printf("3) BUFF    : Menampilkan daftar buff yang dimiliki\n");
-                printf("4) INSPECT : Meminta suatu peta X dan melihat apakah tersedia teleporter di sana\n");
-                printf("5) ROLL    : Memutar dadu dan mendapatkan nilai di antar 1 dan MaxRoll. Pemain memilih antara maju dan mundur\n");
-                printf("6) ENDTURN : Digunakan untuk mengakhiri giliran permainan. Hanya dapat digunakan setelah pemain bergerak (ROLL)\n");
-                printf("7) UNDO    : Digunakan untuk mengulang suatu ronde dan mengembalikan permainan ke state akhir satu ronde sebelumnya\n");
 
-            default: printf("Tetot! Invalid input, masukkan '3' untuk help\n");
+            case 2:
+                is_valid = true;
+                EndGame = true;
+                printf("See you later!");
+                exit(0);
+                break;
+
+            case 3:
+                print_help();
+                break;
+
+            default: 
+                printf("Tetot! Invalid input, masukkan '3' untuk HELP\n");
+                break;
         }
     }
 
@@ -108,52 +85,57 @@ int main() {
         // Mulai ROUND
         // Inisialisai permulaaan ROUND
         TurnPemainKe = 1;
-        Roll = 0;
         TakeUndo = false;
         HaveRolled = false;
         EndTurn = false;
         WinnerFound = false;
         currentState.Round++;
-        printf("Memulai ROUND ke-%d...", currentState.Round);
+        printf("Memulai ROUND ke-%d...\n", currentState.Round);
+
         //Memperlihatkan peta setiap pemain
         for (int i = 0; i < JumPlayer; i++) {
             DisplayPetaPemain(Peta, currentState.TabPlayer[i].current_petak, JumPetak);
         }
+
         while ((TurnPemainKe != (JumPlayer+1)) && (!TakeUndo) && (!EndGame)) {
             //Mulai TURN tiap pemain
             printf("********** GILIRAN %s! **********\n", currentState.TabPlayer[TurnPemainKe - 1].nama);
             gacha_skill(&currentState.TabPlayer[TurnPemainKe - 1].skill);
+            
             while ((!EndTurn) && (!WinnerFound) && (!TakeUndo)) {
                 printf("Masukkan command: ");
                 scanf("%s", &InputCmd);
                 // Kondisional tergantung InputCmd
-                if (compareString(InputCmd,"SKILL")) {
+                if (compareString(InputCmd,"SKILL")) 
+                {
                     if (HaveRolled) {
-                        printf("Anda tidak dapat menggunakan skill karena sudah melakukan roll!");
-                    } 
-                    else {
+                        printf("Oi! Anda sudah ROLL! SKILL tidak lagi bisa diakses.");
+                    } else {
                         menuSkill(&currentState, &currentState.TabPlayer[TurnPemainKe - 1], MaxRoll, JumPetak, Peta, arrTP, namaSkill);
                     } 
                 } 
-                else if (compareString(InputCmd,"MAP")) {
+                else if (compareString(InputCmd,"MAP")) 
+                {
                     for (int i = 0; i < JumPlayer; i++) {
                         DisplayPetaPemain(Peta, currentState.TabPlayer[i].current_petak, JumPetak);
-                    }
-                    // Seluruh pemain selesai di-display
+                    } // Seluruh pemain selesai di-display
                 } 
-                else if (compareString(InputCmd,"BUFF")) {
+                else if (compareString(InputCmd,"BUFF")) 
+                {
                     displayBuff(buff(currentState.TabPlayer[TurnPemainKe - 1]), namaBuff); // namaBuff berasal dari array_buff.h
                 } 
-                else if (compareString(InputCmd,"INSPECT")) {
+                else if (compareString(InputCmd,"INSPECT")) 
+                {
                     inspect(Peta, arrTP);
                 } 
-                else if (compareString(InputCmd,"UNDO")) {
+                else if (compareString(InputCmd,"UNDO")) 
+                {
                     Pop(&stackState, &currentState); // currentState diganti ke state ronde sebelumnya
-                    //Balik ke state sebelumnya.
-                    TakeUndo = true; //Keluar loop, dan mulai lagi ke pemain pertama karena variabel TurnPemainKe kembali di set ke 1
+                    TakeUndo = true; //Keluar loop, dan mulai lagi ke pemain pertama
                 } 
-                else if (compareString(InputCmd, "ROLL")) {
-                    roll(&Roll, MaxRoll, Peta, arrTP, JumPlayer, &currentState.TabPlayer[TurnPemainKe - 1]);
+                else if (compareString(InputCmd, "ROLL")) 
+                {
+                    roll(MaxRoll, Peta, arrTP, JumPlayer, &currentState.TabPlayer[TurnPemainKe - 1]);
                     HaveRolled = true;
                     if (currentState.TabPlayer[TurnPemainKe - 1].current_petak == JumPetak) { 
                         // Player menang
@@ -161,15 +143,16 @@ int main() {
                         WinnerFound = true;
                     }
                 } 
-                else if (compareString(InputCmd, "ENDTURN")) {
+                else if (compareString(InputCmd, "ENDTURN")) 
+                {
                     if (!HaveRolled) {
                         printf("ENDTURN hanya dapat digunakan setelah ROLL");
-                    } 
-                    else {
+                    } else {
                         EndTurn = true;
                     }
                 } 
-                else {
+                else 
+                {
                     printf("Masukan command tidak valid! Silahkan coba lagi.\n");
                 }
             }
@@ -198,7 +181,51 @@ int main() {
 }
 
 
-// DEIFNISI FUNGSI PROSEDUR TAMBAHAN
+// DEFINISI FUNGSI PROSEDUR TAMBAHAN
+void print_start() {
+    // ALGORITMA
+    start_display();
+    printf("\nBy Mobita & Borakemon. All rights reserved.\n");
+    printf("\n/=============================/\n");
+    printf("       'SNEK AND MADDER'\n");
+    printf("/=============================/\n");
+    printf("             MENU             \n");
+    printf("1) New Game\n");
+    printf("2) Exit\n");
+    printf("3) Help\n");
+    printf("/=============================/\n");
+}
+
+
+void print_help() {
+    // ALGORITMA
+    printf("Masukkan '1' untuk mulai bermain\n");
+    printf("Masukkan '2' untuk keluar dari permainan\n\n");
+    printf("List Command pada pemainan nanti:\n");
+    printf("1) SKILL   : Menampilkan daftar skill yang dimiliki dan menanyakan apakah ingin menggunakan skill\n");
+    printf("2) MAP     : Menampilkan state peta saat ini\n");
+    printf("3) BUFF    : Menampilkan daftar buff yang dimiliki\n");
+    printf("4) INSPECT : Meminta suatu peta X dan melihat apakah tersedia teleporter di sana\n");
+    printf("5) ROLL    : Memutar dadu dan mendapatkan nilai di antar 1 dan MaxRoll. Pemain memilih antara maju dan mundur\n");
+    printf("6) ENDTURN : Digunakan untuk mengakhiri giliran permainan. Hanya dapat digunakan setelah pemain bergerak (ROLL)\n");
+    printf("7) UNDO    : Digunakan untuk mengulang suatu ronde dan mengembalikan permainan ke state akhir satu ronde sebelumnya\n");
+}
+
+void insert_players(State *currentState, int JumPlayer)  {
+    // KAMUS LOKAL
+    char *playername;
+    // ALGORITMA
+    for (int i = 0; i < JumPlayer; i++) 
+    {
+        printf("Masukkan nama pemain : ");
+        scanf("%s", playername);
+        (*currentState).TabPlayer[i].current_petak = 1;
+        CreateEmpty(&(*currentState).TabPlayer[i].skill);
+        ResetTabBuff(&(*currentState).TabPlayer[i].buff);
+    }
+}
+
+
 void displayPeringkat(State currentState, int JumPlayer) {
     // KAMUS LOKAL
     State orderState;
@@ -236,7 +263,7 @@ void displayPeringkat(State currentState, int JumPlayer) {
 }
 
 
-int charToInt(char c){
+int charToInt(char c) {
 	int num = 0;
 	num = c - '0';
 	return num;
@@ -257,7 +284,7 @@ int strToInt(char s[]){
 }
 
 void ReadConfigFile(int *JPetak, int *MRoll, int *JTP, TabPeta *P, TabTP *ARTP, char *filename){
-
+    // ALGORITMA
     //Menyimpan value jumlah petak ke sebuah variabel
     STARTKATA(filename);
     *JPetak = strToInt(CKata.TabKata);

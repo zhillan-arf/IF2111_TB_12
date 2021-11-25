@@ -55,11 +55,12 @@ void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta,
     // ALGORITMA
     S = skill(*P);
     displaySkill(S, namaSkill);
-    if (!IsEmpty(S)) {
+    if (!IsEmpty(S)) 
+    {
         loc = First(S);
         while (!is_valid)
         {
-            printf("Pilih Skill yang mau diakftifkan! (pilih 0 untuk keluar)");
+            printf("Pilih Skill yang mau diakftifkan! (Pilih 0 untuk keluar)\n>> ");
             scanf("%d", &idx_choice);
             // Didapat no urut di terminal yang dipilih
             if (valid_menuSkill(idx_choice, NbElmt(S)))  // idx_choice = antara 1 sampe NbElmt(S)

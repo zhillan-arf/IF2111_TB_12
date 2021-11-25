@@ -13,6 +13,18 @@ extern int JumPetak, MaxRoll, JumTP;
 extern TabPeta Peta;
 extern TabTP arrTP;
 
+void print_start();
+// I.S. sembarang
+// F.S. pesan2 start terprint
+
+void print_help();
+// I.S. Sembarang
+// F.S. HELP (pilihan 3) printed
+
+void insert_players(State *currentState, int JumPlayer);
+// I.S. currentState kosong
+// F.S. currentState terisi player2 seusia jumlah
+
 void displayPeringkat(State currentState, int JumPlayer);
 // I.S. currentState berisi data seluruh pemain ketika GAME berakhir
 // F.S. Terdisplay siapa yang menang, dan leaderbord
