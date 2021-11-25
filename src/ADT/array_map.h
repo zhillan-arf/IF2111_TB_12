@@ -19,7 +19,7 @@ typedef struct tabpeta {
 void MakeEmptyPeta(TabPeta *P);
 /* Membetuk sebuah tabel peta P yang kosong dengan mengisi seluruh elemennya '-' */
 
-void DisplayPetaPemain(TabPeta P, int PosPemain, int JumPetak);
+void DisplayPetaPemain(TabPeta P, int PosPemain, int JumPetak, char *nama);
 /* I.S. Sembarang */
 /* F.S. Menampilkan peta untuk player sesuai dengan posisinya.*/
 

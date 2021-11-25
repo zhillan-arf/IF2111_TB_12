@@ -3,6 +3,7 @@
 
 #include "mesin_kar.h"
 #include <stdio.h>
+#include <string.h>
 
 char CC;
 boolean EOP;
@@ -10,15 +11,19 @@ boolean EOP;
 static FILE * pita;
 static int retval;
 
-void START(char *filename) {
+void START(char filename[]) {
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
    F.S. : CC adalah karakter pertama pada pita. Jika CC != MARK maka EOP akan padam (false).
           Jika CC = MARK maka EOP akan menyala (true) */
 
+    // KAMUS LOKAL
+    char file_dir[255] = "data/";
     /* Algoritma */
-    pita = fopen(filename, "r");
+    strcat(file_dir, filename);
+    pita = fopen(file_dir, "r");
+    printf("%s berhasil di-load\n", file_dir);
     ADV();
 }
 

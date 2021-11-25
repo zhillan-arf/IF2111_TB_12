@@ -16,7 +16,6 @@ kalo ku harus ganti2 lagi tar :kekw: */
 #ifndef player_H
 #define player_H
 
-#define MAX_NAMA 100
 typedef struct play {
     char *nama;
     int current_petak;

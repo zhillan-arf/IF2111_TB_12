@@ -14,4 +14,8 @@ void start_display();
 // I.S. sembarang
 // F.S. ter-print konten start_display.txt
 
+void delay(int s);
+// I.S. sembarang
+// F.S. waktu ter-delay sebanyak s detik
+
 #endif

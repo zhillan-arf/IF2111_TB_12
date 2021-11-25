@@ -29,7 +29,7 @@ int main() {
     // KAMUS
     int choice, i, JumPetak, MaxRoll, JumTP, JumPlayer, TurnPemainKe;
     boolean TakeUndo, HaveRolled, EndTurn, WinnerFound, EndGame, is_valid = false;
-    char *filename, *InputCmd;
+    char filename[255], InputCmd[255];
     TabPeta Peta;
     TabTP arrTP;
     player WinnerPlayer;
@@ -57,9 +57,9 @@ int main() {
                 scanf("%d", &JumPlayer);
                 ReadConfigFile(&JumPetak, &MaxRoll, &JumTP, &Peta, &arrTP, filename);
                 SetNeff(&currentState, JumPlayer);
-                SetRound(&currentState, 1);
+                SetRound(&currentState, 0);
                 insert_players(&currentState, JumPlayer);
-                printf("\nStarting the game...");
+                printf("\nStarting the game...\n");
                 EndGame = false;
                 break;
 
@@ -94,7 +94,7 @@ int main() {
 
         //Memperlihatkan peta setiap pemain
         for (int i = 0; i < JumPlayer; i++) {
-            DisplayPetaPemain(Peta, currentState.TabPlayer[i].current_petak, JumPetak);
+            DisplayPetaPemain(Peta, currentState.TabPlayer[i].current_petak, JumPetak, currentState.TabPlayer[i].nama);
         }
 
         while ((TurnPemainKe != (JumPlayer+1)) && (!TakeUndo) && (!EndGame)) {
@@ -117,7 +117,7 @@ int main() {
                 else if (compareString(InputCmd,"MAP")) 
                 {
                     for (int i = 0; i < JumPlayer; i++) {
-                        DisplayPetaPemain(Peta, currentState.TabPlayer[i].current_petak, JumPetak);
+                        DisplayPetaPemain(Peta, currentState.TabPlayer[i].current_petak, JumPetak, currentState.TabPlayer[i].nama);
                     } // Seluruh pemain selesai di-display
                 } 
                 else if (compareString(InputCmd,"BUFF")) 
@@ -185,7 +185,9 @@ int main() {
 void print_start() {
     // ALGORITMA
     start_display();
+    delay(1.5);
     printf("\nBy Mobita & Borakemon. All rights reserved.\n");
+    delay(0.5);
     printf("\n/=============================/\n");
     printf("       'SNEK AND MADDER'\n");
     printf("/=============================/\n");
@@ -201,7 +203,7 @@ void print_help() {
     // ALGORITMA
     printf("Masukkan '1' untuk mulai bermain\n");
     printf("Masukkan '2' untuk keluar dari permainan\n\n");
-    printf("List Command pada pemainan nanti:\n");
+    printf("List Command pada permainan nanti:\n");
     printf("1) SKILL   : Menampilkan daftar skill yang dimiliki dan menanyakan apakah ingin menggunakan skill\n");
     printf("2) MAP     : Menampilkan state peta saat ini\n");
     printf("3) BUFF    : Menampilkan daftar buff yang dimiliki\n");
@@ -213,15 +215,17 @@ void print_help() {
 
 void insert_players(State *currentState, int JumPlayer)  {
     // KAMUS LOKAL
-    char *playername;
+    char playername[255];
     // ALGORITMA
     for (int i = 0; i < JumPlayer; i++) 
     {
-        printf("Masukkan nama pemain : ");
+        printf("\nMasukkan username pemain ke-%d : ", i + 1);
         scanf("%s", playername);
+        (*currentState).TabPlayer[i].nama = playername;
         (*currentState).TabPlayer[i].current_petak = 1;
         CreateEmpty(&(*currentState).TabPlayer[i].skill);
         ResetTabBuff(&(*currentState).TabPlayer[i].buff);
+        printf(">> %s siap bermain!\n", playername);
     }
 }
 
@@ -283,44 +287,37 @@ int strToInt(char s[]){
     return n;
 }
 
-void ReadConfigFile(int *JPetak, int *MRoll, int *JTP, TabPeta *P, TabTP *ARTP, char *filename){
+void ReadConfigFile(int *JPetak, int *MRoll, int *JTP, TabPeta *P, TabTP *ARTP, char filename[]){
     // ALGORITMA
     //Menyimpan value jumlah petak ke sebuah variabel
     STARTKATA(filename);
     *JPetak = strToInt(CKata.TabKata);
-
     // Menyimpan peta ke sebuah tabel
     ADVKATA();
     MakeEmptyPeta(P);
     KataToTabPeta(CKata, P);
-    
     //Menyimpan value jumlah maksimal roll ke sebuah variabel
     ADVKATA();
     *MRoll = strToInt(CKata.TabKata);
-
     //Menyimpan value jumlah teleport ke sebuah variabel
     ADVKATA();
     *JTP = strToInt(CKata.TabKata);
-
     //Membuat tabel untuk keperluan informasi teleport
     int KeluarTP, MasukTP;
     MakeEmptyArrTP(ARTP);
-    for (int i = 0; i < (*JTP); i++){
+    for (int i = 0; i < (*JTP); i++) {
         ADVKATA();
         if (CKata.Length == 1){
             MasukTP = charToInt(CKata.TabKata[1]);
         } else if (CKata.Length == 2){
             MasukTP = charToInt(CKata.TabKata[1]) * 10 + charToInt(CKata.TabKata[2]);
-            
         }
-
         ADVKATA();
         if (CKata.Length == 1){
             KeluarTP = charToInt(CKata.TabKata[1]);
         } else if (CKata.Length == 2){
             KeluarTP = charToInt(CKata.TabKata[1]) * 10 + charToInt(CKata.TabKata[2]);
         }
-
         InsertTP(ARTP, KeluarTP, MasukTP);
     }
 }

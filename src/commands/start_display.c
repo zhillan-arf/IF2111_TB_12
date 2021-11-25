@@ -32,16 +32,17 @@ void start_display()
     }
   
     fclose(fptr);
+}
 
-    // Converting time into milli_seconds
-    int milli_seconds = 1000 * 3;
-  
-    // Storing start time
-    clock_t start_time = clock();
-  
-    // looping till required time is not achieved
-    while (clock() < start_time + milli_seconds)
+void delay(int s) {
+    // KAMUS LOKAL
+    int milisec;
+    clock_t start_time;
+    // ALGORITMA
+    milisec = 1000 * s;
+    start_time = clock();
+    while (clock() < start_time + milisec)
     {
-        // Menunggu...
+        // Menunggu 1 DETIK
     }
 }

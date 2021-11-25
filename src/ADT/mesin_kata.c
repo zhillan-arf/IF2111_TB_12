@@ -41,7 +41,7 @@ void SalinKata(){
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMaxChar, maka sisa kata "dipotong" */
           
-void STARTKATA(char *filename) {
+void STARTKATA(char filename[]) {
     START(filename) ;
     IgnoreBlank();
     IgnoreBlank2();
