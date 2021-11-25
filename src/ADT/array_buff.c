@@ -24,5 +24,5 @@ void displayBuff(array_buff B, char *namaBuff[]){
         count++;
         printf("%d. %s\n", count, namaBuff[i]);
     }
-    if (!count) printf("Player tidak memiliki buff");
+    if (!count) printf("Player tidak memiliki buff\n");
 }

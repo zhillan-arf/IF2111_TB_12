@@ -4,12 +4,17 @@
     Versi: 2021-11-16 20:30
 */
 
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 #include "../boolean.h"
 #include "../ADT/array_buff.h"
-#include "gacha_skill.h"
-#include "../ADT/array_tp.h"
-#include "../ADT/array_map.h"
+#include "../ADT/player.h"
+#include "../ADT/list.h"
 #include "../ADT/state.h"
+#include "../commands/roll.h"
+#include "gacha_skill.h"
 
 #ifndef SKILLS_H
 #define SKILLS_H

@@ -4,12 +4,24 @@
     Versi: 2021-11-15 11:30
 */
 
-#include "../commands/skills.h"
 #include <stdio.h>
 
 int main () {
     // KAMUS
+    char *namaSkill[] = {
+        "Pintu Ga Ke Mana Mana",
+        "Mesin Waktu",
+        "Baling Baling Jambu",
+        "Cermin Pengganda",
+        "Senter Pembesar Hoki", 
+        "Senter Pengecil Hoki", 
+        "Mesin Penukar Posisi"
+    };
+    int i;
     // ALGORITMA
-    printf("%s", namaSkill[0]);
+    for (i=0; i<7; ++i)
+    {
+        printf("%s", namaSkill[i]);
+    }
     return 0;
 }

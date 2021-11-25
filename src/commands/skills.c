@@ -40,13 +40,21 @@ void displaySkill(List S, char *namaSkill[]) {
         printf("Daftar Skill yang dimiliki pemain:\n");
         while (loc != Nil) {
             count++;
-            printf("%d. %s\n", count, namaSkill[Info(loc)]);
+            printf("%d. %s\n", count, namaSkill[Info(loc) - 1]);
             loc = Next(loc);
         }
     }
     else printf("Pemain belum memiliki skill.");
 }
-void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp, char *namaSkill[]) {
+void menuSkill(
+        State *state, 
+        player *P, 
+        int MaxRoll, 
+        int JumPetak, 
+        TabPeta peta, 
+        TabTP arrtp, 
+        char *namaSkill[]
+    ) {
     // KAMUS LOKAL
     List S;
     int idx_choice, choiceToSkill, ctr;
@@ -98,7 +106,7 @@ void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta,
                         break;  
                 }
             }
-            else if (idx_choice = 0)
+            else if (idx_choice == 0)
             {
                 is_valid = true;
                 printf("Command SKILL diterminasi. Kembali ke turn.\n");
@@ -304,6 +312,7 @@ boolean valid_menuSkill (int idx_choice, int nbelmt) {
     int i = 1;
     boolean found = false;
     // ALGORITMA
+    printf("Debug! valid_menuSkill. %d, %d\n", idx_choice, nbelmt);
     while (i <= nbelmt && !found)
     {
         if (idx_choice == i)

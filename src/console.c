@@ -93,13 +93,18 @@ int main() {
         printf("Memulai ROUND ke-%d...\n", currentState.Round);
 
         //Memperlihatkan peta setiap pemain
-        for (int i = 0; i < JumPlayer; i++) {
-            DisplayPetaPemain(Peta, currentState.TabPlayer[i].current_petak, JumPetak, currentState.TabPlayer[i].nama);
+        for (i = 0; i < JumPlayer; i++) {
+            DisplayPetaPemain(
+                Peta, 
+                currentState.TabPlayer[i].current_petak, 
+                JumPetak, 
+                currentState.TabPlayer[i].nama
+            );
         }
 
         while ((TurnPemainKe != (JumPlayer+1)) && (!TakeUndo) && (!EndGame)) {
             //Mulai TURN tiap pemain
-            printf("********** GILIRAN %s! **********\n", currentState.TabPlayer[TurnPemainKe - 1].nama);
+            printf("********** GILIRAN: %s! **********\n", currentState.TabPlayer[TurnPemainKe - 1].nama);
             gacha_skill(&currentState.TabPlayer[TurnPemainKe - 1].skill);
             
             while ((!EndTurn) && (!WinnerFound) && (!TakeUndo)) {
@@ -111,13 +116,26 @@ int main() {
                     if (HaveRolled) {
                         printf("Oi! Anda sudah ROLL! SKILL tidak lagi bisa diakses.");
                     } else {
-                        menuSkill(&currentState, &currentState.TabPlayer[TurnPemainKe - 1], MaxRoll, JumPetak, Peta, arrTP, namaSkill);
+                        menuSkill (
+                            &currentState, 
+                            &currentState.TabPlayer[TurnPemainKe - 1], 
+                            MaxRoll, 
+                            JumPetak, 
+                            Peta, 
+                            arrTP, 
+                            namaSkill
+                        );
                     } 
                 } 
                 else if (compareString(InputCmd,"MAP")) 
                 {
                     for (int i = 0; i < JumPlayer; i++) {
-                        DisplayPetaPemain(Peta, currentState.TabPlayer[i].current_petak, JumPetak, currentState.TabPlayer[i].nama);
+                        DisplayPetaPemain (
+                            Peta, 
+                            currentState.TabPlayer[i].current_petak, 
+                            JumPetak, 
+                            currentState.TabPlayer[i].nama
+                        );
                     } // Seluruh pemain selesai di-display
                 } 
                 else if (compareString(InputCmd,"BUFF")) 
@@ -135,7 +153,13 @@ int main() {
                 } 
                 else if (compareString(InputCmd, "ROLL")) 
                 {
-                    roll(MaxRoll, Peta, arrTP, JumPlayer, &currentState.TabPlayer[TurnPemainKe - 1]);
+                    roll (
+                        MaxRoll, 
+                        Peta, 
+                        arrTP, 
+                        JumPlayer, 
+                        &currentState.TabPlayer[TurnPemainKe - 1]
+                    );
                     HaveRolled = true;
                     if (currentState.TabPlayer[TurnPemainKe - 1].current_petak == JumPetak) { 
                         // Player menang
@@ -215,17 +239,19 @@ void print_help() {
 
 void insert_players(State *currentState, int JumPlayer)  {
     // KAMUS LOKAL
-    char playername[255];
+    char *playername;
+    int i;
     // ALGORITMA
-    for (int i = 0; i < JumPlayer; i++) 
+    for (i = 0; i < JumPlayer; i++) 
     {
         printf("\nMasukkan username pemain ke-%d : ", i + 1);
+        playername = (char*) malloc(255 * sizeof(char));
         scanf("%s", playername);
         (*currentState).TabPlayer[i].nama = playername;
         (*currentState).TabPlayer[i].current_petak = 1;
         CreateEmpty(&(*currentState).TabPlayer[i].skill);
         ResetTabBuff(&(*currentState).TabPlayer[i].buff);
-        printf(">> %s siap bermain!\n", playername);
+        printf(">> %s siap bermain!\n", (*currentState).TabPlayer[i].nama);
     }
 }
 
