@@ -25,7 +25,7 @@ int main() {
     // KAMUS
     int choice, i, JumPetak, MaxRoll, JumTP, JumPlayer, TurnPemainKe, Roll;
     boolean TakeUndo, HaveRolled, EndTurn, WinnerFound, EndGame, is_valid = false;
-    char *filename, *InputCmd;
+    char *filename, *InputCmd, *playername;
     TabPeta Peta;
     TabTP arrTP;
     player WinnerPlayer;
@@ -57,10 +57,10 @@ int main() {
         {
             case 1:
                 // 1. INPUT nama file
-                printf("Enter a file name : ");
+                printf("Masukkan nama file : ");
                 scanf("%s", filename);
                 // 2. INPUT jumlah player
-                printf("Enter the number of players : ");
+                printf("Masukkan jumlah pemain : ");
                 scanf("%d", &JumPlayer);
                 ReadConfigFile(&JumPetak, &MaxRoll, &JumTP, &Peta, &arrTP, filename);
                 // 3. INPUT nama-nama player
@@ -70,6 +70,14 @@ int main() {
                 < Atribut2 state yag lain kayak round ke-berapa sekarang 
                 juga harus diinisialisasi awal >
                 */
+                SetRound(&currentState, 1);
+                for (int i = 0; i < JumPlayer; i++) {
+                    printf("Masukkan nama pemain : ");
+                    scanf("%s", &playername);
+                    currentState.TabPlayer[i].current_petak = 1;
+                    CreateEmpty(&currentState.TabPlayer[i].skill);
+                    ResetTabBuff(&currentState.TabPlayer[i].buff);
+                }
                 // 4. INPUT2 selesai.
                 printf("\nStarting the game...");
                 EndGame = false;
@@ -80,6 +88,16 @@ int main() {
                 /* <Sesuatu sehingga display help. Mungkin
                 di sinilah baru print lagi command2 yang tersedia,
                 mayhaps dengan petunjuk format dll> */
+                printf("Masukkan '1' untuk mulai bermain\n");
+                printf("Masukkan '2' untuk keluar dari permainan\n");
+                printf("List Command\n");
+                printf("1) SKILL   : Menampilkan daftar skill yang dimiliki dan menanyakan apakah ingin menggunakan skill\n");
+                printf("2) MAP     : Menampilkan state peta saat ini\n");
+                printf("3) BUFF    : Menampilkan daftar buff yang dimiliki\n");
+                printf("4) INSPECT : Meminta suatu peta X dan melihat apakah tersedia teleporter di sana\n");
+                printf("5) ROLL    : Memutar dadu dan mendapatkan nilai di antar 1 dan MaxRoll. Pemain memilih antara maju dan mundur\n");
+                printf("6) ENDTURN : Digunakan untuk mengakhiri giliran permainan. Hanya dapat digunakan setelah pemain bergerak (ROLL)\n");
+                printf("7) UNDO    : Digunakan untuk mengulang suatu ronde dan mengembalikan permainan ke state akhir satu ronde sebelumnya\n");
 
             default: printf("Tetot! Invalid input, masukkan '3' untuk help\n");
         }
