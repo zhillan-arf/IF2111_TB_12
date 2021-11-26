@@ -30,7 +30,7 @@ void PintuGaKemanaSaja(player* P);
 //I.S player memanggil skill 1 dan skill 1 terdapat pada list skill player, 
 //F.S buff telport palyer immune akan aktif dan skill 1 dihapus dari list skill palyer.
 
-void MesinWaktu (State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp);
+void MesinWaktu (State *state, player *P, int JumPetak, TabPeta peta, TabTP arrtp, int val);
 // Skill ke-2
 /*  I.S.    Player memangiil skill 2 "Mesin waktu" dan skill 2 terdapat dalam list skill player.
             Sebelumnya, pada opsi2, tertulis "X. Mesin Waktu (?? langkah)"
@@ -39,7 +39,7 @@ void MesinWaktu (State *state, player *P, int MaxRoll, int JumPetak, TabPeta pet
             Vice versa berhasil, hapus salah satu skill 2 dari list skill player itu, laksanakan perintah
 */
 
-void BalingBalingJambu (State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp);
+void BalingBalingJambu (State *state, player *P, int JumPetak, TabPeta peta, TabTP arrtp, int val);
 // Skill ke-3
 /*  I.S.    Player memangiil skill 3 "Baling-Baling Jambu" dan skill 3 terdapat dalam list skill player.
             Sebelumnya, pada opsi2, tertulis "X. Baling-Baling Jambu (?? langkah)"
@@ -48,7 +48,7 @@ void BalingBalingJambu (State *state, player *P, int MaxRoll, int JumPetak, TabP
             Vice versa berhasil, hapus salah satu skill 2 dari list skill player itu, laksanakan perintah
 */
 
-void CerminPengganda(player *P);
+void CerminPengganda(player *P, int MaxRoll);
 //Cermin pengganda
 //I.S player memanggil skill 4 dan skill 4 terdapat pada list skill player  
 //F.S skill 4 pada list player terhapus, dan terdapat penambahan 2 skill baru

@@ -7,7 +7,7 @@ console :
 
 # ADT UNIT TESTS
 mlist :
-	gcc -o mlist src/ADT/mlist.c src/ADT/list.c
+	gcc -o mlist src/driver_ADT/mlist.c src/ADT/list.c
 
 # OTHER UNIT TESTS
 minspect :

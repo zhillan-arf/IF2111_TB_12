@@ -27,7 +27,7 @@ void CreateEmpty (List *L) {
 
 
 /****************** Manajemen Memori ******************/
-address Alokasi (infotype X) {
+address Alokasi (infotype X, int val) {
     /* Mengirimkan address hasil alokasi sebuah elemen */
     /* Jika alokasi berhasil, maka address tidak nil, dan misalnya */
     /* menghasilkan P, maka Info(P)=X, Next(P)=Nil */
@@ -39,6 +39,7 @@ address Alokasi (infotype X) {
     if (P != Nil)   // Alokasi berhasil
     {
         Info(P) = X;
+        Value(P) = val;
         Next(P) = Nil;
     }
     else    // Alokasi gagal
@@ -137,14 +138,14 @@ void InsertAfter (List *L, address P, address Prec) {
 
 /****************** PRIMITIF BERDASARKAN NILAI ******************/
 /*** PENAMBAHAN ELEMEN ***/
-void InsVFirst (List *L, infotype X) {
+void InsVFirst (List *L, infotype X, int val) {
     /* I.S. L mungkin kosong */
     /* F.S. Melakukan alokasi sebuah elemen dan */
     /* menambahkan elemen pertama dengan nilai X jika alokasi berhasil */
     // KAMUS LOKAL
     address P;
     // ALGORITMA
-    P = Alokasi(X);
+    P = Alokasi(X, val);
     if (P != Nil)
     {
         InsertFirst(L, P);
@@ -152,12 +153,12 @@ void InsVFirst (List *L, infotype X) {
 }
 
 
-void InsVLast (List *L, infotype X) {
+void InsVLast (List *L, infotype X, int val) {
     /* I.S. L mungkin kosong */
     /* F.S. Melakukan alokasi sebuah elemen dan */
     /* menambahkan elemen list di akhir: elemen terakhir yang baru */
     /* bernilai X jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
-    address P = Alokasi(X);
+    address P = Alokasi(X, val);
     if (P != Nil)
     {
         InsertLast(L, P);

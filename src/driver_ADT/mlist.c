@@ -6,7 +6,7 @@
 */
 
 #include <stdio.h>
-#include "list.h"
+#include "../ADT/list.h"
 
 // METODE PENGETESAN
 
@@ -41,7 +41,7 @@ int main () {
         int X3 = 177013;
         address P3;
         // ALGORITMA
-        P3 = Alokasi(X3);
+        P3 = Alokasi(X3, VALUE_UNDEF);
         if (P3 != Nil)
         {
             if (Info(P3) == X3)
@@ -64,7 +64,7 @@ int main () {
         int X4 = 348673;
         address P4;
         // ALGORITMA
-        P4 = Alokasi(X4);
+        P4 = Alokasi(X4, VALUE_UNDEF);
         if (P4 != Nil)
         {
             Dealokasi(&P4);
@@ -85,8 +85,8 @@ int main () {
         int X5a = 300110;
         int X5b = 271048;
         // ALGORITMA
-        P5a = Alokasi(X5a);
-        P5b = Alokasi(X5b);
+        P5a = Alokasi(X5a, VALUE_UNDEF);
+        P5b = Alokasi(X5b, VALUE_UNDEF);
         CreateEmpty(&L5);
         if ((P5a != Nil) && (P5b != Nil))  // Kedua alokasi berhasil
         {
@@ -130,7 +130,7 @@ int main () {
         address P6; // P5b
         int X6 = 314351;
         // ALGORITMA
-        P6 = Alokasi(X6);
+        P6 = Alokasi(X6, VALUE_UNDEF);
         if (P6 != Nil)
         {
             InsertAfter(&L5, P6, P5b);
@@ -158,8 +158,8 @@ int main () {
         int X7a = 265534;
         int X7b = 130835;
         // ALGORITMA
-        P7a = Alokasi(X7a);
-        P7b = Alokasi(X7b);
+        P7a = Alokasi(X7a, VALUE_UNDEF);
+        P7b = Alokasi(X7b, VALUE_UNDEF);
         CreateEmpty(&L7);
         if ((P7a != Nil) && (P7b != Nil))  // Kedua alokasi berhasil
         {
@@ -207,7 +207,7 @@ int main () {
         CreateEmpty(&L8);
 
         // Test list kosong
-        InsVFirst(&L8, X8a);
+        InsVFirst(&L8, X8a, VALUE_UNDEF);
         // L8 = [X8a]
         printf("TEST8a X = %d\n", Info(First(L8)));
         if (Info(First(L8)) == X8a)
@@ -221,7 +221,7 @@ int main () {
         }
 
         // Test list isi
-        InsVFirst(&L8, X8b);
+        InsVFirst(&L8, X8b, VALUE_UNDEF);
         // L8 = [X8b, X8a]
         printf("TEST8b X = %d\n", Info(First(L8)));
         if (Info(First(L8)) == X8b)
@@ -243,7 +243,7 @@ int main () {
         // ALGORITMA
         CreateEmpty(&L9);
         // Test list kosong
-        InsVLast(&L9, X9a);
+        InsVLast(&L9, X9a, VALUE_UNDEF);
         // L9 = [X9a]
         printf("TEST9a X = %d\n", First(L9));
         if (Info(First(L9)) == X9a)
@@ -256,7 +256,7 @@ int main () {
             printf("GAGAL TEST9a InsertLast\n");
         }
         // Test list isi
-        InsVLast(&L9, X9b);
+        InsVLast(&L9, X9b, VALUE_UNDEF);
         // L9 = [X9a, X9b]
         loc9 = Next(First(L9));
         printf("TEST9b X = %d\n", Info(loc9));
@@ -280,10 +280,10 @@ int main () {
         int X10d = 205367;
         // ALGORITMA
         CreateEmpty(&L10);
-        InsVLast(&L10, X10b);
-        InsVLast(&L10, X10d);
-        InsVLast(&L10, X10a);
-        InsVLast(&L10, X10c);
+        InsVLast(&L10, X10b, VALUE_UNDEF);
+        InsVLast(&L10, X10d, VALUE_UNDEF);
+        InsVLast(&L10, X10a, VALUE_UNDEF);
+        InsVLast(&L10, X10c, VALUE_UNDEF);
         // L10 = [X10b, X10d, X10a, X10c]
 
         DelElmtKe(&L10, 3, &X10);

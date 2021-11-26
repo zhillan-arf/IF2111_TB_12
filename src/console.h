@@ -21,6 +21,10 @@ void print_help();
 // I.S. Sembarang
 // F.S. HELP (pilihan 3) printed
 
+void print_help2();
+// I.S. Sembarang
+// F.S. HELP pada turn printed
+
 void insert_players(State *currentState, int JumPlayer);
 // I.S. currentState kosong
 // F.S. currentState terisi player2 seusia jumlah

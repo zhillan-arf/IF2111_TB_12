@@ -104,17 +104,17 @@ int main() {
 
         while ((TurnPemainKe != (JumPlayer+1)) && (!TakeUndo) && (!EndGame)) {
             //Mulai TURN tiap pemain
-            printf("********** GILIRAN: %s! **********\n", currentState.TabPlayer[TurnPemainKe - 1].nama);
-            gacha_skill(&currentState.TabPlayer[TurnPemainKe - 1].skill);
+            printf("\n********** GILIRAN: %s! **********\n", currentState.TabPlayer[TurnPemainKe - 1].nama);
+            gacha_skill(&currentState.TabPlayer[TurnPemainKe - 1].skill, MaxRoll);
             
             while ((!EndTurn) && (!WinnerFound) && (!TakeUndo)) {
-                printf("Masukkan command: ");
+                printf("\nMasukkan command: ");
                 scanf("%s", &InputCmd);
                 // Kondisional tergantung InputCmd
                 if (compareString(InputCmd,"SKILL")) 
                 {
                     if (HaveRolled) {
-                        printf("Oi! Anda sudah ROLL! SKILL tidak lagi bisa diakses.");
+                        printf("Oi! Kamu sudah ROLL! SKILL tidak lagi bisa diakses.");
                     } else {
                         menuSkill (
                             &currentState, 
@@ -170,14 +170,15 @@ int main() {
                 else if (compareString(InputCmd, "ENDTURN")) 
                 {
                     if (!HaveRolled) {
-                        printf("ENDTURN hanya dapat digunakan setelah ROLL");
+                        printf("ENDTURN hanya dapat digunakan setelah ROLL.\n");
                     } else {
                         EndTurn = true;
                     }
                 } 
                 else 
                 {
-                    printf("Masukan command tidak valid! Silahkan coba lagi.\n");
+                    printf("Tetot! Inputan tidak valid. ");
+                    print_help2();
                 }
             }
             // TURN player ke-sekian selesai
@@ -227,14 +228,18 @@ void print_help() {
     // ALGORITMA
     printf("Masukkan '1' untuk mulai bermain\n");
     printf("Masukkan '2' untuk keluar dari permainan\n\n");
-    printf("List Command pada permainan nanti:\n");
-    printf("1) SKILL   : Menampilkan daftar skill yang dimiliki dan menanyakan apakah ingin menggunakan skill\n");
-    printf("2) MAP     : Menampilkan state peta saat ini\n");
-    printf("3) BUFF    : Menampilkan daftar buff yang dimiliki\n");
-    printf("4) INSPECT : Meminta suatu peta X dan melihat apakah tersedia teleporter di sana\n");
-    printf("5) ROLL    : Memutar dadu dan mendapatkan nilai di antar 1 dan MaxRoll. Pemain memilih antara maju dan mundur\n");
-    printf("6) ENDTURN : Digunakan untuk mengakhiri giliran permainan. Hanya dapat digunakan setelah pemain bergerak (ROLL)\n");
-    printf("7) UNDO    : Digunakan untuk mengulang suatu ronde dan mengembalikan permainan ke state akhir satu ronde sebelumnya\n");
+}
+
+void print_help2() {
+    // ALGORITMA
+    printf("List Command:\n");
+    printf("SKILL   : Menampilkan daftar skill yang dimiliki dan menanyakan apakah ingin menggunakan skill\n");
+    printf("MAP     : Menampilkan state peta saat ini\n");
+    printf("BUFF    : Menampilkan daftar buff yang dimiliki\n");
+    printf("INSPECT : Meminta suatu peta X dan melihat apakah tersedia teleporter di sana\n");
+    printf("ROLL    : Memutar dadu dan mendapatkan nilai di antar 1 dan MaxRoll. Pemain memilih antara maju dan mundur\n");
+    printf("ENDTURN : Digunakan untuk mengakhiri giliran permainan. Hanya dapat digunakan setelah pemain bergerak (ROLL)\n");
+    printf("UNDO    : Digunakan untuk mengulang suatu ronde dan mengembalikan permainan ke state akhir satu ronde sebelumnya\n");
 }
 
 void insert_players(State *currentState, int JumPlayer)  {
@@ -246,7 +251,8 @@ void insert_players(State *currentState, int JumPlayer)  {
     {
         printf("\nMasukkan username pemain ke-%d : ", i + 1);
         playername = (char*) malloc(255 * sizeof(char));
-        scanf("%s", playername);
+        getchar();
+        scanf("%[^\n]", playername);
         (*currentState).TabPlayer[i].nama = playername;
         (*currentState).TabPlayer[i].current_petak = 1;
         CreateEmpty(&(*currentState).TabPlayer[i].skill);

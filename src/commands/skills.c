@@ -14,6 +14,7 @@
 #include "../ADT/list.h"
 #include "../ADT/state.h"
 #include "../commands/roll.h"
+#include "start_display.h"
 #include "gacha_skill.h"
 #include "skills.h"
 
@@ -32,19 +33,32 @@ char *namaSkill[] = {
 void displaySkill(List S, char *namaSkill[]) {
     // KAMUS LOKAL
     address loc;
-    int count;
+    int count, tempinfo;
     // ALGORITMA
+    printf("\nDaftar skill yang kamu punya:\n");
     if (!IsEmpty(S)) {
         loc = First(S);
         count = 0;
-        printf("Daftar Skill yang dimiliki pemain:\n");
         while (loc != Nil) {
             count++;
-            printf("%d. %s\n", count, namaSkill[Info(loc) - 1]);
+            tempinfo = Info(loc) - 1;
+            printf("    %d. %s", count, namaSkill[tempinfo]);
+            if (tempinfo == 1)
+            {
+                printf(" (<< %d petak)", Value(loc));
+            }
+            else if (tempinfo == 2)
+            {
+                printf(" (>> %d petak)", Value(loc));
+            }
+            printf("\n");
             loc = Next(loc);
         }
     }
-    else printf("Pemain belum memiliki skill.");
+    else 
+    {
+        printf("    0. Kamu tidak memiliki skill.\n");
+    }
 }
 void menuSkill(
         State *state, 
@@ -56,60 +70,65 @@ void menuSkill(
         char *namaSkill[]
     ) {
     // KAMUS LOKAL
-    List S;
-    int idx_choice, choiceToSkill, ctr;
+    int idx_choice, choiceToSkill, ctr, val, idx_player;
     address loc;
     boolean is_valid = false;
     // ALGORITMA
-    S = skill(*P);
-    displaySkill(S, namaSkill);
-    if (!IsEmpty(S)) 
+    idx_player = GetPlayerIdx((*state), (*P));
+    if (!IsEmpty((*state).TabPlayer[idx_player].skill)) 
     {
-        loc = First(S);
         while (!is_valid)
         {
-            printf("Pilih Skill yang mau diakftifkan! (Pilih 0 untuk keluar)\n>> ");
+            displaySkill((*state).TabPlayer[idx_player].skill, namaSkill);
+            printf("\nPilih Skill yang mau diakftifkan! (Pilih 0 untuk keluar)\n>> ");
             scanf("%d", &idx_choice);
             // Didapat no urut di terminal yang dipilih
-            if (valid_menuSkill(idx_choice, NbElmt(S)))  // idx_choice = antara 1 sampe NbElmt(S)
+            if (valid_menuSkill(idx_choice, NbElmt((*state).TabPlayer[idx_player].skill)))  // idx_choice = antara 1 sampe NbElmt(list skill)
             {
-                is_valid = true;
                 ctr = 0;
+                loc = First((*state).TabPlayer[idx_player].skill);
                 while (loc != NULL && ctr < idx_choice) {
-                    ctr++;
                     choiceToSkill = Info(loc);
+                    val = Value(loc);
                     loc = Next(loc);
+                    ctr++;
                 }
                 // ctr == idx_choice
-                // Didapat nomor skill betulan (bukan nomor urut di terminal)  
+                // Didapat nomor skill betulan (bukan nomor urut di terminal)
                 switch (choiceToSkill) {
                     case 1:
                         PintuGaKemanaSaja(P);
+                        printf("Jumlah skill yang sekarang dimiliki: (%d/10).\n", NbElmt((*state).TabPlayer[idx_player].skill));
                         break;
                     case 2:
-                        MesinWaktu(state, P, MaxRoll, JumPetak, peta, arrtp);
+                        MesinWaktu(state, P, JumPetak, peta, arrtp, val);
+                        printf("Jumlah skill yang sekarang dimiliki: (%d/10).\n", NbElmt((*state).TabPlayer[idx_player].skill));
                         break;
                     case 3:
-                        BalingBalingJambu(state, P, MaxRoll, JumPetak, peta, arrtp);
+                        BalingBalingJambu(state, P, JumPetak, peta, arrtp, val);
+                        printf("Jumlah skill yang sekarang dimiliki: (%d/10).\n", NbElmt((*state).TabPlayer[idx_player].skill));
                         break;
                     case 4:
-                        CerminPengganda(P);
+                        CerminPengganda(P, MaxRoll);
                         break;
                     case 5: 
                         SenterPembesarHoki(P);
+                        printf("Jumlah skill yang sekarang dimiliki: (%d/10).\n", NbElmt((*state).TabPlayer[idx_player].skill));
                         break;
                     case 6:
                         SenterPengecilHoki(P);
+                        printf("Jumlah skill yang sekarang dimiliki: (%d/10).\n", NbElmt((*state).TabPlayer[idx_player].skill));
                         break;
                     case 7:
-                        MesinTukar(state,P);
+                        MesinTukar(state, P);
+                        printf("Jumlah skill yang sekarang dimiliki: (%d/10).\n", NbElmt((*state).TabPlayer[idx_player].skill));
                         break;  
                 }
             }
             else if (idx_choice == 0)
             {
                 is_valid = true;
-                printf("Command SKILL diterminasi. Kembali ke turn.\n");
+                printf("Kembali ke turn...\n");
                 // Selesai
             }
             else
@@ -117,37 +136,52 @@ void menuSkill(
                 printf("Tetot! Input invalid. Mohon masukkan nomor skill yang tertera (misal '1').");
             }
         }
-    }       
+    }
+    else
+    {
+        printf("Kamu tidak memiliki skill.\n");
+    }  
 }
 
 // DEFINISI FUNGSI PROSEDUR TIAP SKILL
 void PintuGaKemanaSaja(player* P) {
-    //Pintu gak kemana mana
-    if (Search(skill(*P), 1) != Nil){
+    // ALGORITMA
+    if (BUFF(buff(*P), 1))
+    {
+        printf("!!! Kamu sudah punya buff 'Imunitas Teleport'! \nMembatalkan penggunaan skill...\n");
+    }
+    else
+    {
         BUFF(buff(*P), 1) = true;
+        printf("Buff 'Imunitas Teleport' diaktifkan oleh %s.\n", (*P).nama);
         DelP(&skill(*P), 1);
+        printf("Skill 'Pintu Ga Kemana Saja' terpakai (-1) dan dihapus dari slot.\n");
     }
 }
 
-void MesinWaktu (State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp) {
+void MesinWaktu (
+        State *state, 
+        player *P, 
+        int JumPetak, 
+        TabPeta peta, 
+        TabTP arrtp, 
+        int val
+    ) {
     // Skill ke-2
     // KAMUS LOKAL
-    int next_idx, rolled, input, player_idx, nEff;
+    int past_idx, input, idx_player, nEff;
     boolean is_valid = false;
-    time_t t;
-    player *chosenP;
     // ALGORITMA
-    player_idx = GetPlayerIdx((*state), (*P));
-    nEff = GetLastIdx(*state);
-    srand((unsigned) time(&t)); // Inisialisasi rand()
-    rolled = (rand() % (MaxRoll)) + 1;  // roll
-    printf("%s me-roll %d. Siapa yang mau dimajukan %d petak?\n", nama(*P), rolled, rolled);
+    idx_player = GetPlayerIdx((*state), (*P));
+    nEff = GetLastIdx(*state) + 1;
+    printf("\nSiapa yang mau dimundurkan %d petak?\n", val);
     print_players((*state), (*P));
-    while (!is_valid)   // input user masuk
+    while (!is_valid)
     {
-        scanf("Masukkan pemain-ke: %d", &input);
+        printf(">> ");
+        scanf("%d", &input);
         input--;    // idx array = urutan - 1
-        if (valid(input, player_idx, nEff))
+        if (valid(input, idx_player, nEff))
         {
             is_valid = true;
         }
@@ -156,45 +190,53 @@ void MesinWaktu (State *state, player *P, int MaxRoll, int JumPetak, TabPeta pet
             printf("Tetot! Input invalid. Masukkan '1', '2' sesuai nomor.\n");
         }
     }
-    // input valid
-    (*chosenP) = (*state).TabPlayer[input]; // Pemrosesan maju
-    next_idx = (current_petak(*chosenP)) + rolled;
-    if (next_idx >= JumPetak)
+    // input valid dan sudah didecrement 1
+    printf("Kamu mengaktifkan mesin waktu untuk menculik %s.\n", (*state).TabPlayer[input].nama);
+    delay(1);
+    past_idx = (*state).TabPlayer[input].current_petak - val;
+    if (past_idx >= 0)
     {
-        if (!IsPetakTerlarang(peta, next_idx))
+        if (!IsPetakTerlarang(peta, past_idx))
         {
-            maju(chosenP, next_idx, peta, arrtp);
+            mundur(&(*state).TabPlayer[input], past_idx, peta, arrtp);
+            DelP(&skill(*P), 2);
+            printf("Skill 'Mesin Waktu (<< %d petak) terpakai (-1) dan dihapus dari slot.\n", val);
         }
         else
         {
-            printf("%s akan mendarat di tempat terlarang - tidak boleh!\nMesin waktu error, mogok, dan batal dipakai.\n", nama(*chosenP));
+            printf("%s akan mendarat di tempat terlarang - tidak boleh!\nMesin waktu error dan batal dipakai...\n", nama((*state).TabPlayer[input]));
         }
     }
     else
     {
-        printf("%s akan mendarat di luar map - tidak boleh!\nMesin waktu error, mogok, dan batal dipakai.\n", nama(*chosenP));
+        printf("%s akan mendarat di luar map - tidak boleh!\nMesin waktu error dan batal dipakai...\n", nama((*state).TabPlayer[input]));
     }
 }
 
-void BalingBalingJambu (State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp) {
+
+void BalingBalingJambu (
+        State *state, 
+        player *P, 
+        int JumPetak, 
+        TabPeta peta, 
+        TabTP arrtp, 
+        int val
+    ) {
     // Skill ke-3
     // KAMUS LOKAL
-    int past_idx, rolled, input, player_idx, nEff;
+    int next_idx, input, idx_player, nEff;
     boolean is_valid = false;
-    time_t t;
-    player *chosenP;
     // ALGORITMA
-    player_idx = GetPlayerIdx((*state), (*P));
-    nEff = GetLastIdx(*state);
-    srand((unsigned) time(&t)); // Inisialisasi rand()
-    rolled = (rand() % (MaxRoll)) + 1;  // roll
-    printf("%s me-roll %d. Siapa yang mau dimundurkan %d petak?\n", nama(*P), rolled, rolled);
+    idx_player = GetPlayerIdx((*state), (*P));
+    nEff = GetLastIdx(*state) + 1;
+    printf("\nSiapa yang mau dimajukan %d petak?\n", val);
     print_players((*state), (*P));
     while (!is_valid)   // input user masuk
     {
-        scanf("Masukkan pemain-ke: %d", &input);
+        printf(">> ");
+        scanf("%d", &input);
         input--;    // idx array = urutan - 1
-        if (valid(input, player_idx, nEff))
+        if (valid(input, idx_player, nEff))
         {
             is_valid = true;
         }
@@ -204,62 +246,93 @@ void BalingBalingJambu (State *state, player *P, int MaxRoll, int JumPetak, TabP
         }
     }
     // input valid dan sudah didecrement 1
-    (*chosenP) = (*state).TabPlayer[input]; // Pemrosesan maju
-    past_idx = (current_petak(*chosenP)) - rolled;
-    if (past_idx >= 0)
+    printf("Kamu mengaktifkan baling-baling jambu untuk menculik %s.\n", (*state).TabPlayer[input].nama);
+    delay(1);
+    next_idx = (*state).TabPlayer[input].current_petak + val;
+    if (next_idx <= JumPetak)
     {
-        if (!IsPetakTerlarang(peta, past_idx))
+        if (!IsPetakTerlarang(peta, next_idx))
         {
-            mundur(chosenP, past_idx, peta, arrtp);
+            maju(&(*state).TabPlayer[input], next_idx, peta, arrtp);
+            DelP(&skill(*P), 3);
+            printf("Skill 'Baling-Baling Jambu (>> %d petak) terpakai (-1) dan dihapus dari slot.\n", val);
         }
         else
         {
-            printf("%s akan mendarat di tempat terlarang - tidak boleh!\nMesin waktu error, mogok, dan batal dipakai.\n", nama(*chosenP));
+            printf("%s akan mendarat di tempat terlarang - tidak boleh!\nBaling-baling jambu error, mogok, dan batal dipakai.\n", nama((*state).TabPlayer[input]));
         }
     }
     else
     {
-        printf("%s akan mendarat di luar map - tidak boleh!\nMesin waktu error, mogok, dan batal dipakai.\n", nama(*chosenP));
+        printf("%s akan mendarat di luar map - tidak boleh!\nBaling-baling jambu error, mogok, dan batal dipakai.\n", nama((*state).TabPlayer[input]));
     }
 }
 
-void CerminPengganda(player *P){
+void CerminPengganda(player *P, int MaxRoll){
     //Cermin pengganda
-    if (Search(skill(*P), 4) != Nil && NbElmt(skill(*P)) < 9) {
+    if (!isCerminGanda((*P).buff) && NbElmt(skill(*P)) < 9) {
+        gacha_skill(&skill(*P), MaxRoll);
+        printf("\n");
+        gacha_skill(&skill(*P), MaxRoll);
+        isCerminGanda((*P).buff) = true;
+        printf("Buff 'Cermin Pengganda' diaktifkan oleh %s, sehingga \nia dilarang pakai skill ini lagi sampai ganti round.\n", (*P).nama);
         DelP(&skill(*P), 4);
-        gacha_skill(&skill(*P));
-        gacha_skill(&skill(*P));
+        printf("Skill 'Cermin Pengganda' terpakai (-1) dan dihapus dari slot.\n");
+    }
+    else if (isCerminGanda((*P).buff))
+    {
+        printf("Kamu cuma boleh pakai skill ini sekali per round. \nMembatalkan pengguaan skill...\n");
+    }
+    else
+    {
+        printf("Kapasitas slot skill kamu tidak cukup! \nMembatalkan penggunaan skill...\n");
     }
 }
 
-void SenterPembesarHoki(player *P){
-    // Senter Pembesar Hoki
-    if (Search(skill(*P), 5) != Nil) {
+void SenterPembesarHoki(player *P) {
+    // ALGORITMA
+    if (!isSenterBesar(buff(*P))) {
+        isSenterBesar(buff(*P)) = true;
+        printf("Buff 'Senter Pembesar Hoki' diaktifkan oleh %s!\n", (*P).nama);
         DelP(&skill(*P), 5);
-        BUFF(buff(*P), 3);
+        printf("Skill 'Senter Pembesar Hoki' terpakai (-1) dan dihapus dari slot.\n");
+    }
+    else
+    {
+        printf("!!! Kamu sudah punya buff 'Senter Pembesar Hoki'! \nMembatalkan penggunaan skill...\n");
     }
 }
-void SenterPengecilHoki(player *P){
-    // Senter Pengecil Hoki
-    if (Search(skill(*P), 6) != Nil) {
-        DelP(&skill(*P), 6);
-        BUFF(buff(*P), 4);
-    } 
-}
-void MesinTukar(State *state, player *P) {
-    int input, player_idx, nEff, temp;
-    boolean is_valid = false;
-    player *chosenP;
+
+
+void SenterPengecilHoki(player *P) {
     // ALGORITMA
-    player_idx = GetPlayerIdx((*state), (*P));
-    nEff = GetLastIdx(*state);
-    printf("Siapa yang mau ditukar posisinya denganmu?\n");
+    if (!isSenterKecil(buff(*P))) {
+        isSenterKecil(buff(*P)) = true;
+        printf("Buff 'Senter Pengecil Hoki' diaktifkan oleh %s!\n", (*P).nama);
+        DelP(&skill(*P), 6);
+        printf("Skill 'Senter Pengecil Hoki' terpakai (-1) dan dihapus dari slot.\n");
+    }
+    else
+    {
+        printf("!!! Kamu sudah punya buff 'Senter Pengecil Hoki'! \nMembatalkan penggunaan skill...\n");
+    }
+}
+
+
+void MesinTukar(State *state, player *P) {
+    int input, idx_player, nEff, petakP, petakP2;
+    boolean is_valid = false;
+    // ALGORITMA
+    idx_player = GetPlayerIdx((*state), (*P));
+    nEff = GetLastIdx(*state) + 1;
+    printf("\nMau tukar sama siapa?\n");
     print_players((*state), (*P));
     while (!is_valid)   // input user masuk
     {
-        scanf("Masukkan pemain-ke: %d", &input);
+        printf(">> ");
+        scanf("%d", &input);
         input--;    // idx array = urutan - 1
-        if (valid(input, player_idx, nEff))
+        if (valid(input, idx_player, nEff))
         {
             is_valid = true;
         }
@@ -268,11 +341,18 @@ void MesinTukar(State *state, player *P) {
             printf("Tetot! Input invalid. Masukkan '1', '2' sesuai yang ditampilkan.\n");
         }
     }
-    (*chosenP) = (*state).TabPlayer[input];
-    int tmp = (*chosenP).current_petak;
-    (*chosenP).current_petak=(*P).current_petak ;
-    (*P).current_petak = temp;
-    printf("Berhasil menukar posisi!\n");
+    // is_valid
+    printf("Kamu mengaktifkan mesin tukar untuk menculik %s.\n", (*state).TabPlayer[input].nama);
+    delay(1);
+    petakP = (*P).current_petak;
+    petakP2 = (*state).TabPlayer[input].current_petak;
+    (*P).current_petak = petakP2;
+    (*state).TabPlayer[input].current_petak = petakP;
+    printf("%s berpindah dari petak %d ke petak %d.\n", (*P).nama, petakP, petakP2);
+    printf("%s berpindah dari petak %d ke petak %d.\n", (*state).TabPlayer[input].nama, petakP2, petakP);
+    printf("Tidak ada teleporter yang teraktivasi.\n");
+    DelP(&skill(*P), 7);
+    printf("Skill 'Mesin Tukar' terpakai (-1) dan dihapus dari slot.\n");
 }
 
 // DEFINISI FUNGSI PROSEDUR TAMBAHAN
@@ -280,31 +360,35 @@ void print_players (State state, player cplayer) {
     // KAMUS
     int i = 1;
     // ALGORITMA
-    while (i <= state.Neff)
+    while (i < state.Neff)
     {
         if (state.TabPlayer[i].nama != cplayer.nama)
         {
-            printf("    %d. %s\n", (i + 1), cplayer.nama);
+            printf("    %d. %s\n", (i + 1), state.TabPlayer[i].nama);
         }
         i++;
     }
-    // i > Neff
+    // i = Neff
 }
 
-boolean valid (int idx, int player_idx, int nEff) {
+boolean valid (int idx, int idx_player, int nEff) {
     // KAMUS
     boolean is_in_array = false;
     int i = 0;
     // ALGORITMA
-    while (i < nEff)
+    while (i < nEff && !is_in_array)
     {
-        if (idx = i)
+        if (idx == i)
         {
             is_in_array = true;
         }
         i++;
     }
-    return is_in_array && (idx != player_idx);
+    if (idx == idx_player)
+    {
+        printf("Kamu tidak bisa menggunakan alat terhadap diri sendiri!\n");
+    }
+    return (is_in_array && (idx != idx_player));
 }
 
 boolean valid_menuSkill (int idx_choice, int nbelmt) {
@@ -312,7 +396,6 @@ boolean valid_menuSkill (int idx_choice, int nbelmt) {
     int i = 1;
     boolean found = false;
     // ALGORITMA
-    printf("Debug! valid_menuSkill. %d, %d\n", idx_choice, nbelmt);
     while (i <= nbelmt && !found)
     {
         if (idx_choice == i)

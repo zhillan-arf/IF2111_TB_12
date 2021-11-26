@@ -10,11 +10,17 @@
 #define listlinier_H
 
 #define Nil NULL
+#define VALUE_UNDEF -999
 
 typedef int infotype;
+typedef struct typeinfo
+{
+    infotype info;
+    int value;
+} infoskill;
 typedef struct tElmtlist *address;
 typedef struct tElmtlist { 
-	infotype info;
+	infoskill skill_info;
 	address next;
 } ElmtList;
 typedef struct list {
@@ -26,7 +32,8 @@ typedef struct list {
 /* Setiap elemen dengan address P dapat diacu Info(P), Next(P) */
 /* Elemen terakhir list : jika addressnya Last, maka Next(Last)=Nil */
 
-#define Info(P) (P)->info
+#define Info(P) ((P)->skill_info).info
+#define Value(P) ((P)->skill_info).value
 #define Next(P) (P)->next
 #define First(L) (L).First
 
@@ -41,7 +48,7 @@ void CreateEmpty (List *L);
 /* F.S. Terbentuk list kosong */
 
 /****************** Manajemen Memori ******************/
-address Alokasi (infotype X);
+address Alokasi (infotype X, int val);
 /* Mengirimkan address hasil alokasi sebuah elemen */
 /* Jika alokasi berhasil, maka address tidak nil, dan misalnya */
 /* menghasilkan P, maka Info(P)=X, Next(P)=Nil */
@@ -59,11 +66,11 @@ address Search (List L, infotype X);
 
 /****************** PRIMITIF BERDASARKAN NILAI ******************/
 /*** PENAMBAHAN ELEMEN ***/
-void InsVFirst (List *L, infotype X);
+void InsVFirst (List *L, infotype X, int val);
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen pertama dengan nilai X jika alokasi berhasil */
-void InsVLast (List *L, infotype X);
+void InsVLast (List *L, infotype X, int val);
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen list di akhir: elemen terakhir yang baru */
