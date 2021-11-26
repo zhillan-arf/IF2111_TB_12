@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include "start_display.h"
 
 void gacha_skill(List *LSkillCurrentP, int MaxRoll) {
     // I.S. List Skill si player kosong atau berisi <= 10 skill
@@ -22,6 +23,7 @@ void gacha_skill(List *LSkillCurrentP, int MaxRoll) {
     if (nbelmt <= 10)
     {
         printf("Jumlah skill yang sekarang dimiliki: (%d/10). \nKamu mendapat gacha... ", nbelmt);
+        delay(1);
         rolled = rand() % 100;
         if (rolled == 69)
         {

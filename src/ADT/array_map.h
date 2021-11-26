@@ -7,6 +7,7 @@
 
 #define IdxMaxPetak 100
 #define IdxMinPetak 1
+#define UNDEF_PETAK '-'
 
 typedef char Petak;
 

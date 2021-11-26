@@ -11,7 +11,7 @@
 #ifndef INSPECT_H
 #define INSPECT_H
 
-void inspect (TabPeta Peta, TabTP arrtp);
+void inspect (TabPeta Peta, TabTP arrtp, int JumPetak);
 // I.S. Peta dari file config terbaca, turn sembarang
 // F.S. Teroutput hal2 yang diinginkan player, jika ada
 

@@ -30,12 +30,12 @@ char *namaSkill[] = {
 };
 
 // DEFINISI FUNGSI PROSEDUR SKILL UTAMA
-void displaySkill(List S, char *namaSkill[]) {
+void displaySkill(List S, char *namaSkill[], player *P) {
     // KAMUS LOKAL
     address loc;
     int count, tempinfo;
     // ALGORITMA
-    printf("\nDaftar skill yang kamu punya:\n");
+    printf("\nDaftar skill milik %s:\n", (*P).nama);
     if (!IsEmpty(S)) {
         loc = First(S);
         count = 0;
@@ -79,7 +79,7 @@ void menuSkill(
     {
         while (!is_valid)
         {
-            displaySkill((*state).TabPlayer[idx_player].skill, namaSkill);
+            displaySkill((*state).TabPlayer[idx_player].skill, namaSkill, P);
             printf("\nPilih Skill yang mau diakftifkan! (Pilih 0 untuk keluar)\n>> ");
             scanf("%d", &idx_choice);
             // Didapat no urut di terminal yang dipilih
@@ -110,6 +110,7 @@ void menuSkill(
                         break;
                     case 4:
                         CerminPengganda(P, MaxRoll);
+                        printf("Jumlah skill yang sekarang dimiliki: (%d/10).\n", NbElmt((*state).TabPlayer[idx_player].skill));
                         break;
                     case 5: 
                         SenterPembesarHoki(P);
@@ -169,19 +170,18 @@ void MesinWaktu (
     ) {
     // Skill ke-2
     // KAMUS LOKAL
-    int past_idx, input, idx_player, nEff;
+    int past_idx, input, idx_player;
     boolean is_valid = false;
     // ALGORITMA
     idx_player = GetPlayerIdx((*state), (*P));
-    nEff = GetLastIdx(*state) + 1;
-    printf("\nSiapa yang mau dimundurkan %d petak?\n", val);
-    print_players((*state), (*P));
     while (!is_valid)
     {
+        printf("\nSiapa yang mau dimundurkan %d petak?\n", val);
+        print_players((*state), (*P));
         printf(">> ");
         scanf("%d", &input);
         input--;    // idx array = urutan - 1
-        if (valid(input, idx_player, nEff))
+        if (valid(input, idx_player, (*state).Neff))
         {
             is_valid = true;
         }
@@ -224,19 +224,18 @@ void BalingBalingJambu (
     ) {
     // Skill ke-3
     // KAMUS LOKAL
-    int next_idx, input, idx_player, nEff;
+    int next_idx, input, idx_player;
     boolean is_valid = false;
     // ALGORITMA
     idx_player = GetPlayerIdx((*state), (*P));
-    nEff = GetLastIdx(*state) + 1;
-    printf("\nSiapa yang mau dimajukan %d petak?\n", val);
-    print_players((*state), (*P));
     while (!is_valid)   // input user masuk
     {
+        printf("\nSiapa yang mau dimajukan %d petak?\n", val);
+        print_players((*state), (*P));
         printf(">> ");
         scanf("%d", &input);
         input--;    // idx array = urutan - 1
-        if (valid(input, idx_player, nEff))
+        if (valid(input, idx_player, (*state).Neff))
         {
             is_valid = true;
         }
@@ -275,7 +274,7 @@ void CerminPengganda(player *P, int MaxRoll){
         printf("\n");
         gacha_skill(&skill(*P), MaxRoll);
         isCerminGanda((*P).buff) = true;
-        printf("Buff 'Cermin Pengganda' diaktifkan oleh %s, sehingga \nia dilarang pakai skill ini lagi sampai ganti round.\n", (*P).nama);
+        printf("\nBuff 'Cermin Pengganda' diaktifkan oleh %s, sehingga \nia dilarang pakai skill ini lagi sampai ganti round.\n", (*P).nama);
         DelP(&skill(*P), 4);
         printf("Skill 'Cermin Pengganda' terpakai (-1) dan dihapus dari slot.\n");
     }
@@ -320,19 +319,18 @@ void SenterPengecilHoki(player *P) {
 
 
 void MesinTukar(State *state, player *P) {
-    int input, idx_player, nEff, petakP, petakP2;
+    int input, idx_player, petakP, petakP2;
     boolean is_valid = false;
     // ALGORITMA
     idx_player = GetPlayerIdx((*state), (*P));
-    nEff = GetLastIdx(*state) + 1;
-    printf("\nMau tukar sama siapa?\n");
-    print_players((*state), (*P));
     while (!is_valid)   // input user masuk
     {
+        printf("\nMau tukar sama siapa?\n");
+        print_players((*state), (*P));
         printf(">> ");
         scanf("%d", &input);
         input--;    // idx array = urutan - 1
-        if (valid(input, idx_player, nEff))
+        if (valid(input, idx_player, (*state).Neff))
         {
             is_valid = true;
         }

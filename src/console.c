@@ -144,7 +144,7 @@ int main() {
                 } 
                 else if (compareString(InputCmd,"INSPECT")) 
                 {
-                    inspect(Peta, arrTP);
+                    inspect(Peta, arrTP, JumPetak);
                 } 
                 else if (compareString(InputCmd,"UNDO")) 
                 {

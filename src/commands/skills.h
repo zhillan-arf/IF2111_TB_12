@@ -21,7 +21,7 @@
 
 extern char *namaSkill[];
 
-void displaySkill(List S, char *namaSkill[]);
+void displaySkill(List S, char *namaSkill[], player *P);
 
 void menuSkill(State *state, player *P, int MaxRoll, int JumPetak, TabPeta peta, TabTP arrtp, char *namaSkill[]);
 

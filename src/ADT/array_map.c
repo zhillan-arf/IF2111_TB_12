@@ -5,7 +5,7 @@
 
 void MakeEmptyPeta(TabPeta *P){
     for(int i = 0; i <= IdxMaxPetak; i++){
-        (*P).Peta[i] = '-';
+        (*P).Peta[i] = UNDEF_PETAK;
     }
 }
 
@@ -22,9 +22,9 @@ void DisplayPetaPemain(TabPeta P, int PosPemain, int JumPetak, char *nama) {
 }
 
 boolean IsPetakKosong (TabPeta P, int NoPetak){
-    return (P.Peta[NoPetak - 1] == '.');
+    return (P.Peta[NoPetak] == '.');
 }
 
 boolean IsPetakTerlarang (TabPeta P, int NoPetak){
-    return (P.Peta[NoPetak - 1] == '#');
+    return (P.Peta[NoPetak] == '#');
 }
