@@ -157,7 +157,7 @@ int main() {
                         MaxRoll, 
                         Peta, 
                         arrTP, 
-                        JumPlayer, 
+                        JumPetak,
                         &currentState.TabPlayer[TurnPemainKe - 1]
                     );
                     HaveRolled = true;

@@ -45,7 +45,7 @@ void roll (
     {
         rolled = (rand() % (MaxRoll)) + 1;
     }
-    printf("%s meng-roll dan mendapat %d\n", nama(*p));
+    printf("%s meng-roll dan mendapat %d\n", nama(*p), rolled);
     
     // Kondisional
     is_valid = false;
@@ -56,7 +56,7 @@ void roll (
     {
         if (IsPetakKosong(peta, past_idx) && IsPetakKosong(peta, next_idx))
         {
-            printf("%s bisa maju, bisa mundur. Mau ke mana?\n1. Maju ke %d.\n2.Mundur ke %d.", (idx_now + next_idx), (idx_now - past_idx));
+            printf("%s bisa maju, bisa mundur. Mau ke mana?\n1. Maju ke %d.\n2.Mundur ke %d.", nama(*p), (idx_now + next_idx), (idx_now - past_idx));
             scanf("%s", &input);
             while (!is_valid)
             {
@@ -78,46 +78,46 @@ void roll (
         }
         else if (IsPetakKosong(peta, past_idx))
         {
-            printf("%s bisa mundur.\n");
+            printf("%s bisa mundur.\n", nama(*p));
             mundur(p, past_idx, peta, arrtp);
         }
         else if (IsPetakKosong(peta, next_idx))
         {
-            printf("%s bisa maju.\n");
+            printf("%s bisa maju.\n", nama(*p));
             maju(p, next_idx, peta, arrtp);
         }
         else
         {
-            printf("%s ngestuck, tidak bisa ke manapun.\n");
+            printf("%s ngestuck, tidak bisa ke manapun.\n", nama(*p));
         }
     }
     else if ((0 < past_idx))
     {
         if (IsPetakKosong(peta, past_idx))
         {
-            printf("%s bisa mundur.\n");
+            printf("%s bisa mundur.\n", nama(*p));
             mundur(p, past_idx, peta, arrtp);
         }
         else
         {
-            printf("%s ngestuck, tidak bisa ke manapun.\n");
+            printf("%s ngestuck, tidak bisa ke manapun.\n", nama(*p));
         }
     }
     else if (next_idx < JumPetak)
     {
         if (IsPetakKosong(peta, next_idx))
         {
-            printf("%s bisa maju.\n");
+            printf("%s bisa maju.\n", nama(*p));
             maju(p, next_idx, peta, arrtp);
         }
         else
         {
-            printf("%s ngestuck, tidak bisa ke manapun.\n");
+            printf("%s ngestuck, tidak bisa ke manapun.\n", nama(*p));
         }
     }
     else
     {
-        printf("%s ngestuck, tidak bisa ke manapun.\n");
+        printf("%s ngestuck, tidak bisa ke manapun.\n", nama(*p));
     }
 }
 
