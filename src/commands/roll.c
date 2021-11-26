@@ -128,13 +128,14 @@ void maju(player *p, int next_idx, TabPeta Peta, TabTP arrtp) {
     // Jika immune, kasih pilihan mau ga teleport ga
     // ALGORITMA
     printf("%s maju ke petak %d.\n", nama(*p), next_idx);
-    if (!IsPetakKosong(Peta, next_idx) && !IsPetakTerlarang(Peta, next_idx))    // ikz Teleport
+    if (IsPetakTP(next_idx, arrtp))    // ikz Teleport
     {
         teleport(p, arrtp.TTP[next_idx]);
     }
     else
     {
         printf("Tidak ada apa-apa pada petak %d\n", next_idx);
+        current_petak(*p) = next_idx;
     }
 }
 
@@ -144,13 +145,14 @@ void mundur(player *p, int past_idx, TabPeta Peta, TabTP arrtp) {
     // Jika immune, kasih pilihan mau ga teleport ga. P diupdate.
     // ALGORITMA
     printf("%s mundur ke petak %d.\n", nama(*p), past_idx);
-    if (!IsPetakKosong(Peta, past_idx) && !IsPetakTerlarang(Peta, past_idx))    // ikz Teleport
+    if (IsPetakTP(past_idx, arrtp))    // ikz Teleport
     {
         teleport(p, arrtp.TTP[past_idx]);
     }
     else
     {
         printf("Tidak ada apa-apa pada petak %d\n", past_idx);
+        current_petak(*p) = past_idx;
     }
 }
 
@@ -161,26 +163,26 @@ void teleport(player *p, int new_petak) {
     char *input;
     boolean is_valid;
     // ALGORITMA
-    printf("!!! Sobekan dimensional menuju petak %d terdeteksi!\n");
+    printf("!!! Sobekan dimensional menuju petak %d terdeteksi!\n", new_petak);
     if (isImunTele(buff(*p)))
     {
-        printf("%s! Kamu punya buff 'Imunitas Teleport'.\nPakai untuk menghindari teleport? (Y/N): ");
+        printf("%s! Kamu punya buff 'Imunitas Teleport'.\nPakai untuk menghindari teleport? (Y/N): ", nama(*p));
         scanf("%s", &input);
         is_valid = false;
         while (!is_valid)
         {
             if ((input == "Y") || (input == "y"))
             {
-                is_valid = true;
                 printf("Klep! Sobekan ditutup sementara.\nKamu menemukan tempat berlindung dan tidak berpindah.\n");
                 isImunTele(buff(*p)) = false;
                 printf("Kamu kehilangan buff 'Imunitas Teleport'.\n");
+                is_valid = true;
             }
             else if (input == "N" || input == "n")
             {
-                is_valid = true;
                 current_petak(*p) = new_petak;
                 printf("Swoosh! Kamu terhisap dan diteleport ke petak %d. Aduduh!\n", new_petak);
+                is_valid = true;
             }
             else
             {
