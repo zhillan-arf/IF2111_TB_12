@@ -42,7 +42,6 @@ int main() {
     // Inisialisasi State Permainan
     CreateEmptyStack(&stackState);
     MakeEmpty(&currentState);
-    currentState.Round = 0;
     while (!is_valid)
     {
         printf("\n>> ");
@@ -103,6 +102,10 @@ int main() {
         }
 
         while ((TurnPemainKe != (JumPlayer+1)) && (!TakeUndo) && (!EndGame)) {
+            // Reset variable
+            TakeUndo = false;
+            HaveRolled = false;
+            EndTurn = false;
             //Mulai TURN tiap pemain
             printf("\n********** GILIRAN: %s! **********\n", currentState.TabPlayer[TurnPemainKe - 1].nama);
             gacha_skill(&currentState.TabPlayer[TurnPemainKe - 1].skill, MaxRoll);
@@ -148,7 +151,17 @@ int main() {
                 } 
                 else if (compareString(InputCmd,"UNDO")) 
                 {
-                    Pop(&stackState, &currentState); // currentState diganti ke state ronde sebelumnya
+                     if (IsEmptyStack(stackState)) {
+                        // Reset state ke sebelum round 1
+                        SetRound(&currentState,0);
+                        for (int i=0;i < JumPlayer;i++) {
+                            currentState.TabPlayer[i].current_petak=1;
+                            CreateEmpty(&currentState.TabPlayer[i].skill);
+                            ResetTabBuff(&currentState.TabPlayer[i].buff);
+                        }
+                    } else {
+                        Pop(&stackState, &currentState); // currentState diganti ke state ronde sebelumnya
+                    }
                     TakeUndo = true; //Keluar loop, dan mulai lagi ke pemain pertama
                 } 
                 else if (compareString(InputCmd, "ROLL")) 
