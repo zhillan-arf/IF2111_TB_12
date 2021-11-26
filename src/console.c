@@ -153,14 +153,19 @@ int main() {
                 } 
                 else if (compareString(InputCmd, "ROLL")) 
                 {
-                    roll (
-                        MaxRoll, 
-                        Peta, 
-                        arrTP, 
-                        JumPetak,
-                        &currentState.TabPlayer[TurnPemainKe - 1]
-                    );
-                    HaveRolled = true;
+                    if (!HaveRolled){
+                        roll (
+                            MaxRoll, 
+                            Peta, 
+                            arrTP, 
+                            JumPetak,
+                            &currentState.TabPlayer[TurnPemainKe - 1]
+                        );
+                        HaveRolled = true;
+                    } else {
+                        printf("Kamu sudah melakukan ROLL!");
+                    }
+                    
                     if (currentState.TabPlayer[TurnPemainKe - 1].current_petak == JumPetak) { 
                         // Player menang
                         WinnerPlayer = currentState.TabPlayer[TurnPemainKe - 1];
