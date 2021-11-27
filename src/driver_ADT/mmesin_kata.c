@@ -16,6 +16,8 @@ penampilan outputnya adalah seperti berikut
 
 #include "../ADT/mesin_kar.h"
 #include "../ADT/mesin_kata.h"
+#include "../ADT/mesin_kar.c"
+#include "../ADT/mesin_kata.c"
 
 int main() {
 

@@ -13,6 +13,7 @@
 #include "../ADT/player.h"
 #include "../commands/start_display.h"
 #include <time.h>
+#include "../misc/convert.h"
 
 void roll (
         int MaxRoll,
@@ -25,6 +26,7 @@ void roll (
     // F.S. Posisi palyer yang meng-roll bisa jadi berubah
     // KAMUS LOKAL
     int rolled, next_idx, past_idx, idx_now, input;
+    char in_input[MAXC];
     boolean is_valid;
     time_t t;
     // ALGORITMA
@@ -59,10 +61,11 @@ void roll (
     {
         if (IsPetakKosong(peta, past_idx) && IsPetakKosong(peta, next_idx))
         {
-            printf("%s bisa maju, bisa mundur. Mau ke mana?\n1. Maju ke %d.\n2.Mundur ke %d.", nama(*p), (idx_now + next_idx), (idx_now - past_idx));
-            scanf("%s", &input);
             while (!is_valid)
             {
+                printf("%s bisa maju, bisa mundur. Mau ke mana?\n1. Maju ke petak %d.\n2. Mundur ke petak %d.\n>> ", nama(*p), (idx_now + next_idx), (idx_now - past_idx));
+                scanf("%s", in_input);
+                input = str_to_int_idx0(in_input);
                 if (input == 1)
                 {
                     maju(p, next_idx, peta, arrtp);
@@ -75,7 +78,7 @@ void roll (
                 }
                 else    // Input invalid
                 {
-                    printf("Tetot! Input tidak valid. Ulangi!\nInput '1' untuk maju, '2' untuk mundur: ");
+                    printf("Tetot! Input tidak valid. Ulangi!\nInput '1' untuk maju, '2' untuk mundur.\n");
                 }
             }
         }
@@ -163,7 +166,7 @@ void teleport(player *p, int new_petak) {
     // I.S. Player P berada di tempatnya, new_petak adalah petak kosong di peta
     // F.S. Player P pindah ke tempat kosong tersebut. P diupdate.
     // KAMUS LOKAL
-    char *input;
+    char input[63];
     boolean is_valid;
     // ALGORITMA
     printf("!!! Sobekan dimensional menuju petak %d terdeteksi!\n", new_petak);

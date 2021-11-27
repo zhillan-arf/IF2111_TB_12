@@ -18,8 +18,8 @@ marray_tp :
 mlist :
 	gcc -o mlist src/driver_ADT/mlist.c src/ADT/list.c
 
-mmesin_kata :
-	gcc -o mmesin_kata src/driver_ADT/mmesin_kata.c src/ADT/mesin_kata.c
+#mmesin_kata
+#	Untuk menjalankan driver mesin_kata, hanya perlu melakukan run code yang ada di path src/driver_ADT/mmesin_kata.c
 
 mplayer :
 	gcc -o mplayer src/driver_ADT/mplayer.c
