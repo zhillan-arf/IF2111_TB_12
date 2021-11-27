@@ -18,6 +18,7 @@ void gacha_skill(List *LSkillCurrentP, int MaxRoll) {
     time_t t;
     // ALGORITMA
     printf("Memulai gacha skil... ");
+    delay(1);
     srand((unsigned) time(&t)); // Inisialisasi rand
     nbelmt = NbElmt(*LSkillCurrentP);
     if (nbelmt <= 10)

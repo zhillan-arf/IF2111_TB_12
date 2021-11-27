@@ -11,14 +11,15 @@ Map kosong ditandai dengan seluruh elemennya merupakan '-'.
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "boolean.h"
-#include "array_map.h"
+#include "../boolean.h"
+#include "../ADT/array_map.h"
 
 int main(){
 
     TabPeta Map;
     int JumlahPetak;
     int PosisiPemain;
+    char name[] = "Azami";
 
     //Membuat peta kosong yang ditandai dengan seluruh elemennya berupa '-'
     MakeEmptyPeta(&Map);
@@ -46,7 +47,7 @@ int main(){
     }
 
     //Memberikan output peta yang dimiliki oleh pemain
-    DisplayPetaPemain(Map, PosisiPemain, JumlahPetak);
+    DisplayPetaPemain(Map, PosisiPemain, JumlahPetak, name);
 
     if (IsPetakKosong(Map, PosisiPemain)){
         printf("Petak yang ada tempati adalah petak kosong.\n");

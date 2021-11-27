@@ -7,6 +7,7 @@
 #include "../ADT/array_map.h"
 #include "../ADT/array_tp.h"
 #include "../boolean.h"
+#include "../misc/convert.h"
 
 #ifndef INSPECT_H
 #define INSPECT_H

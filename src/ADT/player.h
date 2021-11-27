@@ -4,12 +4,6 @@
     Versi: 2021-11-16 20:30
 */
 
-/* KOMEN: Ini untuk kegunaan SEMENTARA, biar ku ga sakit mata liat 
-pesan merah2 error gara2 nyoba make ADT player sebelum dibikin :kekw:.
-Kalo lu dah jadi, kalo perlu ni hapus aja, ganti yang lu vit -dialah_zhillanku */
-/* EH TAPI *nama* macronya sendiri jangan ganti (isImunTele, dll), repot
-kalo ku harus ganti2 lagi tar :kekw: */
-
 #include "list.h"
 #include "array_buff.h"
 

@@ -17,6 +17,7 @@
 #include "start_display.h"
 #include "gacha_skill.h"
 #include "skills.h"
+#include "../misc/convert.h"
 
 // DEFINISI VARIABEL KONSTAN
 char *namaSkill[] = {
@@ -71,6 +72,7 @@ void menuSkill(
     ) {
     // KAMUS LOKAL
     int idx_choice, choiceToSkill, ctr, val, idx_player;
+    char in_idx_choice[MAXC];
     address loc;
     boolean is_valid = false;
     // ALGORITMA
@@ -81,7 +83,8 @@ void menuSkill(
         {
             displaySkill((*state).TabPlayer[idx_player].skill, namaSkill, P);
             printf("\nPilih Skill yang mau diakftifkan! (Pilih 0 untuk keluar)\n>> ");
-            scanf("%d", &idx_choice);
+            scanf("%s", in_idx_choice);
+            idx_choice = str_to_int_idx0(in_idx_choice);
             // Didapat no urut di terminal yang dipilih
             if (valid_menuSkill(idx_choice, NbElmt((*state).TabPlayer[idx_player].skill)))  // idx_choice = antara 1 sampe NbElmt(list skill)
             {
@@ -171,6 +174,7 @@ void MesinWaktu (
     // Skill ke-2
     // KAMUS LOKAL
     int past_idx, input, idx_player;
+    char in_input[MAXC];
     boolean is_valid = false;
     // ALGORITMA
     idx_player = GetPlayerIdx((*state), (*P));
@@ -179,7 +183,8 @@ void MesinWaktu (
         printf("\nSiapa yang mau dimundurkan %d petak?\n", val);
         print_players((*state), (*P));
         printf(">> ");
-        scanf("%d", &input);
+        scanf("%s", in_input);
+        input = str_to_int_idx0(in_input);
         input--;    // idx array = urutan - 1
         if (valid(input, idx_player, (*state).Neff))
         {
@@ -194,7 +199,7 @@ void MesinWaktu (
     printf("Kamu mengaktifkan mesin waktu untuk menculik %s.\n", (*state).TabPlayer[input].nama);
     delay(1);
     past_idx = (*state).TabPlayer[input].current_petak - val;
-    if (past_idx >= 0)
+    if (past_idx > 0)
     {
         if (!IsPetakTerlarang(peta, past_idx))
         {
@@ -225,6 +230,7 @@ void BalingBalingJambu (
     // Skill ke-3
     // KAMUS LOKAL
     int next_idx, input, idx_player;
+    char in_input[MAXC];
     boolean is_valid = false;
     // ALGORITMA
     idx_player = GetPlayerIdx((*state), (*P));
@@ -233,7 +239,8 @@ void BalingBalingJambu (
         printf("\nSiapa yang mau dimajukan %d petak?\n", val);
         print_players((*state), (*P));
         printf(">> ");
-        scanf("%d", &input);
+        scanf("%s", in_input);
+        input = str_to_int_idx0(in_input);
         input--;    // idx array = urutan - 1
         if (valid(input, idx_player, (*state).Neff))
         {
@@ -320,6 +327,7 @@ void SenterPengecilHoki(player *P) {
 
 void MesinTukar(State *state, player *P) {
     int input, idx_player, petakP, petakP2;
+    char in_input[MAXC];
     boolean is_valid = false;
     // ALGORITMA
     idx_player = GetPlayerIdx((*state), (*P));
@@ -328,7 +336,8 @@ void MesinTukar(State *state, player *P) {
         printf("\nMau tukar sama siapa?\n");
         print_players((*state), (*P));
         printf(">> ");
-        scanf("%d", &input);
+        scanf("%s", in_input);
+        input = str_to_int_idx0(in_input);
         input--;    // idx array = urutan - 1
         if (valid(input, idx_player, (*state).Neff))
         {
@@ -356,7 +365,7 @@ void MesinTukar(State *state, player *P) {
 // DEFINISI FUNGSI PROSEDUR TAMBAHAN
 void print_players (State state, player cplayer) {
     // KAMUS
-    int i = 1;
+    int i = 0;
     // ALGORITMA
     while (i < state.Neff)
     {

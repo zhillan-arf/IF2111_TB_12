@@ -15,6 +15,7 @@
 #include "../ADT/state.h"
 #include "../commands/roll.h"
 #include "gacha_skill.h"
+#include "../misc/convert.h"
 
 #ifndef SKILLS_H
 #define SKILLS_H

@@ -77,8 +77,8 @@ int main() {
     }
 
     // TEST9 MaxNbEl
-    if (MaxNbEl(S1) == 100) {
-        printf("SUKSES TEST9 MaxNbEl\n");
+    if (MaxNbElmt(S1) == 100) {
+        printf("SUKSES TEST9 MaxNbElmt\n");
         count++;
     }
     

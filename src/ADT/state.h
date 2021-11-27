@@ -49,7 +49,7 @@ int NbPlayer (State T);
 /* Mengirimkan banyaknya elemen efektif tabel */
 /* Mengirimkan nol jika tabel kosong */
 /* *** Daya tampung container *** */
-int MaxElmt (State T);
+int MaxNbElmt (State T);
 /* Mengirimkan maksimum elemen yang dapat ditampung oleh tabel */
 /* *** Selektor INDEKS *** */
 IdxType GetFirstIdx (State T);

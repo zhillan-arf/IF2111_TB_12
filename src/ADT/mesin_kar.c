@@ -11,19 +11,13 @@ boolean EOP;
 static FILE * pita;
 static int retval;
 
-void START(char filename[]) {
+void START(char file_dir[]) {
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
    F.S. : CC adalah karakter pertama pada pita. Jika CC != MARK maka EOP akan padam (false).
           Jika CC = MARK maka EOP akan menyala (true) */
-
-    // KAMUS LOKAL
-    char file_dir[255] = "data/";
-    /* Algoritma */
-    strcat(file_dir, filename);
     pita = fopen(file_dir, "r");
-    printf("%s berhasil di-load\n", file_dir);
     ADV();
 }
 

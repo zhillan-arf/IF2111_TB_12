@@ -1,14 +1,14 @@
 /*
     TUBES IF2111 K2 KELOMPOK 12
     PERMAINAN "SNEK AND MADDER"
-    Versi: 2021-11-22 23:00
+    Versi: 2021-11-27
 */
 
-// DEKLARASI MODULE2 DASAR
+// DEKLARASI MODULE2 BAWAAN
 #include <stdlib.h>
 #include <stdio.h>
-#include "console.h"
-#include "boolean.h"
+#include <unistd.h>
+#include <string.h>
 
 // DEKLARASI ADT
 #include "ADT/state.h"
@@ -24,12 +24,17 @@
 #include "commands/skills.h"
 #include "commands/start_display.h"
 
+// DEKLARASI LAIN
+#include "console.h"
+#include "boolean.h"
+#include "misc/convert.h"
+
 // ALGORITMA PROGRAM UTAMA
 int main() {
     // KAMUS
     int choice, i, JumPetak, MaxRoll, JumTP, JumPlayer, TurnPemainKe;
     boolean TakeUndo, HaveRolled, EndTurn, WinnerFound, EndGame, is_valid = false;
-    char filename[255], InputCmd[255];
+    char InputCmd[MAXC], in_choice[MAXC], file_dir[MAXC];
     TabPeta Peta;
     TabTP arrTP;
     player WinnerPlayer;
@@ -45,20 +50,27 @@ int main() {
     while (!is_valid)
     {
         printf("\n>> ");
-        scanf("%d", &choice);
+        scanf("%s", in_choice);
+        choice = str_to_int_idx0(in_choice);
         switch (choice) 
         {
             case 1:
                 is_valid = true;
-                printf("Masukkan nama file : ");
-                scanf("%s", filename);
-                printf("Masukkan jumlah pemain : ");
-                scanf("%d", &JumPlayer);
-                ReadConfigFile(&JumPetak, &MaxRoll, &JumTP, &Peta, &arrTP, filename);
+                insert_file(file_dir);
+                JumPlayer = insert_jumplayer();
+                ReadConfigFile(
+                    &JumPetak, 
+                    &MaxRoll, 
+                    &JumTP, 
+                    &Peta, 
+                    &arrTP, 
+                    file_dir
+                );
                 SetNeff(&currentState, JumPlayer);
                 SetRound(&currentState, 0);
                 insert_players(&currentState, JumPlayer);
                 printf("\nStarting the game...\n");
+                delay(1);
                 EndGame = false;
                 break;
 
@@ -74,7 +86,7 @@ int main() {
                 break;
 
             default: 
-                printf("Tetot! Invalid input, masukkan '3' untuk HELP\n");
+                printf("Tetot! Invalid input, masukkan '3' untuk HELP!\n");
                 break;
         }
     }
@@ -143,7 +155,11 @@ int main() {
                 } 
                 else if (compareString(InputCmd,"BUFF")) 
                 {
-                    displayBuff(buff(currentState.TabPlayer[TurnPemainKe - 1]), namaBuff); // namaBuff berasal dari array_buff.h
+                    displayBuff(
+                        buff(currentState.TabPlayer[TurnPemainKe - 1]), 
+                        namaBuff, 
+                        currentState.TabPlayer[TurnPemainKe - 1].nama
+                    ); // namaBuff berasal dari array_buff.h
                 } 
                 else if (compareString(InputCmd,"INSPECT")) 
                 {
@@ -176,7 +192,7 @@ int main() {
                         );
                         HaveRolled = true;
                     } else {
-                        printf("Kamu sudah melakukan ROLL!");
+                        printf("Oi, kamu sudah melakukan ROLL, jangan maruk!\n");
                     }
                     
                     if (currentState.TabPlayer[TurnPemainKe - 1].current_petak == JumPetak) { 
@@ -216,10 +232,10 @@ int main() {
         }
     }
     // ...GAME selesai
-    printf("------------------------- GAME BERAKHIR -------------------------");
-    printf("%s telah mencapai ujung.\nPemenang game ini adalah %s\n", currentState.TabPlayer[TurnPemainKe - 1].nama, currentState.TabPlayer[TurnPemainKe - 1].nama);
+    printf("------------------------- GAME BERAKHIR -------------------------\n");
+    printf("%s telah mencapai ujung dan memenangkan game!\n", currentState.TabPlayer[TurnPemainKe - 1].nama);
     displayPeringkat(currentState, JumPlayer);
-    printf("Terima kasih telah memenangkan permainan '<TBD!>'!\n");
+    printf("\nTerima kasih telah memainkan 'SNEK AND MADDER'! Bye-onara!\n");
     return 0;   // EOP
 }
 
@@ -228,9 +244,9 @@ int main() {
 void print_start() {
     // ALGORITMA
     start_display();
-    delay(1.5);
-    printf("\nBy Mobita & Borakemon. All rights reserved.\n");
-    delay(0.5);
+    delay(2);
+    printf("\nBy Mobita & Borakemon (2021). All rights reserved.\nLoading...");
+    delay(1);
     printf("\n/=============================/\n");
     printf("       'SNEK AND MADDER'\n");
     printf("/=============================/\n");
@@ -238,14 +254,13 @@ void print_start() {
     printf("1) New Game\n");
     printf("2) Exit\n");
     printf("3) Help\n");
-    printf("/=============================/\n");
 }
 
 
 void print_help() {
     // ALGORITMA
     printf("Masukkan '1' untuk mulai bermain\n");
-    printf("Masukkan '2' untuk keluar dari permainan\n\n");
+    printf("Masukkan '2' untuk keluar dari permainan\n");
 }
 
 void print_help2() {
@@ -260,6 +275,54 @@ void print_help2() {
     printf("UNDO    : Digunakan untuk mengulang suatu ronde dan mengembalikan permainan ke state akhir satu ronde sebelumnya\n");
 }
 
+void insert_file (char *file_dir) {
+    // KAMUS
+    boolean is_valid = false;
+    char filename[MAXC];
+    // ALGORITMA
+    while (!is_valid)
+    {
+        printf("Masukkan nama file : ");
+        scanf("%s", filename);
+        strcpy(file_dir, "data/");
+        strcat(file_dir, filename);
+        printf("Mencari file...\n");
+        delay(2);
+        if (access(file_dir, F_OK) != -1)
+        {
+            printf("File ditemukan di %s.\n\n", file_dir);
+            is_valid = true;
+        }
+        else
+        {
+            printf("Tetot! File di %s tidak ditemukan, coba cek lagi!\n", file_dir);
+        }
+    }
+}
+
+int insert_jumplayer() {
+    // KAMUS LOKAL
+    boolean is_valid = false;
+    int JumPlayer;
+    char in_JumPlayer[MAXC];
+    // ALGORITMA
+    while (!is_valid)
+    {
+        printf("Masukkan jumlah pemain : ");
+        scanf("%s", in_JumPlayer);
+        JumPlayer = str_to_int_idx0(in_JumPlayer);
+        if (JumPlayer >= 1)
+        {
+            is_valid = true;
+        }
+        else
+        {
+            printf("Tetot! Input invalid. Mohon masukkan *angka positif*.\n");
+        }
+        return JumPlayer;
+    }
+}
+
 void insert_players(State *currentState, int JumPlayer)  {
     // KAMUS LOKAL
     char *playername;
@@ -268,7 +331,7 @@ void insert_players(State *currentState, int JumPlayer)  {
     for (i = 0; i < JumPlayer; i++) 
     {
         printf("\nMasukkan username pemain ke-%d : ", i + 1);
-        playername = (char*) malloc(255 * sizeof(char));
+        playername = (char*) malloc(MAXC * sizeof(char));
         getchar();
         scanf("%[^\n]", playername);
         (*currentState).TabPlayer[i].nama = playername;
@@ -284,13 +347,13 @@ void displayPeringkat(State currentState, int JumPlayer) {
     // KAMUS LOKAL
     State orderState;
     player maxPlayer;
-    int ctr = 0, i, i_max;
+    int ctr, i, i_max;
     // ALGORITMA
-    while (ctr < JumPlayer)
+    for (ctr = 0; ctr < JumPlayer; ++ctr)
     {
         i = 0;
         maxPlayer = currentState.TabPlayer[0];
-        while (i < JumPlayer)
+        for (i = 0; i < JumPlayer; ++i)
         {
             if (currentState.TabPlayer[i].current_petak >= maxPlayer.current_petak)
             {
@@ -301,21 +364,19 @@ void displayPeringkat(State currentState, int JumPlayer) {
         // Local maxPlayer is found
         orderState.TabPlayer[ctr] = maxPlayer;
         currentState.TabPlayer[i_max].current_petak = -1;   // Burn yang udah masuk
-        ++ctr;
     }
     // orderState selesai terisi, terurut berdasar current_petak
-    printf("------------------------- PERINGKAT PEMAIN -------------------------\n");
+    printf("------------------------- LEADERBOARD -------------------------\n");
     for (i = 1; i <= JumPlayer; ++i)
     {
-        printf("    %d. %s", i, orderState.TabPlayer[i - 1].nama);
+        printf("    %d. %s (petak %d).", i, orderState.TabPlayer[i - 1].nama, orderState.TabPlayer[i - 1].current_petak);
         if (i == 1)
         {
-            printf(" <- orz");
+            printf(" <-- orz");
         }
         printf("\n");
     }
 }
-
 
 int charToInt(char c) {
 	int num = 0;
@@ -337,10 +398,10 @@ int strToInt(char s[]){
     return n;
 }
 
-void ReadConfigFile(int *JPetak, int *MRoll, int *JTP, TabPeta *P, TabTP *ARTP, char filename[]){
+void ReadConfigFile(int *JPetak, int *MRoll, int *JTP, TabPeta *P, TabTP *ARTP, char file_dir[]){
     // ALGORITMA
     //Menyimpan value jumlah petak ke sebuah variabel
-    STARTKATA(filename);
+    STARTKATA(file_dir);
     *JPetak = strToInt(CKata.TabKata);
     // Menyimpan peta ke sebuah tabel
     ADVKATA();

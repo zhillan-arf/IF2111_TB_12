@@ -24,7 +24,7 @@ extern char *namaBuff[];
 
 void ResetTabBuff(array_buff *B);
 
-void displayBuff(array_buff B, char *namaBuff[]);
+void displayBuff(array_buff B, char *namaBuff[], char *nama);
 
 #define BUFF(P, i) (P).buff[i]
 #define isImunTele(b) (b).buff[0]

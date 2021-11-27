@@ -17,12 +17,12 @@ void ResetTabBuff(array_buff *B) {
     }
 }
 
-void displayBuff(array_buff B, char *namaBuff[]){
-    printf("Daftar Buff yang dimiliki pemain:\n");
+void displayBuff(array_buff B, char *namaBuff[], char *nama) {
+    printf("Daftar Buff yang dimiliki %s:\n", nama);
     int count =0;
     for (int i = 0; i < 4; i++) if (BUFF(B, i)) {
         count++;
-        printf("%d. %s\n", count, namaBuff[i]);
+        printf("    %d. %s\n", count, namaBuff[i]);
     }
-    if (!count) printf("Player tidak memiliki buff\n");
+    if (!count) printf("    0. %s tidak memiliki buff.\n", nama);
 }

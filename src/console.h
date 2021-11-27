@@ -1,13 +1,36 @@
+/*
+    TUBES IF2111 K2 KELOMPOK 12
+    PERMAINAN "SNEK AND MADDER"
+    Versi: 2021-11-27
+*/
+
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
-#include "boolean.h"
-#include "ADT/mesin_kata.h"
-#include "ADT/mesin_kar.h"
-#include "ADT/list.h"
-#include "ADT/array_tp.h"
-#include "ADT/array_map.h"
+// DEKLARASI MODULE2 DASAR
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+
+// DEKLARASI ADT
 #include "ADT/state.h"
+#include "ADT/player.h"
+#include "ADT/stack_state.h"
+#include "ADT/array_buff.h"
+#include "ADT/list.h"
+
+// DEKLARASI COMMAND
+#include "commands/inspect.h"
+#include "commands/gacha_skill.h"
+#include "commands/roll.h"
+#include "commands/skills.h"
+#include "commands/start_display.h"
+
+// DEKLARASI LAIN
+#include "console.h"
+#include "boolean.h"
+#include "misc/convert.h"
 
 extern int JumPetak, MaxRoll, JumTP;
 extern TabPeta Peta;
@@ -24,6 +47,14 @@ void print_help();
 void print_help2();
 // I.S. Sembarang
 // F.S. HELP pada turn printed
+
+void insert_file (char *file_dir);
+// I.S. Menerima string sembarang
+// F.S. file_dir = data<string inputan> dan file di alamat tersebut ada
+
+int insert_jumplayer();
+// I.S. Menerima inputan string
+// F.S. JumPlayer adalah angka yang valid kemudian disimpan
 
 void insert_players(State *currentState, int JumPlayer);
 // I.S. currentState kosong

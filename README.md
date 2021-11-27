@@ -14,4 +14,6 @@ KELOMPOK SNEK AND MADDER (K2 - 12)
 
 ## Metode kompilasi
 1. Posisikan terminal di dir README.MD ini  
-2. Jalankan console lewat Makefile dengan cara (???)  
+2. Masukkan file konfigurasi ke src/data
+3. Copy & paste code compile di Makefile bagian "console"
+4. SNEK AND MADDER siap di-run

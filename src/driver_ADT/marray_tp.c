@@ -11,8 +11,8 @@ adalah 99 dan indeks terkecil yang digunakan adalah 1.
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "boolean.h"
-#include "array_tp.h"
+#include "../boolean.h"
+#include "../ADT/array_tp.h"
 
 int main(){
 

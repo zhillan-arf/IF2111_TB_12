@@ -11,6 +11,7 @@
 #include "../ADT/array_tp.h"
 #include "../ADT/array_buff.h"
 #include "../ADT/player.h"
+#include "../commands/start_display.h"
 #include <time.h>
 
 void roll (
@@ -45,7 +46,9 @@ void roll (
     {
         rolled = (rand() % (MaxRoll)) + 1;
     }
-    printf("%s meng-roll dan mendapat %d\n", nama(*p), rolled);
+    printf("Melempar dadu...\n");
+    delay(1);
+    printf("%s mendapat '%d'.\n", nama(*p), rolled);
     
     // Kondisional
     is_valid = false;
@@ -88,7 +91,7 @@ void roll (
         }
         else
         {
-            printf("%s ngestuck, tidak bisa ke manapun.\n", nama(*p));
+            printf("%s nge-stuck, tidak bisa ke manapun.\n", nama(*p));
         }
     }
     else if ((0 < past_idx))

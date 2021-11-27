@@ -14,10 +14,10 @@ penampilan outputnya adalah seperti berikut
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "mesin_kata.h"
-#include "mesin_kar.h"
+#include "../ADT/mesin_kar.h"
+#include "../ADT/mesin_kata.h"
 
-int main(){
+int main() {
 
     //Menuliskan output 3 baris pertama
     STARTKATA("../../data/config.txt");
