@@ -1,6 +1,8 @@
 # IF2111_TB_12
 "Borakemon menculik sekelompok programmer dari dimensi lain agar dapat membantu mereka membuat program Mobitangga agar dapat memenangkan lomba game dev itu".
 
+"Bismillahirahmanirahim"
+
 ## Permainan 'SNEK AND MADDER'
 Permainan ular tangga. Yang pertama sampai garis finish jadi juara. (Awas sobekan dimensional di mana-mana).
 
