@@ -14,23 +14,23 @@
 #include <string.h>
 
 // DEKLARASI ADT
-#include "ADT/state.h"
-#include "ADT/player.h"
-#include "ADT/stack_state.h"
-#include "ADT/array_buff.h"
-#include "ADT/list.h"
+#include "ADT/state/state.h"
+#include "ADT/player/player.h"
+#include "ADT/stack_state/stack_state.h"
+#include "ADT/array_buff/array_buff.h"
+#include "ADT/list/list.h"
 
 // DEKLARASI COMMAND
-#include "commands/inspect.h"
-#include "commands/gacha_skill.h"
-#include "commands/roll.h"
-#include "commands/skills.h"
-#include "commands/start_display.h"
+#include "commands/inspect/inspect.h"
+#include "commands/skill/gacha_skill.h"
+#include "commands/roll/roll.h"
+#include "commands/skill/skills.h"
 
 // DEKLARASI LAIN
 #include "console.h"
 #include "boolean.h"
 #include "misc/convert.h"
+#include "misc/start_display.h"
 
 extern int JumPetak, MaxRoll, JumTP;
 extern TabPeta Peta;

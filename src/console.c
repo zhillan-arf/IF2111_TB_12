@@ -4,30 +4,30 @@
     Versi: 2021-11-27
 */
 
-// DEKLARASI MODULE2 BAWAAN
+// DEKLARASI MODULE2 DASAR
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
 
 // DEKLARASI ADT
-#include "ADT/state.h"
-#include "ADT/player.h"
-#include "ADT/stack_state.h"
-#include "ADT/array_buff.h"
-#include "ADT/list.h"
+#include "ADT/state/state.h"
+#include "ADT/player/player.h"
+#include "ADT/stack_state/stack_state.h"
+#include "ADT/array_buff/array_buff.h"
+#include "ADT/list/list.h"
 
 // DEKLARASI COMMAND
-#include "commands/inspect.h"
-#include "commands/gacha_skill.h"
-#include "commands/roll.h"
-#include "commands/skills.h"
-#include "commands/start_display.h"
+#include "commands/inspect/inspect.h"
+#include "commands/skill/gacha_skill.h"
+#include "commands/roll/roll.h"
+#include "commands/skill/skills.h"
 
 // DEKLARASI LAIN
 #include "console.h"
 #include "boolean.h"
 #include "misc/convert.h"
+#include "misc/start_display.h"
 
 // ALGORITMA PROGRAM UTAMA
 int main() {
@@ -101,18 +101,8 @@ int main() {
         EndTurn = false;
         WinnerFound = false;
         currentState.Round++;
-        printf("Memulai ROUND ke-%d...\n", currentState.Round);
-
-        //Memperlihatkan peta setiap pemain
-        for (i = 0; i < JumPlayer; i++) {
-            DisplayPetaPemain(
-                Peta, 
-                currentState.TabPlayer[i].current_petak, 
-                JumPetak, 
-                currentState.TabPlayer[i].nama
-            );
-        }
-
+        printf("\nMemulai ROUND ke-%d...\n", currentState.Round);
+        delay(1);
         while ((TurnPemainKe != (JumPlayer+1)) && (!TakeUndo) && (!EndGame)) {
             // Reset variable
             TakeUndo = false;
@@ -120,8 +110,17 @@ int main() {
             EndTurn = false;
             //Mulai TURN tiap pemain
             printf("\n********** GILIRAN: %s! **********\n", currentState.TabPlayer[TurnPemainKe - 1].nama);
+            //Memperlihatkan peta setiap pemain
+            printf("State of the World (posisi pemain ditandai '*'):\n");
+            for (i = 0; i < JumPlayer; i++) {
+                DisplayPetaPemain (
+                    Peta, 
+                    currentState.TabPlayer[i].current_petak, 
+                    JumPetak, 
+                    currentState.TabPlayer[i].nama
+                );
+            }
             gacha_skill(&currentState.TabPlayer[TurnPemainKe - 1].skill, MaxRoll);
-            
             while ((!EndTurn) && (!WinnerFound) && (!TakeUndo)) {
                 printf("\nMasukkan command: ");
                 scanf("%s", &InputCmd);
@@ -129,7 +128,7 @@ int main() {
                 if (compareString(InputCmd,"SKILL")) 
                 {
                     if (HaveRolled) {
-                        printf("Oi! Kamu sudah ROLL! SKILL tidak lagi bisa diakses.");
+                        printf("\nOi! Kamu sudah ROLL! SKILL tidak lagi bisa diakses.");
                     } else {
                         menuSkill (
                             &currentState, 
@@ -232,8 +231,8 @@ int main() {
         }
     }
     // ...GAME selesai
-    printf("------------------------- GAME BERAKHIR -------------------------\n");
-    printf("%s telah mencapai ujung dan memenangkan game!\n", currentState.TabPlayer[TurnPemainKe - 1].nama);
+    printf("\n------------------------- GAME BERAKHIR -------------------------\n");
+    printf("%s telah mencapai ujung dan memenangkan game!\n\n", currentState.TabPlayer[TurnPemainKe - 1].nama);
     displayPeringkat(currentState, JumPlayer);
     printf("\nTerima kasih telah memainkan 'SNEK AND MADDER'! Bye-onara!\n");
     return 0;   // EOP
@@ -244,7 +243,7 @@ int main() {
 void print_start() {
     // ALGORITMA
     start_display();
-    delay(2);
+    delay(1);
     printf("\nBy Mobita & Borakemon (2021). All rights reserved.\nLoading...");
     delay(1);
     printf("\n/=============================/\n");
@@ -259,8 +258,8 @@ void print_start() {
 
 void print_help() {
     // ALGORITMA
-    printf("Masukkan '1' untuk mulai bermain\n");
-    printf("Masukkan '2' untuk keluar dari permainan\n");
+    printf("Masukkan '1' untuk mulai bermain.\n");
+    printf("Masukkan '2' untuk keluar dari permainan.\n");
 }
 
 void print_help2() {
@@ -287,7 +286,7 @@ void insert_file (char *file_dir) {
         strcpy(file_dir, "data/");
         strcat(file_dir, filename);
         printf("Mencari file...\n");
-        delay(2);
+        delay(1);
         if (access(file_dir, F_OK) != -1)
         {
             printf("File ditemukan di %s.\n\n", file_dir);
@@ -311,16 +310,20 @@ int insert_jumplayer() {
         printf("Masukkan jumlah pemain : ");
         scanf("%s", in_JumPlayer);
         JumPlayer = str_to_int_idx0(in_JumPlayer);
-        if (JumPlayer >= 1)
+        if (1 <= JumPlayer && JumPlayer <= 4)
         {
             is_valid = true;
         }
+        else if (JumPlayer > 4)
+        {
+            printf("Maksimum 4 pemain. Kalau kebanyakan, gaakan selesai2!\n");
+        }
         else
         {
-            printf("Tetot! Input invalid. Mohon masukkan *angka positif*.\n");
+            printf("Tetot! Input invalid. Mohon masukkan antara 1 hingga 4.\n");
         }
-        return JumPlayer;
     }
+    return JumPlayer;
 }
 
 void insert_players(State *currentState, int JumPlayer)  {
@@ -366,7 +369,7 @@ void displayPeringkat(State currentState, int JumPlayer) {
         currentState.TabPlayer[i_max].current_petak = -1;   // Burn yang udah masuk
     }
     // orderState selesai terisi, terurut berdasar current_petak
-    printf("------------------------- LEADERBOARD -------------------------\n");
+    printf("-------------------------- LEADERBOARD --------------------------\n");
     for (i = 1; i <= JumPlayer; ++i)
     {
         printf("    %d. %s (petak %d).", i, orderState.TabPlayer[i - 1].nama, orderState.TabPlayer[i - 1].current_petak);

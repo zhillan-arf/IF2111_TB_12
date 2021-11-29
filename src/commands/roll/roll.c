@@ -166,25 +166,29 @@ void teleport(player *p, int new_petak) {
     // I.S. Player P berada di tempatnya, new_petak adalah petak kosong di peta
     // F.S. Player P pindah ke tempat kosong tersebut. P diupdate.
     // KAMUS LOKAL
-    char input[63];
+    char in_input[63];
+    int input;
     boolean is_valid;
     // ALGORITMA
     printf("!!! Sobekan dimensional menuju petak %d terdeteksi!\n", new_petak);
     if (isImunTele(buff(*p)))
     {
-        printf("%s! Kamu punya buff 'Imunitas Teleport'.\nPakai untuk menghindari teleport? (Y/N): ", nama(*p));
-        scanf("%s", &input);
         is_valid = false;
         while (!is_valid)
         {
-            if ((input == "Y") || (input == "y"))
+            printf("%s! Kamu punya buff 'Imunitas Teleport'.\nPakai untuk menghindari teleport?\n", nama(*p));
+            printf("    1. Ya.\n");
+            printf("    2. Tidak.\n>> ");
+            scanf("%s", in_input);
+            input = str_to_int_idx0(in_input);
+            if (input == 1)
             {
                 printf("Klep! Sobekan ditutup sementara.\nKamu menemukan tempat berlindung dan tidak berpindah.\n");
                 isImunTele(buff(*p)) = false;
                 printf("Kamu kehilangan buff 'Imunitas Teleport'.\n");
                 is_valid = true;
             }
-            else if (input == "N" || input == "n")
+            else if (input == 2)
             {
                 current_petak(*p) = new_petak;
                 printf("Swoosh! Kamu terhisap dan diteleport ke petak %d. Aduduh!\n", new_petak);
